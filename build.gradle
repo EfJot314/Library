@@ -1,7 +1,7 @@
 plugins {
 	id 'java'
-	id 'org.springframework.boot' version '3.1.6'
-	id 'io.spring.dependency-management' version '1.1.4'
+	id 'org.springframework.boot' version '2.7.5'
+	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
 }
 
 group = 'agh.edu.pl.weedesign'
@@ -15,15 +15,15 @@ repositories {
 	mavenCentral()
 }
 
+
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'javax.persistence:javax.persistence-api:2.2'
 	runtimeOnly 'com.h2database:h2'
+	implementation 'org.springframework.boot:spring-boot-starter'
+	implementation 'org.springdoc:springdoc-openapi-ui:1.6.12'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
-tasks.named('bootBuildImage') {
-	builder = 'paketobuildpacks/builder-jammy-base:latest'
-}
+
 
 tasks.named('test') {
 	useJUnitPlatform()
