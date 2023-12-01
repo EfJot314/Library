@@ -26,6 +26,11 @@ public class Category {
         this.books = new ArrayList<>();
     }
 
+
+    public int getId() {
+        return id;
+    }
+
     public String getName() {
         return name;
     }

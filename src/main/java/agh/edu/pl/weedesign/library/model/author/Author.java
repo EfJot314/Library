@@ -33,6 +33,10 @@ public class Author {
         this.books = new ArrayList<>();
     }
 
+    public int getId() {
+        return id;
+    }
+
     public String getName() {
         return name;
     }
@@ -55,5 +59,18 @@ public class Author {
 
     public void setBio(String bio) {
         this.bio = bio;
+    }
+
+    public void addBook(Book book){
+        for(Book b : books){
+            if(b == book){
+                return;
+            }
+        }
+        this.books.add(book);
+
+        if(book.getAuthor() == null){
+            book.setAuthor(this);
+        }
     }
 }

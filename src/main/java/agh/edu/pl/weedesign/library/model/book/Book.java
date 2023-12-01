@@ -44,6 +44,11 @@ public class Book {
         this.copies = new ArrayList<>();
     }
 
+
+    public int getId() {
+        return id;
+    }
+
     public String getTitle() {
         return title;
     }
@@ -82,5 +87,27 @@ public class Book {
 
     public void setCover_url(String cover_url) {
         this.cover_url = cover_url;
+    }
+
+    public void setAuthor(Author author){
+        this.author = author;
+        author.addBook(this);
+    }
+
+    public Author getAuthor(){
+        return author;
+    }
+
+    public void addBookCopy(BookCopy bookCopy){
+        for(BookCopy bc : copies){
+            if(bc == bookCopy){
+                return;
+            }
+        }
+        copies.add(bookCopy);
+
+        if(bookCopy.getBook() == null){
+            bookCopy.setBook(this);
+        }
     }
 }

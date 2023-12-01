@@ -37,6 +37,11 @@ public class Review {
         this.dateTime = dateTime;
     }
 
+
+    public int getId() {
+        return id;
+    }
+
     public int getStars() {
         return stars;
     }
@@ -59,5 +64,16 @@ public class Review {
 
     public void setDateTime(LocalDateTime dateTime) {
         this.dateTime = dateTime;
+    }
+
+    public void setRental(Rental rental){
+        this.rental = rental;
+        if(rental.getReview() == null){
+            rental.setReview(this);
+        }
+    }
+
+    public Rental getRental(){
+        return rental;
     }
 }

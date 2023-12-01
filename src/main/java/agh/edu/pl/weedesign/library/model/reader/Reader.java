@@ -55,6 +55,11 @@ public class Reader {
         this.rentals = new ArrayList<>();
     }
 
+
+    public int getId() {
+        return id;
+    }
+
     public String getName() {
         return name;
     }
@@ -133,5 +138,18 @@ public class Reader {
 
     public void setSex(String sex) {
         this.sex = sex;
+    }
+
+    public void addRental(Rental rental){
+        for(Rental r : rentals){
+            if(r == rental){
+                return;
+            }
+        }
+        rentals.add(rental);
+
+        if(rental.getReader() == null){
+            rental.setReader(this);
+        }
     }
 }

@@ -45,6 +45,11 @@ public class Rental {
         this.price = price;
     }
 
+
+    public int getId() {
+        return id;
+    }
+
     public int getPrice() {
         return price;
     }
@@ -67,5 +72,43 @@ public class Rental {
 
     public void setEnd_date(LocalDateTime end_date) {
         this.end_date = end_date;
+    }
+
+    public void setBookCopy(BookCopy bookCopy){
+        this.bookCopy = bookCopy;
+
+    }
+
+    public BookCopy getBookCopy(){
+        return bookCopy;
+    }
+
+    public void setReview(Review review){
+        this.review = review;
+        if(review.getRental() == null){
+            review.setRental(this);
+        }
+    }
+
+    public Review getReview(){
+        return review;
+    }
+
+    public void setReader(Reader reader) {
+        this.reader = reader;
+        reader.addRental(this);
+    }
+
+    public Reader getReader() {
+        return reader;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+        employee.addRental(this);
+    }
+
+    public Employee getEmployee() {
+        return employee;
     }
 }

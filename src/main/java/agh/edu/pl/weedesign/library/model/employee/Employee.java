@@ -32,6 +32,11 @@ public class Employee {
         this.rentals = new ArrayList<>();
     }
 
+
+    public int getId() {
+        return id;
+    }
+
     public String getName() {
         return name;
     }
@@ -54,5 +59,18 @@ public class Employee {
 
     public void setSalary(int salary) {
         this.salary = salary;
+    }
+
+    public void addRental(Rental rental){
+        for(Rental r : rentals){
+            if(r == rental){
+                return;
+            }
+        }
+        rentals.add(rental);
+
+        if(rental.getEmployee() == null){
+            rental.setEmployee(this);
+        }
     }
 }

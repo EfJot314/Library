@@ -30,6 +30,11 @@ public class BookCopy {
         this.rentals = new ArrayList<>();
     }
 
+
+    public int getId() {
+        return id;
+    }
+
     public int getWeek_unit_price() {
         return week_unit_price;
     }
@@ -44,5 +49,27 @@ public class BookCopy {
 
     public void setCondition(String condition) {
         this.condition = condition;
+    }
+
+    public void setBook(Book book){
+        this.book = book;
+        book.addBookCopy(this);
+    }
+
+    public Book getBook(){
+        return book;
+    }
+
+    public void addRental(Rental rental){
+        for(Rental r : rentals){
+            if(r == rental){
+                return;
+            }
+        }
+        rentals.add(rental);
+
+        if(rental.getBookCopy() == null){
+            rental.setBookCopy(this);
+        }
     }
 }
