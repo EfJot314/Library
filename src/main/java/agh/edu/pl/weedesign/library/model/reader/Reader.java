@@ -1,10 +1,15 @@
 package agh.edu.pl.weedesign.library.model.reader;
 
 
+import agh.edu.pl.weedesign.library.model.rental.Rental;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Reader {
@@ -31,6 +36,9 @@ public class Reader {
 
     private String sex;
 
+    @OneToMany
+    private List<Rental> rentals;
+
     public Reader(){};
 
     public Reader(String name, String surname, String city, String voivodeship, String postal_code, String country, String email, String phone_number, LocalDate birth_date, String sex){
@@ -44,6 +52,7 @@ public class Reader {
         this.phone_number = phone_number;
         this.birth_date = birth_date;
         this.sex = sex;
+        this.rentals = new ArrayList<>();
     }
 
     public String getName() {

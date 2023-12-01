@@ -1,9 +1,13 @@
 package agh.edu.pl.weedesign.library.model.book;
 
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import agh.edu.pl.weedesign.library.model.author.Author;
+import agh.edu.pl.weedesign.library.model.bookCopy.BookCopy;
+import agh.edu.pl.weedesign.library.model.category.Category;
+
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Book {
@@ -20,6 +24,15 @@ public class Book {
 
     private String cover_url;
 
+    @ManyToOne
+    private Author author;
+
+    @OneToMany
+    private List<BookCopy> copies;
+
+    @ManyToOne
+    private Category category;
+
     public Book(){}
 
     public Book(String title, String description, int page_count, String table_of_content, String cover_url){
@@ -28,6 +41,7 @@ public class Book {
         this.page_count = page_count;
         this.table_of_content = table_of_content;
         this.cover_url = cover_url;
+        this.copies = new ArrayList<>();
     }
 
     public String getTitle() {

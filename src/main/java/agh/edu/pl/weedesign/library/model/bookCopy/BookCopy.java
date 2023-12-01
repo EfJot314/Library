@@ -1,8 +1,11 @@
 package agh.edu.pl.weedesign.library.model.bookCopy;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import  agh.edu.pl.weedesign.library.model.book.Book;
+import agh.edu.pl.weedesign.library.model.rental.Rental;
+
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class BookCopy {
@@ -13,11 +16,18 @@ public class BookCopy {
 
     private String condition;
 
+    @ManyToOne
+    private Book book;
+
+    @OneToMany
+    private List<Rental> rentals;
+
     public BookCopy(){};
 
     public BookCopy(int week_unit_price, String condition){
         this.week_unit_price = week_unit_price;
         this.condition = condition;
+        this.rentals = new ArrayList<>();
     }
 
     public int getWeek_unit_price() {

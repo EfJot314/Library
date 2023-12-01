@@ -1,10 +1,12 @@
 package agh.edu.pl.weedesign.library.model.review;
 
+import agh.edu.pl.weedesign.library.model.rental.Rental;
 import org.springframework.cglib.core.Local;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import java.time.LocalDateTime;
 
 @Entity
@@ -17,6 +19,9 @@ public class Review {
     private String comment;
 
     private LocalDateTime dateTime;
+
+    @OneToOne
+    private Rental rental;
 
     public Review(){};
 

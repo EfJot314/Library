@@ -1,8 +1,11 @@
 package agh.edu.pl.weedesign.library.model.rental;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import agh.edu.pl.weedesign.library.model.bookCopy.BookCopy;
+import agh.edu.pl.weedesign.library.model.employee.Employee;
+import agh.edu.pl.weedesign.library.model.reader.Reader;
+import agh.edu.pl.weedesign.library.model.review.Review;
+
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
@@ -15,6 +18,18 @@ public class Rental {
     private LocalDateTime start_date;
 
     private LocalDateTime end_date;
+
+    @ManyToOne
+    private BookCopy bookCopy;
+
+    @OneToOne
+    private Review review;
+
+    @ManyToOne
+    private Employee employee;
+
+    @ManyToOne
+    private Reader reader;
 
     public Rental(){};
 

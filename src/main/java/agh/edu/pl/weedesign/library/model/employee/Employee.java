@@ -1,8 +1,10 @@
 package agh.edu.pl.weedesign.library.model.employee;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import agh.edu.pl.weedesign.library.model.rental.Rental;
+
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Employee {
@@ -15,12 +17,19 @@ public class Employee {
 
     private int salary;
 
+    @ManyToOne
+    private Employee reports_to;
+
+    @OneToMany
+    private List<Rental> rentals;
+
     public Employee(){};
 
     public Employee(String name, String surname, int salary){
         this.name = name;
         this.surname = surname;
         this.salary = salary;
+        this.rentals = new ArrayList<>();
     }
 
     public String getName() {
