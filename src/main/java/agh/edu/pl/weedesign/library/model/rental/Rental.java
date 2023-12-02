@@ -20,20 +20,16 @@ public class Rental {
     private LocalDateTime end_date;
 
     @ManyToOne
-    @JoinColumn
     private BookCopy bookCopy;
 
-    @OneToOne
-    @JoinColumn
-    private Review review;
-
     @ManyToOne
-    @JoinColumn
     private Employee employee;
 
     @ManyToOne
-    @JoinColumn
     private Reader reader;
+
+    @OneToOne
+    private Review review;
 
     public Rental(){};
 
@@ -87,20 +83,8 @@ public class Rental {
         return bookCopy;
     }
 
-    public void setReview(Review review){
-        this.review = review;
-        if(review.getRental() == null){
-            review.setRental(this);
-        }
-    }
-
-    public Review getReview(){
-        return review;
-    }
-
     public void setReader(Reader reader) {
         this.reader = reader;
-        reader.addRental(this);
     }
 
     public Reader getReader() {
@@ -109,10 +93,17 @@ public class Rental {
 
     public void setEmployee(Employee employee) {
         this.employee = employee;
-        employee.addRental(this);
     }
 
     public Employee getEmployee() {
         return employee;
+    }
+
+    public void setReview(Review review){
+        this.review = review;
+    }
+
+    public Review getReview(){
+        return review;
     }
 }

@@ -17,19 +17,14 @@ public class BookCopy {
     private String condition;
 
     @ManyToOne
-    @JoinColumn
     private Book book;
 
-    @OneToMany
-    @JoinColumn
-    private List<Rental> rentals;
 
     public BookCopy(){};
 
     public BookCopy(int week_unit_price, String condition){
         this.week_unit_price = week_unit_price;
         this.condition = condition;
-        this.rentals = new ArrayList<>();
     }
 
 
@@ -55,23 +50,10 @@ public class BookCopy {
 
     public void setBook(Book book){
         this.book = book;
-        book.addBookCopy(this);
     }
 
     public Book getBook(){
         return book;
     }
 
-    public void addRental(Rental rental){
-        for(Rental r : rentals){
-            if(r == rental){
-                return;
-            }
-        }
-        rentals.add(rental);
-
-        if(rental.getBookCopy() == null){
-            rental.setBookCopy(this);
-        }
-    }
 }

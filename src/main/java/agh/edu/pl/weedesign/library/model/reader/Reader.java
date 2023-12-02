@@ -33,9 +33,6 @@ public class Reader {
 
     private String sex;
 
-    @OneToMany
-    @JoinColumn
-    private List<Rental> rentals;
 
     public Reader(){};
 
@@ -50,7 +47,6 @@ public class Reader {
         this.phone_number = phone_number;
         this.birth_date = birth_date;
         this.sex = sex;
-        this.rentals = new ArrayList<>();
     }
 
 
@@ -138,16 +134,4 @@ public class Reader {
         this.sex = sex;
     }
 
-    public void addRental(Rental rental){
-        for(Rental r : rentals){
-            if(r == rental){
-                return;
-            }
-        }
-        rentals.add(rental);
-
-        if(rental.getReader() == null){
-            rental.setReader(this);
-        }
-    }
 }

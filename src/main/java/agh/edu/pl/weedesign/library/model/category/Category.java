@@ -13,15 +13,10 @@ public class Category {
 
     private String name;
 
-    @OneToMany
-    @JoinColumn
-    private List<Book> books;
-
     public Category(){};
 
     public Category(String name){
         this.name = name;
-        this.books = new ArrayList<>();
     }
 
 
@@ -36,4 +31,5 @@ public class Category {
     public void setName(String name) {
         this.name = name;
     }
+
 }

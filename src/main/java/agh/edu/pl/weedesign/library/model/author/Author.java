@@ -16,11 +16,9 @@ public class Author {
 
     private String surname;
 
+    @Column(length = 1024)
     private String bio;
 
-    @OneToMany
-    @JoinColumn
-    private List<Book> books;
 
     public Author(){}
 
@@ -28,7 +26,6 @@ public class Author {
         this.name = name;
         this.surname = surname;
         this.bio = bio;
-        this.books = new ArrayList<>();
     }
 
     public int getId() {
@@ -59,16 +56,4 @@ public class Author {
         this.bio = bio;
     }
 
-    public void addBook(Book book){
-        for(Book b : books){
-            if(b == book){
-                return;
-            }
-        }
-        this.books.add(book);
-
-        if(book.getAuthor() == null){
-            book.setAuthor(this);
-        }
-    }
 }

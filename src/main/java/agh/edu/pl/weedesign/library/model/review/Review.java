@@ -17,9 +17,6 @@ public class Review {
 
     private LocalDateTime dateTime;
 
-    @OneToOne
-    @JoinColumn
-    private Rental rental;
 
     public Review(){};
 
@@ -64,14 +61,4 @@ public class Review {
         this.dateTime = dateTime;
     }
 
-    public void setRental(Rental rental){
-        this.rental = rental;
-        if(rental.getReview() == null){
-            rental.setReview(this);
-        }
-    }
-
-    public Rental getRental(){
-        return rental;
-    }
 }

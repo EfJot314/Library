@@ -21,9 +21,6 @@ public class Employee {
     @JoinColumn
     private Employee reports_to;
 
-    @OneToMany
-    @JoinColumn
-    private List<Rental> rentals;
 
     public Employee(){};
 
@@ -31,7 +28,6 @@ public class Employee {
         this.name = name;
         this.surname = surname;
         this.salary = salary;
-        this.rentals = new ArrayList<>();
     }
 
 
@@ -63,16 +59,13 @@ public class Employee {
         this.salary = salary;
     }
 
-    public void addRental(Rental rental){
-        for(Rental r : rentals){
-            if(r == rental){
-                return;
-            }
-        }
-        rentals.add(rental);
-
-        if(rental.getEmployee() == null){
-            rental.setEmployee(this);
-        }
+    public void setSupervisor(Employee employee){
+        this.reports_to = employee;
     }
+
+    public Employee getSupervisor(){
+        return reports_to;
+    }
+
+
 }

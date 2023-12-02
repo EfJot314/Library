@@ -16,21 +16,18 @@ public class Book {
 
     private String title;
 
+    @Column(length = 1024)
     private String description;
 
     private int page_count;
 
+    @Column(length = 512)
     private String table_of_content;
 
     private String cover_url;
 
     @ManyToOne
-    @JoinColumn
     private Author author;
-
-    @OneToMany
-    @JoinColumn
-    private List<BookCopy> copies;
 
     @ManyToOne
     private Category category;
@@ -43,7 +40,6 @@ public class Book {
         this.page_count = page_count;
         this.table_of_content = table_of_content;
         this.cover_url = cover_url;
-        this.copies = new ArrayList<>();
     }
 
 
@@ -93,23 +89,17 @@ public class Book {
 
     public void setAuthor(Author author){
         this.author = author;
-        author.addBook(this);
     }
 
     public Author getAuthor(){
         return author;
     }
 
-    public void addBookCopy(BookCopy bookCopy){
-        for(BookCopy bc : copies){
-            if(bc == bookCopy){
-                return;
-            }
-        }
-        copies.add(bookCopy);
+    public void setCategory(Category category){
+        this.category = category;
+    }
 
-        if(bookCopy.getBook() == null){
-            bookCopy.setBook(this);
-        }
+    public Category getCategory(){
+        return category;
     }
 }
