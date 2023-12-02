@@ -25,9 +25,11 @@ public class Book {
     private String cover_url;
 
     @ManyToOne
+    @JoinColumn
     private Author author;
 
     @OneToMany
+    @JoinColumn
     private List<BookCopy> copies;
 
     @ManyToOne

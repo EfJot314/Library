@@ -18,9 +18,11 @@ public class Employee {
     private int salary;
 
     @ManyToOne
+    @JoinColumn
     private Employee reports_to;
 
     @OneToMany
+    @JoinColumn
     private List<Rental> rentals;
 
     public Employee(){};

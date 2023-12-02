@@ -17,9 +17,11 @@ public class BookCopy {
     private String condition;
 
     @ManyToOne
+    @JoinColumn
     private Book book;
 
     @OneToMany
+    @JoinColumn
     private List<Rental> rentals;
 
     public BookCopy(){};

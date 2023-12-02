@@ -3,10 +3,7 @@ package agh.edu.pl.weedesign.library.model.reader;
 
 import agh.edu.pl.weedesign.library.model.rental.Rental;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +34,7 @@ public class Reader {
     private String sex;
 
     @OneToMany
+    @JoinColumn
     private List<Rental> rentals;
 
     public Reader(){};

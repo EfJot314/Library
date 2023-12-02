@@ -2,10 +2,7 @@ package agh.edu.pl.weedesign.library.model.category;
 
 import agh.edu.pl.weedesign.library.model.book.Book;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +14,7 @@ public class Category {
     private String name;
 
     @OneToMany
+    @JoinColumn
     private List<Book> books;
 
     public Category(){};
