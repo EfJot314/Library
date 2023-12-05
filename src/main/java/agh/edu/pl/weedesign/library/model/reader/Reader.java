@@ -6,7 +6,9 @@ import agh.edu.pl.weedesign.library.model.rental.Rental;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 public class Reader {
@@ -33,6 +35,8 @@ public class Reader {
 
     private String sex;
 
+    @OneToMany(mappedBy = "reader")
+    Set<Rental> rentals;
 
     public Reader(){};
 
@@ -47,8 +51,16 @@ public class Reader {
         this.phone_number = phone_number;
         this.birth_date = birth_date;
         this.sex = sex;
+        this.rentals = new HashSet<Rental>();
     }
 
+    public void setRentals(Rental rental) {
+        this.rentals.add(rental);
+    }
+
+    public void setRentals(Set<Rental> rentals){
+        this.rentals.addAll(rentals);
+    }
 
     public int getId() {
         return id;
@@ -132,6 +144,10 @@ public class Reader {
 
     public void setSex(String sex) {
         this.sex = sex;
+    }
+
+    public Set<Rental> getRentals(){
+        return this.rentals;
     }
 
 }

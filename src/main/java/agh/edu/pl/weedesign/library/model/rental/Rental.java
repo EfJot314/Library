@@ -7,6 +7,10 @@ import agh.edu.pl.weedesign.library.model.review.Review;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 public class Rental {
@@ -20,12 +24,14 @@ public class Rental {
     private LocalDateTime end_date;
 
     @ManyToOne
+    @JoinColumn(name="book_copy_id")
     private BookCopy bookCopy;
 
     @ManyToOne
     private Employee employee;
 
     @ManyToOne
+    @JoinColumn(name = "reader_id")
     private Reader reader;
 
     @OneToOne
