@@ -26,8 +26,7 @@ public class LibraryApplication extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		SpringApplicationBuilder builder = new SpringApplicationBuilder(LibraryApplication.class);
-		builder.application()
-				.setWebApplicationType(WebApplicationType.NONE);
+		builder.application().setWebApplicationType(WebApplicationType.NONE);
 		context = builder.run();
 		this.primaryStage = primaryStage;
 		this.primaryStage.setTitle("Library App");

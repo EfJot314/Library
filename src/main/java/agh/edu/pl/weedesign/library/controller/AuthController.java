@@ -1,5 +1,7 @@
 package agh.edu.pl.weedesign.library.controller;
 
+import agh.edu.pl.weedesign.library.helpers.RegistrationValidChecker;
+import agh.edu.pl.weedesign.library.helpers.ValidCheck;
 import agh.edu.pl.weedesign.library.model.ModelService;
 import agh.edu.pl.weedesign.library.model.reader.Reader;
 import javafx.event.ActionEvent;
@@ -10,13 +12,11 @@ import javafx.scene.control.TextField;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.Date;
+
+
 
 @Component
 public class AuthController {
-
     @FXML
     private TextField nameField;
     @FXML
@@ -43,17 +43,52 @@ public class AuthController {
     private Button registerButton;
     @FXML
     private Button cancelButton;
+
     @Autowired
     private ModelService service;
+    @Autowired
+    private RegistrationValidChecker checker;
 
 
     @FXML
     private void handleRegisterAction(ActionEvent event){
+        // disabling button for security reasons
+        registerButton.setDisable(true);
+        cancelButton.setDisable(true);
+        try {
+            checkerGuard(checker.isRegisterNameValid(nameField.getText()));
+            checkerGuard(checker.isRegisterSurnameValid(nameField.getText()));
+            checkerGuard(checker.isRegisterCityValid(cityField.getText()));
+            checkerGuard(checker.isRegisterVoivodeshipValid(cityField.getText()));
+            checkerGuard(checker.isRegisterPostcodeValid(postcodeField.getText()));
+            checkerGuard(checker.isRegisterCountryValid(countryField.getText()));
+            checkerGuard(checker.isRegisterEmailValid(emailField.getText()));
+            checkerGuard(checker.isRegisterPasswordValid(passwordField.getText()));
+            checkerGuard(checker.isPhoneNumberValid(phoneField.getText()));
+            checkerGuard(checker.isRegisterBirthdateValid(birthDateField.getValue()));
+            checkerGuard(checker.isRegisterSexValid(sexField.getText()));
+        } catch (IllegalArgumentException e ){
+            System.out.println(e.getMessage());
+            return;
+        }
+        finally {
+            registerButton.setDisable(false);
+            cancelButton.setDisable(false);
+        }
+
         Reader newReader = new Reader(nameField.getText(), surnameField.getText(), cityField.getText(),
                 voivodeshipField.getText(),postcodeField.getText(),countryField.getText(),emailField.getText(),
                 passwordField.getText(),phoneField.getText(), birthDateField.getValue(),sexField.getText());
-        //printFields();
+
         service.addNewReader(newReader);
+
+        // TODO - implement hop to next view
+    }
+
+    public void checkerGuard(ValidCheck check){
+        if (!check.isValid()){
+            throw new IllegalArgumentException(check.message());
+        }
     }
 
     @FXML

@@ -7,6 +7,7 @@
 
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.control.DatePicker?>
+<?import com.sun.javafx.scene.control.IntegerField?>
 <BorderPane fx:controller="agh.edu.pl.weedesign.library.controller.AuthController" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1">
     <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21.0.1"
                 xmlns:fx="http://javafx.com/fxml/1">
