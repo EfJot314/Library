@@ -27,6 +27,7 @@ public class Reader {
 
     private String email;
 
+    private String password;
     private String phone_number;
 
     private LocalDate birth_date;
@@ -36,7 +37,7 @@ public class Reader {
 
     public Reader(){};
 
-    public Reader(String name, String surname, String city, String voivodeship, String postal_code, String country, String email, String phone_number, LocalDate birth_date, String sex){
+    public Reader(String name, String surname, String city, String voivodeship, String postal_code, String country, String email, String password, String phone_number, LocalDate birth_date, String sex){
         this.name = name;
         this.surname = surname;
         this.city = city;
@@ -44,6 +45,7 @@ public class Reader {
         this.postal_code = postal_code;
         this.country = country;
         this.email = email;
+        this.password = password;
         this.phone_number = phone_number;
         this.birth_date = birth_date;
         this.sex = sex;
@@ -108,6 +110,14 @@ public class Reader {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getPhone_number() {

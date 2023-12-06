@@ -155,9 +155,9 @@ public class ModelConfigurator {
 
                 employeeRepository.saveAll(List.of(employee1, employee2, employee3, employee4));
 
-                Reader reader1 = new Reader("Jan", "Kowalski", "Krakow", "Malopolska", "31-503", "Polska", "example1@email.com", "123 456 789", LocalDate.of(1987, 12, 3), "male");
-                Reader reader2 = new Reader("Janka", "Kowalska", "Warszawa", "Mazowieckie", "02-677", "Polska", "example2@email.com", "987 654 321", LocalDate.of(2003, 5, 30), "female");
-                Reader reader3 = new Reader("Janusz", "Nowak", "Krakow", "Malopolska", "31-503", "Polska", "example3@email.com", "999 888 777", LocalDate.of(1949, 11, 13), "male");
+                Reader reader1 = new Reader("Jan", "Kowalski", "Krakow", "Malopolska", "31-503", "Polska", "example1@email.com", "pass1", "123 456 789", LocalDate.of(1987, 12, 3), "male");
+                Reader reader2 = new Reader("Janka", "Kowalska", "Warszawa", "Mazowieckie", "02-677", "Polska", "example2@email.com", "pass2", "987 654 321", LocalDate.of(2003, 5, 30), "female");
+                Reader reader3 = new Reader("Janusz", "Nowak", "Krakow", "Malopolska", "31-503", "Polska", "example3@email.com", "pass3", "999 888 777", LocalDate.of(1949, 11, 13), "male");
 
                 readerRepository.saveAll(List.of(reader1, reader2, reader3));
 
@@ -168,13 +168,16 @@ public class ModelConfigurator {
 
                 Rental r1 = new Rental(
                         LocalDateTime.of(2023, 11, 14, 13, 30),
-                        LocalDateTime.of(2023, 12, 2, 9, 17));
+                        LocalDateTime.of(2023, 12, 2, 9, 17)
+                );
                 Rental r2 = new Rental(
                         LocalDateTime.of(2023, 10, 10, 11, 27),
-                        LocalDateTime.of(2023, 10, 24, 15, 5));
+                        LocalDateTime.of(2023, 10, 24, 15, 5)
+                );
                 Rental r3 = new Rental(
                         LocalDateTime.of(2023, 12, 1, 13, 1),
-                        LocalDateTime.of(2024, 1, 1, 12, 0));
+                        LocalDateTime.of(2024, 1, 1, 12, 0)
+                );
 
                 r1.setEmployee(employee1);
                 r2.setEmployee(employee2);

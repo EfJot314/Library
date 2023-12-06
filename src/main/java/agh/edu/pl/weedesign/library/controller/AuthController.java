@@ -5,6 +5,7 @@ import agh.edu.pl.weedesign.library.model.reader.Reader;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -35,7 +36,7 @@ public class AuthController {
     @FXML
     private TextField phoneField;
     @FXML
-    private TextField birthDateField;
+    private DatePicker birthDateField;
     @FXML
     private TextField sexField;
     @FXML
@@ -48,15 +49,17 @@ public class AuthController {
 
     @FXML
     private void handleRegisterAction(ActionEvent event){
-        System.out.println("Register button clicked");
-        Reader newReader = new Reader(nameField.getText(), surnameField.getText(), cityField.getText(), voivodeshipField.getText(),postcodeField.getText(),countryField.getText(),emailField.getText(),phoneField.getText(), LocalDate.now(),sexField.getText());
-        printFields();
+        Reader newReader = new Reader(nameField.getText(), surnameField.getText(), cityField.getText(),
+                voivodeshipField.getText(),postcodeField.getText(),countryField.getText(),emailField.getText(),
+                passwordField.getText(),phoneField.getText(), birthDateField.getValue(),sexField.getText());
+        //printFields();
         service.addNewReader(newReader);
     }
 
     @FXML
     private void handleCancelAction(ActionEvent event){
         System.out.println("Back button clicked!");
+        //printFields();
     }
 
 
@@ -71,7 +74,7 @@ public class AuthController {
         System.out.println("Postcode: " + postcodeField.getText());
         System.out.println("Email: " + emailField.getText());
         System.out.println("Phone: " + phoneField.getText());
-        System.out.println("Birth date: " + birthDateField.getText());
+        System.out.println("Birth date: " + birthDateField.getValue());
         System.out.println("Sex: " + sexField.getText());
     }
 }

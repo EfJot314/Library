@@ -6,6 +6,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.control.DatePicker?>
 <BorderPane fx:controller="agh.edu.pl.weedesign.library.controller.AuthController" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1">
     <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21.0.1"
                 xmlns:fx="http://javafx.com/fxml/1">
@@ -38,7 +39,7 @@
             <TextField fx:id="phoneField" layoutX="231.0" layoutY="231.0" prefHeight="26.0" prefWidth="124.0"/>
 
             <Label layoutX="72.0" layoutY="270.0" prefHeight="18.0" prefWidth="100.0" text="Data urodzenia"/>
-            <TextField fx:id="birthDateField" layoutX="72.0" layoutY="288.0" prefHeight="26.0" prefWidth="124.0"/>
+            <DatePicker fx:id="birthDateField" layoutX="72.0" layoutY="288.0" prefHeight="26.0" prefWidth="124.0"/>
 
             <Label layoutX="231.0" layoutY="270.0" prefHeight="18.0" prefWidth="83.0" text="Płeć"/>
             <TextField fx:id="sexField" layoutX="231.0" layoutY="288.0" prefHeight="26.0" prefWidth="124.0"/>
