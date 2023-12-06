@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import org.springframework.context.ConfigurableApplicationContext;
 
 import java.io.IOException;
 
@@ -15,8 +16,12 @@ public class LibraryAppController {
     private BorderPane loginLayout;
     private BorderPane registerLayout;
     private BorderPane mainLayout;
-    public LibraryAppController(Stage stage){
+
+    ConfigurableApplicationContext springContext;
+
+    public LibraryAppController(Stage stage, ConfigurableApplicationContext springContext){
         this.primaryStage = stage;
+        this.springContext = springContext;
     }
 
     public void initWelcomeLayout() {
@@ -25,7 +30,8 @@ public class LibraryAppController {
 
             // load layout from FXML file
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(LibraryApplication.class.getResource("/view/mainView.fxml"));
+            loader.setLocation(LibraryApplication.class.getResource("/view/registerView.fxml"));
+            loader.setControllerFactory(springContext::getBean);
             this.welcomeLayout = loader.load();
 
             // add layout to a scene and show them all
