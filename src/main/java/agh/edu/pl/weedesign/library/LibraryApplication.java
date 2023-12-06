@@ -5,9 +5,11 @@ import agh.edu.pl.weedesign.library.controller.LibraryAppController;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
+import org.springframework.boot.SpringApplication;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.context.ConfigurableApplicationContext;
 
 
 @SpringBootApplication
@@ -15,8 +17,15 @@ public class LibraryApplication extends Application {
 	private Stage primaryStage;
 	private LibraryAppController libraryAppController;
 
+	private ConfigurableApplicationContext context;
+
 	public static void main(String[] args) {
 		launch(args);
+	}
+
+	@Override
+	public void init() throws Exception {
+		context = SpringApplication.run(LibraryApplication.class);
 	}
 
 	@Override
@@ -28,7 +37,7 @@ public class LibraryApplication extends Application {
 		this.primaryStage = primaryStage;
 		this.primaryStage.setTitle("Library App");
 
-		this.libraryAppController = new LibraryAppController(this.primaryStage);
+		this.libraryAppController = new LibraryAppController(this.primaryStage, context);
 		this.libraryAppController.initWelcomeLayout();
 	}
 }

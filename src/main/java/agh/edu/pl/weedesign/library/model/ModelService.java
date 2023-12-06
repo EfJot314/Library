@@ -16,6 +16,8 @@ import agh.edu.pl.weedesign.library.model.rental.Rental;
 import agh.edu.pl.weedesign.library.model.rental.RentalRepository;
 import agh.edu.pl.weedesign.library.model.review.Review;
 import agh.edu.pl.weedesign.library.model.review.ReviewRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.Banner;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -76,6 +78,7 @@ public class ModelService {
         return reviewRepository.findAll();
     }
 
-
-
+    public void addNewReader(Reader reader) {
+        readerRepository.save(reader);
+    }
 }
