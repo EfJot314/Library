@@ -81,7 +81,6 @@ public class AuthController {
                 passwordField.getText(),phoneField.getText(), birthDateField.getValue(),sexField.getText());
 
         service.addNewReader(newReader);
-
         // TODO - implement hop to next view
     }
 
