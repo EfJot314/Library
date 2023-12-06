@@ -7,12 +7,16 @@
 <?import javafx.scene.layout.AnchorPane?>
 
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1">
-   <children>
-      <PasswordField layoutX="219.0" layoutY="214.0" />
-      <TextField layoutX="219.0" layoutY="146.0" />
-      <Label layoutX="221.0" layoutY="118.0" text="Numer karty bibliotecznej" />
-      <Label layoutX="284.0" layoutY="191.0" text="Hasło" />
-      <Button layoutX="259.0" layoutY="262.0" mnemonicParsing="false" text="zaloguj się" />
-   </children>
-</AnchorPane>
+<?import javafx.scene.layout.BorderPane?>
+<BorderPane>
+    <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21.0.1"
+                xmlns:fx="http://javafx.com/fxml/1">
+        <children>
+            <PasswordField layoutX="219.0" layoutY="214.0"/>
+            <TextField layoutX="219.0" layoutY="146.0"/>
+            <Label layoutX="221.0" layoutY="118.0" text="Numer karty bibliotecznej"/>
+            <Label layoutX="284.0" layoutY="191.0" text="Hasło"/>
+            <Button layoutX="259.0" layoutY="262.0" mnemonicParsing="false" text="zaloguj się"/>
+        </children>
+    </AnchorPane>
+</BorderPane>
