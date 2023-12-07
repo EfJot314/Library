@@ -6,10 +6,12 @@ import agh.edu.pl.weedesign.library.model.rental.Rental;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Entity
+@Table(name="BOOK_COPY")
 public class BookCopy {
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     private int week_unit_price;
@@ -17,8 +19,11 @@ public class BookCopy {
     private String condition;
 
     @ManyToOne
+    @JoinColumn(name = "book_id")
     private Book book;
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "bookCopy", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Rental> rentals;
 
     public BookCopy(){};
 

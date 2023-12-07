@@ -8,10 +8,13 @@ import agh.edu.pl.weedesign.library.model.category.Category;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Entity
+@Table(name="BOOK")
 public class Book {
-    @Id @GeneratedValue
+    
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     private String title;
@@ -26,11 +29,15 @@ public class Book {
 
     private String cover_url;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="author_id")
     private Author author;
 
     @ManyToOne
     private Category category;
+
+    @OneToMany(mappedBy="book")
+    private Set<BookCopy> bookCopies;
 
     public Book(){}
 
@@ -101,5 +108,13 @@ public class Book {
 
     public Category getCategory(){
         return category;
+    }
+
+    public Set<BookCopy> getCopies(){
+        return this.bookCopies;
+    }
+
+    public void setCopies(Set<BookCopy> bookCopies){
+        this.bookCopies = bookCopies;
     }
 }

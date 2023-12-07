@@ -22,10 +22,12 @@ import org.springframework.context.annotation.Configuration;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 
-//class to create example data -> TODO
 
 @Configuration
 public class ModelConfigurator {
@@ -97,14 +99,11 @@ public class ModelConfigurator {
                                 "Chapter 7: Trillian",
                         "https://www.panmacmillan.com/blogs/science-fiction-and-fantasy/the-hitchhikers-guide-to-the-galaxy-cover-design");
 
-
                 Author tolkien = new Author("J.R.R.", "Tolkien", "John Ronald Reuel Tolkien (3 January 1892 – 2 September 1973) was an English writer, poet, philologist, and university professor, best known as the author of the classic high fantasy works The Hobbit and The Lord of the Rings. He is generally considered to be the father of modern fantasy literature, his tales having a lasting influence on the worldwide genre of fantasy writing.");
                 Author weir = new Author("Andy", "Weir", "Andy Weir is an American software engineer and science fiction author. He is best known for his debut novel, The Martian, which was nominated for the Hugo Award and the Locus Award for Best Novel in 2011, and won the Goodreads Choice Award for Best Science Fiction and the Audie Award for Best Science Fiction/Fantasy Audiobook. The novel was also adapted into a 2015 film directed by Ridley Scott and starring Matt Damon.");
                 Author adams = new Author("Douglas", "Adams", "Douglas Adams was an English author, humorist, and screenwriter. He was best known for his comic science fiction series The Hitchhiker's Guide to the Galaxy, which began life as a radio comedy broadcast on the BBC in 1978. Adams was also a writer and script editor for the television series Doctor Who and wrote scripts for the British Broadcasting Corporation from 1978 to 1980.");
 
-
                 authorRepository.saveAll(List.of(tolkien, weir, adams));
-
 
                 book1.setAuthor(tolkien);
                 book2.setAuthor(tolkien);
@@ -125,7 +124,6 @@ public class ModelConfigurator {
 
                 bookRepository.saveAll(List.of(book1, book2, book3, book4, book5));
 
-
                 BookCopy bc1 = new BookCopy(10, "good");
                 BookCopy bc2 = new BookCopy(12, "very good");
                 BookCopy bc3 = new BookCopy(7, "bad");
@@ -140,9 +138,7 @@ public class ModelConfigurator {
                 bc5.setBook(book5);
                 bc6.setBook(book1);
 
-
                 bookCopyRepository.saveAll(List.of(bc1, bc2, bc3, bc4, bc5, bc6));
-
 
                 Employee employee1 = new Employee("Filip", "Jedrzejewski", 1000);
                 Employee employee2 = new Employee("Sebastian", "Soczawa", 976);
@@ -159,12 +155,13 @@ public class ModelConfigurator {
                 Reader reader2 = new Reader("Janka", "Kowalska", "Warszawa", "Mazowieckie", "02-677", "Polska", "example2@email.com", "pass2", "987 654 321", LocalDate.of(2003, 5, 30), "female");
                 Reader reader3 = new Reader("Janusz", "Nowak", "Krakow", "Malopolska", "31-503", "Polska", "example3@email.com", "pass3", "999 888 777", LocalDate.of(1949, 11, 13), "male");
 
-                readerRepository.saveAll(List.of(reader1, reader2, reader3));
-
                 Review review1 = new Review(5, "Super", LocalDateTime.of(2023, 12, 2, 15, 4));
                 Review review2 = new Review(2, LocalDateTime.of(2023, 11, 30, 9, 36));
 
                 reviewRepository.saveAll(List.of(review1, review2));
+
+
+                readerRepository.saveAll(List.of(reader1, reader2, reader3));
 
                 Rental r1 = new Rental(
                         LocalDateTime.of(2023, 11, 14, 13, 30),
@@ -172,16 +169,21 @@ public class ModelConfigurator {
                 );
                 Rental r2 = new Rental(
                         LocalDateTime.of(2023, 10, 10, 11, 27),
-                        LocalDateTime.of(2023, 10, 24, 15, 5)
-                );
+                        LocalDateTime.of(2023, 10, 24, 15, 5));
+
                 Rental r3 = new Rental(
                         LocalDateTime.of(2023, 12, 1, 13, 1),
                         LocalDateTime.of(2024, 1, 1, 12, 0)
                 );
 
+
                 r1.setEmployee(employee1);
                 r2.setEmployee(employee2);
                 r3.setEmployee(employee4);
+
+                reader1.setRentals(r1);
+                reader2.setRentals(r2);
+                reader3.setRentals(r3);
 
                 r1.setReader(reader1);
                 r2.setReader(reader2);
@@ -195,9 +197,6 @@ public class ModelConfigurator {
                 r2.setReview(review2);
 
                 rentalRepository.saveAll(List.of(r1, r2, r3));
-
-
-
             }
         };
     }
