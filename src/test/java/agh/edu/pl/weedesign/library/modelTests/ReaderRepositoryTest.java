@@ -28,7 +28,7 @@ public class ReaderRepositoryTest {
 
 	@Test
 	public void test_rental_reader_many_to_one_relationship() {
-		Reader reader = new Reader("Jan", "Kowalski", "Krakow", "Malopolska", "31-503", "Polska", "example1@email.com", "123 456 789", LocalDate.of(1987, 12, 3), "male");
+		Reader reader = new Reader("Jan", "Kowalski", "Krakow", "Malopolska", "31-503", "Polska", "example1@email.com", "pass1", "123 456 789", LocalDate.of(1987, 12, 3), "male");
 
 		Rental r1 = new Rental(
 				LocalDateTime.of(2023, 11, 14, 13, 30),
