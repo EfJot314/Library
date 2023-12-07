@@ -4,7 +4,6 @@ import agh.edu.pl.weedesign.library.LibraryApplication;
 import agh.edu.pl.weedesign.library.sceneObjects.SceneFactory;
 import agh.edu.pl.weedesign.library.sceneObjects.SceneType;
 import javafx.event.ActionEvent;
-import javafx.scene.control.Button;
 import org.springframework.stereotype.Controller;
 
 @Controller
