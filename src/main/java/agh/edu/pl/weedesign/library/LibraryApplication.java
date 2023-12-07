@@ -1,11 +1,10 @@
 package agh.edu.pl.weedesign.library;
 
-import agh.edu.pl.weedesign.library.controller.LibraryAppController;
+import agh.edu.pl.weedesign.library.controllers.LibraryAppController;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
 
-import org.springframework.boot.SpringApplication;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -15,9 +14,9 @@ import org.springframework.context.ConfigurableApplicationContext;
 @SpringBootApplication
 public class LibraryApplication extends Application {
 	private Stage primaryStage;
-	private LibraryAppController libraryAppController;
+	private static LibraryAppController libraryAppController;
 
-	private ConfigurableApplicationContext context;
+	private static ConfigurableApplicationContext context;
 
 	public static void main(String[] args) {
 		launch(args);
@@ -31,7 +30,15 @@ public class LibraryApplication extends Application {
 		this.primaryStage = primaryStage;
 		this.primaryStage.setTitle("Library App");
 
-		this.libraryAppController = new LibraryAppController(this.primaryStage, context);
-		this.libraryAppController.initWelcomeLayout();
+		libraryAppController = new LibraryAppController(this.primaryStage, context);
+		libraryAppController.initWelcomeLayout();
+	}
+
+	public static ConfigurableApplicationContext getAppContext(){
+		return context;
+	}
+
+	public static LibraryAppController getAppController(){
+		return libraryAppController;
 	}
 }
