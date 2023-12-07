@@ -89,4 +89,11 @@ public class ModelService {
     public Reader getReaderByEmail(String email){
         return readerRepository.findByEmail(email);
     }
+
+    public String getReaderPasswordByEmail(String email){
+        if (getReaderByEmail(email) == null){
+            return null;
+        }
+        return getReaderByEmail(email).getPassword();
+    }
 }

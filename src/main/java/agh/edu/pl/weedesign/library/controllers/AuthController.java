@@ -1,22 +1,30 @@
-package agh.edu.pl.weedesign.library.controller;
+package agh.edu.pl.weedesign.library.controllers;
 
+import agh.edu.pl.weedesign.library.LibraryApplication;
+import agh.edu.pl.weedesign.library.helpers.Encryptor;
 import agh.edu.pl.weedesign.library.helpers.RegistrationValidChecker;
 import agh.edu.pl.weedesign.library.helpers.ValidCheck;
 import agh.edu.pl.weedesign.library.model.ModelService;
 import agh.edu.pl.weedesign.library.model.reader.Reader;
+import agh.edu.pl.weedesign.library.sceneObjects.SceneFactory;
+import agh.edu.pl.weedesign.library.sceneObjects.SceneType;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-
+import java.util.Objects;
 
 
 @Component
 public class AuthController {
+
+    // registration view
     @FXML
     private TextField nameField;
     @FXML
@@ -44,10 +52,22 @@ public class AuthController {
     @FXML
     private Button cancelButton;
 
+    // login view
+    @FXML
+    private Button loginButton;
+    @FXML
+    private TextField loginField;
+    @FXML
+    private PasswordField loginPasswordField;
+
     @Autowired
     private ModelService service;
     @Autowired
     private RegistrationValidChecker checker;
+
+
+    @Autowired
+    private Encryptor passwordEncryptor;
 
 
     @FXML
@@ -78,10 +98,36 @@ public class AuthController {
 
         Reader newReader = new Reader(nameField.getText(), surnameField.getText(), cityField.getText(),
                 voivodeshipField.getText(),postcodeField.getText(),countryField.getText(),emailField.getText(),
-                passwordField.getText(),phoneField.getText(), birthDateField.getValue(),sexField.getText());
+                passwordEncryptor.encryptMessage(passwordField.getText()),phoneField.getText(), birthDateField.getValue(),sexField.getText());
 
         service.addNewReader(newReader);
-        // TODO - implement hop to next view
+        hopToNextScene(SceneType.LOGIN);
+
+    }
+
+    public void handleLoginAction(ActionEvent event) {
+        String login = loginField.getText();
+        String encryptedRealPassword = service.getReaderPasswordByEmail(login);
+
+        String encryptedUserPassword = passwordEncryptor.encryptMessage(loginPasswordField.getText());
+
+        if (encryptedRealPassword == null){
+            System.out.println("Bad login or password");
+            return;
+        }
+        if (!Objects.equals(encryptedUserPassword, encryptedRealPassword)){
+            System.out.println("Bad login or password");
+            return;
+        }
+        if (Objects.equals(encryptedUserPassword, encryptedRealPassword)){
+            System.out.println("Access granted");
+            hopToNextScene(SceneType.MAIN);
+            return;
+        }
+    }
+
+    public void hopToNextScene(SceneType sceneType){
+        LibraryApplication.getAppController().switchScene((new SceneFactory()).createScene(sceneType));
     }
 
     public void checkerGuard(ValidCheck check){
@@ -95,6 +141,7 @@ public class AuthController {
         System.out.println("Back button clicked!");
         //printFields();
     }
+
 
 
     private void printFields(){
