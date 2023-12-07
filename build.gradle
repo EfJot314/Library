@@ -3,18 +3,16 @@ plugins {
 	id 'org.springframework.boot' version '2.7.5'
 	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
 	id 'application'
-	id 'org.openjfx.javafxplugin' version '0.1.0'
+	id 'org.openjfx.javafxplugin' version '0.0.13'
 }
 
 group = 'agh.edu.pl.weedesign'
 version = '0.0.1-SNAPSHOT'
 
+apply plugin: 'org.openjfx.javafxplugin'
+
 java {
 	sourceCompatibility = '17'
-}
-javafx {
-	version = "21.0.1"
-	modules = [ 'javafx.controls', 'javafx.fxml' ]
 }
 
 repositories {
@@ -28,7 +26,20 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter'
 	implementation 'org.springdoc:springdoc-openapi-ui:1.6.12'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	implementation platform('org.openjfx:javafx-graphics:18.0.1')
 }
+
+
+//javafx {
+//	version = "18.0.1"
+//	modules = [ 'javafx.controls', 'javafx.fxml' ]
+//}
+
+javafx {
+	version = '17'
+	modules = ['javafx.base', 'javafx.controls', 'javafx.fxml', 'javafx.graphics', 'javafx.media', 'javafx.swing', 'javafx.web']
+}
+
 
 
 tasks.named('test') {
