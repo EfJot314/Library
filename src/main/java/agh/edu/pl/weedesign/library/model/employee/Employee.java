@@ -69,5 +69,10 @@ public class Employee {
         return reports_to;
     }
 
+    @Override
+    public String toString(){
+        return this.name + " " + this.surname;
+    }
+
 
 }

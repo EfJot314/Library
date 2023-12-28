@@ -26,7 +26,7 @@ public class LibraryAppController {
         this.primaryStage.setTitle("Biblioteka");
         SceneFactory factory = new SceneFactory();
 
-        currentScene = new Scene(factory.createScene(SceneType.WELCOME));
+        currentScene = new Scene(factory.createScene(SceneType.ADD_EMPLOYEE));
         primaryStage.setScene(currentScene);
         primaryStage.show();
     }

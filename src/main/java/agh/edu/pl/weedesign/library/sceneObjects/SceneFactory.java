@@ -16,6 +16,7 @@ public class SceneFactory {
     private final String mainViewPath = "/views/mainView.fxml";
     private final String registrationViewPath = "/views/registerView.fxml";
     private final String welcomeViewPath = "/views/welcomeView.fxml";
+    private final String addEmployeeViewPath = "/views/addEmployeeView.fxml";
 
     public Pane createScene(SceneType sceneType) {
         try {
@@ -31,6 +32,9 @@ public class SceneFactory {
                 }
                 case WELCOME -> {
                     return loadScene(welcomeViewPath);
+                }
+                case ADD_EMPLOYEE -> {
+                    return loadScene(addEmployeeViewPath);
                 }
                 default -> {
                     return null;
