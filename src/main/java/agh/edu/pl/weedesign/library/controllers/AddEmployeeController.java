@@ -19,14 +19,24 @@ public class AddEmployeeController {
     private ChoiceBox<AccessLevel> accessLevelChoiceBox;
 
     private final ModelService modelService;
+    private final AuthController authController;
 
-    public AddEmployeeController(ModelService modelService) {
+    public AddEmployeeController(ModelService modelService, AuthController authController) {
         this.modelService = modelService;
+        this.authController = authController;
     }
     @FXML
     private void initialize() {
         List<Employee> employees = this.modelService.getEmployees();
         reportsToChoiceBox.setItems(FXCollections.observableArrayList(employees));
         accessLevelChoiceBox.setItems(FXCollections.observableArrayList(AccessLevel.values()));
+    }
+    @FXML
+    private void handleAddAction(){
+
+    }
+    @FXML
+    private void handleCancelAction(){
+
     }
 }

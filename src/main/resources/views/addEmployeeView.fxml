@@ -16,8 +16,6 @@
     <TextField layoutX="319.0" layoutY="104.0"/>
     <TextField layoutX="104.0" layoutY="187.0"/>
     <Text layoutX="219.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Dodaj nowego pracownika"/>
-    <Button layoutX="481.0" layoutY="340.0" mnemonicParsing="false" text="Dodaj"/>
-    <Button layoutX="382.0" layoutY="340.0" mnemonicParsing="false" text="Anuluj"/>
     <Text layoutX="104.0" layoutY="88.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Imię"/>
     <Text layoutX="319.0" layoutY="88.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nazwisko"/>
     <Text layoutX="105.0" layoutY="177.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Pensja"/>
@@ -30,4 +28,10 @@
     <ChoiceBox
             fx:id="accessLevelChoiceBox"
             layoutX="104.0" layoutY="284.0" prefHeight="26.0" prefWidth="162.0"/>
+    <Button
+            onAction="#handleAddAction"
+            layoutX="481.0" layoutY="340.0" mnemonicParsing="false" text="Dodaj"/>
+    <Button
+            onAction="#handleCancelAction"
+            layoutX="382.0" layoutY="340.0" mnemonicParsing="false" text="Anuluj"/>
 </AnchorPane>
