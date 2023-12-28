@@ -1,10 +1,6 @@
 package agh.edu.pl.weedesign.library.model.employee;
 
-import agh.edu.pl.weedesign.library.model.rental.Rental;
-
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 public class Employee {
@@ -20,14 +16,20 @@ public class Employee {
     @ManyToOne
     @JoinColumn
     private Employee reports_to;
-
+    private AccessLevel accessLevel;
 
     public Employee(){};
-
     public Employee(String name, String surname, int salary){
         this.name = name;
         this.surname = surname;
         this.salary = salary;
+        this.accessLevel = AccessLevel.NONE;
+    }
+    public Employee(String name, String surname, int salary, AccessLevel accessLevel){
+        this.name = name;
+        this.surname = surname;
+        this.salary = salary;
+        this.accessLevel = accessLevel;
     }
 
 
