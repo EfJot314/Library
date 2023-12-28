@@ -4,5 +4,6 @@ public enum SceneType {
     MAIN,
     LOGIN,
     REGISTER,
-    WELCOME
+    WELCOME,
+    BOOK_LIST,
 }

@@ -29,7 +29,7 @@ public class Book {
 
     private String cover_url;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER) // WARNING! (Pepe) - zmieniłem tu na EAGER bo nie wiedzialem jak się dostać do autora
     @JoinColumn(name="author_id")
     private Author author;
 
