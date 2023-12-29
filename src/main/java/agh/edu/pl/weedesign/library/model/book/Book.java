@@ -8,6 +8,7 @@ import agh.edu.pl.weedesign.library.model.category.Category;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -116,5 +117,18 @@ public class Book {
 
     public void setCopies(Set<BookCopy> bookCopies){
         this.bookCopies = bookCopies;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Book book = (Book) o;
+        return id == book.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

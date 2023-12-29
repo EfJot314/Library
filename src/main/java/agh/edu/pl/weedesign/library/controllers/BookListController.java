@@ -20,6 +20,8 @@ import org.springframework.stereotype.Controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 @Controller
 public class BookListController {
@@ -56,22 +58,35 @@ public class BookListController {
     List<Book> allBooks;
     ObservableList<Book> visibleBooks;
 
+    Map<Book, Long> booksCount;
+
 
     private ModelService service;
+    private BookListProcessor bookListProcessor;
 
     @Autowired
-    public BookListController(ModelService service){
+    public BookListController(ModelService service, BookListProcessor bookListProcessor){
         this.service = service;
+        this.bookListProcessor = bookListProcessor;
     }
 
     @FXML
     public void initialize(){
+        fetchBooksData();
+
         titleColumn.setCellValueFactory(bookValue -> new SimpleStringProperty(bookValue.getValue().getTitle()));
         authorColumn.setCellValueFactory(bookValue -> new SimpleStringProperty(bookValue.getValue().getAuthor().getName() + " " + bookValue.getValue().getAuthor().getSurname()));
         ratingColumn.setCellValueFactory(bookValue -> new SimpleStringProperty("4.2")); // TODO - implement rating
-        availabilityColumn.setCellValueFactory(bookValue -> new SimpleStringProperty("42")); // TODO - implement checking number of available books
+        availabilityColumn.setCellValueFactory(bookValue -> {
+            if (booksCount == null){
+                return new SimpleStringProperty("Error");
+            }
+            if (booksCount.get(bookValue.getValue()) == null){
+                return new SimpleStringProperty("Brak książki!");
+            }
+            return new SimpleStringProperty(booksCount.get(bookValue.getValue()).toString());
+        }); // TODO - implement checking number of available books
 
-        fetchBooksData();
 
         bookTable.setOnMousePressed(event -> {
             if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
@@ -84,6 +99,7 @@ public class BookListController {
     private void fetchBooksData(){
         this.allBooks = new ArrayList<>(this.service.getBooks());
         this.visibleBooks = FXCollections.observableList(this.allBooks);
+        this.booksCount = this.service.getAvailableBookCount();
         bookTable.setItems(this.visibleBooks);
     }
 
@@ -108,8 +124,12 @@ public class BookListController {
     private void search(ActionEvent actionEvent) {
         List<Book> tempBookList = new ArrayList<>(allBooks);
 
-        tempBookList = BookListProcessor.processList(tempBookList,searchStrategyMenu.getValue(), findTextField.getText(),sortStrategyMenu.getValue(),sortOrderMenu.getValue());
+        tempBookList = bookListProcessor.processList(tempBookList,searchStrategyMenu.getValue(), findTextField.getText(),sortStrategyMenu.getValue(),sortOrderMenu.getValue(), onlyAvailableCheckbox.isSelected());
         this.visibleBooks = FXCollections.observableList(tempBookList);
         bookTable.setItems(this.visibleBooks);
+    }
+
+    public void sth(ActionEvent actionEvent) {
+
     }
 }

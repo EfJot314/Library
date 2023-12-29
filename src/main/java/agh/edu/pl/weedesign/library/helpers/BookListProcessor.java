@@ -1,16 +1,29 @@
 package agh.edu.pl.weedesign.library.helpers;
 
+import agh.edu.pl.weedesign.library.model.ModelService;
 import agh.edu.pl.weedesign.library.model.book.Book;
-import agh.edu.pl.weedesign.library.model.author.Author;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 
+@Component
 public class BookListProcessor {
+    ModelService service;
 
-    static public List<Book> processList(List<Book> books,SearchStrategy searchBy, String searchName, SearchStrategy sortStrategy, SortOrder order){
+    @Autowired
+    public BookListProcessor(ModelService service){
+        this.service = service;
+    }
+
+    public List<Book> processList(List<Book> books, SearchStrategy searchBy, String searchName, SearchStrategy sortStrategy, SortOrder order, boolean onlyAvailable){
         List<Book> tempBooks = new ArrayList<>(books);
+        if (onlyAvailable){
+            tempBooks = onlyAvailableBooks(tempBooks);
+        }
         if (searchBy != null && searchName != null && !searchName.isEmpty()){
             tempBooks = search(tempBooks,searchBy,searchName);
         }
@@ -21,7 +34,7 @@ public class BookListProcessor {
     }
 
     // Method does not change input list
-    static private List<Book> search(List<Book> books, SearchStrategy searchBy, String searchName){
+    private List<Book> search(List<Book> books, SearchStrategy searchBy, String searchName){
         List<Book> tempBooks = new ArrayList<>();
         String searchLowerCase = searchName.toLowerCase();
         switch (searchBy){
@@ -51,7 +64,7 @@ public class BookListProcessor {
     }
 
     // THIS METHOD SORTS IN PLACE!!!
-    static private void sort(List<Book> books, SearchStrategy sortStrategy, SortOrder order){
+    private void sort(List<Book> books, SearchStrategy sortStrategy, SortOrder order){
         Comparator<Book> comparator = switch (sortStrategy) {
             case NAME -> Comparator.comparing(book -> book.getAuthor().getName());
             case SURNAME -> Comparator.comparing(book -> book.getAuthor().getSurname());
@@ -64,5 +77,17 @@ public class BookListProcessor {
             }
             books.sort(comparator);
         }
+    }
+
+
+    private List<Book> onlyAvailableBooks(List<Book> books){
+        List<Book> tempBooks = new ArrayList<>();
+        Map<Book, Long> booksCount = this.service.getAvailableBookCount();
+        for (Book book : books) {
+            if (booksCount.get(book) != null) {
+                tempBooks.add(book);
+            }
+        }
+        return tempBooks;
     }
 }

@@ -20,7 +20,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.Banner;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -95,5 +97,13 @@ public class ModelService {
             return null;
         }
         return getReaderByEmail(email).getPassword();
+    }
+
+    public Map<Book, Long> getAvailableBookCount(){
+        Map<Book, Long> bookCount = new HashMap<>();
+        for(Object[] obj: bookCopyRepository.findBooksWithCopyCount()) {
+            bookCount.put((Book) obj[0],(Long) obj[1]);
+        }
+        return bookCount;
     }
 }
