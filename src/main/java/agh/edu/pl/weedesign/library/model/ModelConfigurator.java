@@ -45,7 +45,7 @@ public class ModelConfigurator {
                                 "Chapter 3: Three is Company\n" +
                                 "Chapter 4: A Knife in the Dark\n" +
                                 "Chapter 5: The Council of Elrond",
-                        "https://www.amazon.com/Fellowship-Ring-Being-First-Rings/dp/0547928211");
+                        "https://m.media-amazon.com/images/W/MEDIAX_792452-T2/images/I/71bocXHoUvL._SL1500_.jpg");
 
                 Book book2 = new Book(
                         "The Lord of the Rings: The Two Towers",
@@ -59,7 +59,7 @@ public class ModelConfigurator {
                                 "Chapter 6: The King of the Golden Hall\n" +
                                 "Chapter 7: Helm's Deep\n" +
                                 "Chapter 8: The Road Goes Ever On",
-                        "https://www.amazon.com/Two-Towers-Lord-Rings-Part/dp/0345339711");
+                        "https://m.media-amazon.com/images/W/MEDIAX_792452-T2/images/I/A1y0jd28riL._SL1500_.jpg");
 
                 Book book3 = new Book(
                         "The Lord of the Rings: The Return of the King",
@@ -70,7 +70,7 @@ public class ModelConfigurator {
                                 "Chapter 3: The Muster of Rohan\n" +
                                 "Chapter 4: The Battle of the Pelennor Fields\n" +
                                 "Chapter 5: The Ride to Minas Tirith",
-                        "https://www.harpercollins.com/products/the-return-of-the-king-the-lord-of-the-rings-book-3-j-r-r-tolkien");
+                        "https://www.harpercollins.com/cdn/shop/products/9780007322558_a654036a-87e1-46f1-a0e9-945860635095.jpg");
 
                 Book book4 = new Book(
                         "The Martian",
@@ -84,7 +84,7 @@ public class ModelConfigurator {
                                 "Chapter 6: Sol 18\n" +
                                 "Chapter 7: Sol 23\n" +
                                 "Chapter 8: Sol 33",
-                        "https://www.goodreads.com/book/show/18007564-the-martian");
+                        "https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1413706054i/18007564.jpg");
 
                 Book book5 = new Book(
                         "The Hitchhiker's Guide to the Galaxy",
@@ -97,7 +97,7 @@ public class ModelConfigurator {
                                 "Chapter 5: The Vogons\n" +
                                 "Chapter 6: Marvin the Paranoid Android\n" +
                                 "Chapter 7: Trillian",
-                        "https://www.panmacmillan.com/blogs/science-fiction-and-fantasy/the-hitchhikers-guide-to-the-galaxy-cover-design");
+                        "https://assets-eu-01.kc-usercontent.com/bcd02f72-b50c-0179-8b4b-5e44f5340bd4/f2c1107f-3fc3-4235-a480-524d1b40102e/hitchhikers-guide-to-the-galaxy-80s.jpg");
 
                 Author tolkien = new Author("J.R.R.", "Tolkien", "John Ronald Reuel Tolkien (3 January 1892 – 2 September 1973) was an English writer, poet, philologist, and university professor, best known as the author of the classic high fantasy works The Hobbit and The Lord of the Rings. He is generally considered to be the father of modern fantasy literature, his tales having a lasting influence on the worldwide genre of fantasy writing.");
                 Author weir = new Author("Andy", "Weir", "Andy Weir is an American software engineer and science fiction author. He is best known for his debut novel, The Martian, which was nominated for the Hugo Award and the Locus Award for Best Novel in 2011, and won the Goodreads Choice Award for Best Science Fiction and the Audie Award for Best Science Fiction/Fantasy Audiobook. The novel was also adapted into a 2015 film directed by Ridley Scott and starring Matt Damon.");

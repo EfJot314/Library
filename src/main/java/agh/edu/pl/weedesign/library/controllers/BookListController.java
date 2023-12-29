@@ -14,7 +14,11 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.Pane;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
@@ -25,7 +29,6 @@ import java.util.Map;
 
 @Controller
 public class BookListController {
-
 
     @FXML
     public ComboBox<SearchStrategy> searchStrategyMenu;
@@ -90,7 +93,8 @@ public class BookListController {
 
         bookTable.setOnMousePressed(event -> {
             if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
-                hopToNextScene(getBookDetailsScene(getSelectedBook()));
+                LibraryApplication.getAppController().saveData(getSelectedBook());
+                LibraryApplication.getAppController().switchScene((new SceneFactory()).createScene(SceneType.BOOK_VIEW));
             }
         });
     }
@@ -108,16 +112,15 @@ public class BookListController {
     }
 
     private SceneType getBookDetailsScene(Book book) {
-        // TODO - implement book details scene
-        return null;
+        return SceneType.BOOK_VIEW;
     }
 
     private void hopToNextScene(SceneType sceneType){
-        System.out.println(getSelectedBook().getTitle());
         if (sceneType == null){
             return;
         }
-        LibraryApplication.getAppController().switchScene((new SceneFactory()).createScene(sceneType));
+        
+        LibraryApplication.getAppController().switchScene((new SceneFactory()).createScene(SceneType.BOOK_VIEW));
     }
 
     @FXML

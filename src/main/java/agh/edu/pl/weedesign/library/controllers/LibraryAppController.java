@@ -2,6 +2,7 @@ package agh.edu.pl.weedesign.library.controllers;
 
 
 import agh.edu.pl.weedesign.library.sceneObjects.SceneType;
+import agh.edu.pl.weedesign.library.model.book.Book;
 import agh.edu.pl.weedesign.library.sceneObjects.SceneFactory;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
@@ -12,7 +13,6 @@ import org.springframework.context.ConfigurableApplicationContext;
 
 public class LibraryAppController {
     private Stage primaryStage;
-
     private Scene currentScene;
 
     ConfigurableApplicationContext springContext;
@@ -33,6 +33,14 @@ public class LibraryAppController {
 
     public void switchScene(Pane pane){
         currentScene.setRoot(pane);
+    }
+
+    public void saveData(Object obj){
+        this.currentScene.setUserData(obj);
+    }
+
+    public Object getData(){
+        return this.currentScene.getUserData();
     }
 
 }
