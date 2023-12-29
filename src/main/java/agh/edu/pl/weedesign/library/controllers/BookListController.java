@@ -85,7 +85,7 @@ public class BookListController {
                 return new SimpleStringProperty("Brak książki!");
             }
             return new SimpleStringProperty(booksCount.get(bookValue.getValue()).toString());
-        }); // TODO - implement checking number of available books
+        });
 
 
         bookTable.setOnMousePressed(event -> {
