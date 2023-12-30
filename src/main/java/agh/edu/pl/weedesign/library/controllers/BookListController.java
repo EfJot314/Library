@@ -1,31 +1,30 @@
 package agh.edu.pl.weedesign.library.controllers;
 
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+
 import agh.edu.pl.weedesign.library.LibraryApplication;
+import agh.edu.pl.weedesign.library.entities.book.Book;
 import agh.edu.pl.weedesign.library.helpers.BookListProcessor;
 import agh.edu.pl.weedesign.library.helpers.SearchStrategy;
 import agh.edu.pl.weedesign.library.helpers.SortOrder;
-import agh.edu.pl.weedesign.library.model.ModelService;
-import agh.edu.pl.weedesign.library.model.book.Book;
-import agh.edu.pl.weedesign.library.sceneObjects.SceneFactory;
 import agh.edu.pl.weedesign.library.sceneObjects.SceneType;
+import agh.edu.pl.weedesign.library.services.ModelService;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.scene.layout.Pane;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 
 @Controller
 public class BookListController {
@@ -76,6 +75,7 @@ public class BookListController {
     @FXML
     public void initialize(){
         fetchBooksData();
+        LibraryApplication.getAppController().resize(760, 440); 
 
         titleColumn.setCellValueFactory(bookValue -> new SimpleStringProperty(bookValue.getValue().getTitle()));
         authorColumn.setCellValueFactory(bookValue -> new SimpleStringProperty(bookValue.getValue().getAuthor().getName() + " " + bookValue.getValue().getAuthor().getSurname()));
@@ -94,11 +94,10 @@ public class BookListController {
         bookTable.setOnMousePressed(event -> {
             if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
                 LibraryApplication.getAppController().saveData(getSelectedBook());
-                LibraryApplication.getAppController().switchScene((new SceneFactory()).createScene(SceneType.BOOK_VIEW));
+                LibraryApplication.getAppController().switchScene(SceneType.BOOK_VIEW);
             }
         });
     }
-
 
     private void fetchBooksData(){
         this.allBooks = new ArrayList<>(this.service.getBooks());
@@ -120,7 +119,7 @@ public class BookListController {
             return;
         }
         
-        LibraryApplication.getAppController().switchScene((new SceneFactory()).createScene(SceneType.BOOK_VIEW));
+        LibraryApplication.getAppController().switchScene(SceneType.BOOK_VIEW);
     }
 
     @FXML
@@ -133,6 +132,6 @@ public class BookListController {
     }
 
     public void sth(ActionEvent actionEvent) {
-
+        LibraryApplication.getAppController().switchScene(SceneType.NEW_BOOK_VIEW);
     }
 }

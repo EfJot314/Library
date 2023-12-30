@@ -1,75 +1,93 @@
 package agh.edu.pl.weedesign.library.controllers;
 
+import java.io.IOException;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+
 import agh.edu.pl.weedesign.library.LibraryApplication;
-import agh.edu.pl.weedesign.library.model.book.Book;
-import agh.edu.pl.weedesign.library.sceneObjects.SceneFactory;
+import agh.edu.pl.weedesign.library.entities.book.Book;
+import agh.edu.pl.weedesign.library.models_mvc.RentalModel;
 import agh.edu.pl.weedesign.library.sceneObjects.SceneType;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-
-import javax.imageio.ImageIO;
-
-import org.aspectj.lang.annotation.After;
-import org.springframework.stereotype.Controller;
-
-import java.awt.image.BufferedImage;
 
 @Controller
 public class BookViewController {
-
     private Book book;   
+    private RentalModel rental_model;
+
+    @Autowired
+    BookViewController(RentalModel rental_model){
+        this.rental_model = rental_model;
+    }
 
     @FXML
-    public ImageView image_cover; 
+    private ImageView image_cover; 
 
     @FXML
-    public Label book_title_label;
+    private Label book_title_label;
 
     @FXML
-    public Label author_label;
+    private Label author_label;
 
     @FXML
-    public Label rating_label;
+    private Label rating_label;
 
     @FXML
-    public Label description_label;
+    private Label description_label;
 
     @FXML
-    public Button rent_button;
+    private Button rent_button;
 
     @FXML
-    public Button cancel_button;
+    private Button cancel_button;
 
     @FXML
     public void initialize() throws IOException  {
-        this.book = (Book)LibraryApplication.getAppController().getData();
+        // Pobieram wybraną książkę za pomocą metody getUserData która 
+        // pozwala na zapisywanie obieków w scenie
+
+        LibraryApplication.getAppController().resize(650, 550); 
+
+        this.book = (Book)LibraryApplication.getAppController().getData();  
+        
+        if(this.book == null){
+            System.out.println("No book was selected");
+            LibraryApplication.getAppController().switchScene(SceneType.BOOK_LIST);
+        }
+
         description_label.setText(book.getDescription());
+        book_title_label.setText(book.getTitle());
 
         author_label.setText(
             "Autor: " + book.getAuthor().getName() 
                 + " " + book.getAuthor().getSurname()
         );
 
-        book_title_label.setText(book.getTitle());
+        Image img;
 
-        Image c = new Image(""+book.getCover_url()+"");
-        image_cover.setImage(c);
+        try {
+            img = new Image("" + book.getCover_url() + "");
+            image_cover.setImage(img);
+        } catch (Exception e){
+            System.out.println("Cover not found");
+        }
+
+        rating_label.setText("Rating: 4.20");
     }
 
     public void handleCancelAction(ActionEvent e){
-        LibraryApplication.getAppController().switchScene((new SceneFactory()).createScene(SceneType.BOOK_LIST));
+        LibraryApplication.getAppController().switchScene(SceneType.BOOK_LIST);
     }
 
     public void handleRentAction(ActionEvent e){
-        return;
+        System.out.println("Rent a book!");
+        rental_model.RentBook(book);
     }
 }   

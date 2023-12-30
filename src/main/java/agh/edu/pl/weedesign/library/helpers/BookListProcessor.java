@@ -1,7 +1,9 @@
 package agh.edu.pl.weedesign.library.helpers;
 
-import agh.edu.pl.weedesign.library.model.ModelService;
-import agh.edu.pl.weedesign.library.model.book.Book;
+import agh.edu.pl.weedesign.library.entities.book.*;
+import agh.edu.pl.weedesign.library.models_mvc.*;
+import agh.edu.pl.weedesign.library.services.ModelService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

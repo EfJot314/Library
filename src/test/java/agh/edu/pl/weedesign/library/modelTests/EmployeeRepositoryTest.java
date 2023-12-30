@@ -8,8 +8,8 @@ import javax.annotation.Resource;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import agh.edu.pl.weedesign.library.model.employee.Employee;
-import agh.edu.pl.weedesign.library.model.employee.EmployeeRepository;
+import agh.edu.pl.weedesign.library.entities.employee.Employee;
+import agh.edu.pl.weedesign.library.entities.employee.EmployeeRepository;
 
 @SpringBootTest
 class EmployeeRepositoryTest {

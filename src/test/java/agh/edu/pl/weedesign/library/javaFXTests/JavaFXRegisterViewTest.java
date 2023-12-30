@@ -1,9 +1,9 @@
 package agh.edu.pl.weedesign.library.javaFXTests;
 
 import agh.edu.pl.weedesign.library.LibraryApplication;
-import agh.edu.pl.weedesign.library.model.*;
-import agh.edu.pl.weedesign.library.model.ModelService;
-import agh.edu.pl.weedesign.library.model.reader.Reader;
+import agh.edu.pl.weedesign.library.entities.*;
+import agh.edu.pl.weedesign.library.entities.reader.Reader;
+import agh.edu.pl.weedesign.library.services.ModelService;
 import javafx.stage.Stage;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

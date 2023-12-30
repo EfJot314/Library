@@ -9,10 +9,11 @@ import java.util.Set;
 import javax.annotation.Resource;
 
 import org.junit.jupiter.api.Test;
-import agh.edu.pl.weedesign.library.model.book.Book;
-import agh.edu.pl.weedesign.library.model.book.BookRepository;
-import agh.edu.pl.weedesign.library.model.bookCopy.BookCopy;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+
+import agh.edu.pl.weedesign.library.entities.book.Book;
+import agh.edu.pl.weedesign.library.entities.book.BookRepository;
+import agh.edu.pl.weedesign.library.entities.bookCopy.BookCopy;
 
 
 @DataJpaTest

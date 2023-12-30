@@ -1,13 +1,14 @@
 package agh.edu.pl.weedesign.library.modelTests;
 
-import agh.edu.pl.weedesign.library.model.book.Book;
-import agh.edu.pl.weedesign.library.model.bookCopy.BookCopy;
-import agh.edu.pl.weedesign.library.model.reader.Reader;
-import agh.edu.pl.weedesign.library.model.reader.ReaderRepository;
-import agh.edu.pl.weedesign.library.model.rental.Rental;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import agh.edu.pl.weedesign.library.entities.book.Book;
+import agh.edu.pl.weedesign.library.entities.bookCopy.BookCopy;
+import agh.edu.pl.weedesign.library.entities.reader.Reader;
+import agh.edu.pl.weedesign.library.entities.reader.ReaderRepository;
+import agh.edu.pl.weedesign.library.entities.rental.Rental;
 
 import javax.annotation.Resource;
 import java.time.LocalDate;

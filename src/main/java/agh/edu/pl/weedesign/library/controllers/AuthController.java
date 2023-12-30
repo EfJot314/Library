@@ -1,23 +1,23 @@
 package agh.edu.pl.weedesign.library.controllers;
 
+import java.util.Objects;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import agh.edu.pl.weedesign.library.LibraryApplication;
+import agh.edu.pl.weedesign.library.entities.reader.Reader;
 import agh.edu.pl.weedesign.library.helpers.Encryptor;
 import agh.edu.pl.weedesign.library.helpers.RegistrationValidChecker;
 import agh.edu.pl.weedesign.library.helpers.ValidCheck;
-import agh.edu.pl.weedesign.library.model.ModelService;
-import agh.edu.pl.weedesign.library.model.reader.Reader;
-import agh.edu.pl.weedesign.library.sceneObjects.SceneFactory;
 import agh.edu.pl.weedesign.library.sceneObjects.SceneType;
+import agh.edu.pl.weedesign.library.services.ModelService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
-import java.util.Objects;
 
 
 @Component
@@ -120,13 +120,13 @@ public class AuthController {
         }
         if (Objects.equals(encryptedUserPassword, encryptedRealPassword)){
             System.out.println("Access granted");
-            hopToNextScene(SceneType.MAIN);
+            hopToNextScene(SceneType.BOOK_LIST);
             return;
         }
     }
 
     public void hopToNextScene(SceneType sceneType){
-        LibraryApplication.getAppController().switchScene((new SceneFactory()).createScene(sceneType));
+        LibraryApplication.getAppController().switchScene(sceneType);
     }
 
     public void checkerGuard(ValidCheck check){

@@ -6,5 +6,6 @@ public enum SceneType {
     REGISTER,
     WELCOME,
     BOOK_LIST,
-    BOOK_VIEW
+    BOOK_VIEW,
+    NEW_BOOK_VIEW
 }

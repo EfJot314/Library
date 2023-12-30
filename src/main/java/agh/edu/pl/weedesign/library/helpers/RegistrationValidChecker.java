@@ -1,8 +1,10 @@
 package agh.edu.pl.weedesign.library.helpers;
 
-import agh.edu.pl.weedesign.library.model.ModelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import agh.edu.pl.weedesign.library.models_mvc.*;
+import agh.edu.pl.weedesign.library.services.ModelService;
 
 import java.time.LocalDate;
 import java.time.Period;

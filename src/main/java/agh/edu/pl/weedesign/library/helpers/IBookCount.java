@@ -1,6 +1,7 @@
 package agh.edu.pl.weedesign.library.helpers;
 
-import agh.edu.pl.weedesign.library.model.book.Book;
+import agh.edu.pl.weedesign.library.entities.*;
+import agh.edu.pl.weedesign.library.entities.book.*;
 
 public interface IBookCount {
 

@@ -18,6 +18,7 @@ public class SceneFactory {
     private final String welcomeViewPath = "/views/welcomeView.fxml";
     private final String bookListViewPath = "/views/bookList.fxml";
     private final String bookViewPath = "/views/bookView.fxml";
+    private final String newBookViewPath = "/views/newBookView.fxml";
 
     public Pane createScene(SceneType sceneType) {
         try {
@@ -39,6 +40,9 @@ public class SceneFactory {
                 }
                 case BOOK_VIEW -> {
                     return loadScene(bookViewPath);
+                }
+                case NEW_BOOK_VIEW -> {
+                    return loadScene(newBookViewPath);
                 }
                 default -> {
                     return null;
