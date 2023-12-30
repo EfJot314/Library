@@ -9,12 +9,16 @@ plugins {
 group = 'agh.edu.pl.weedesign'
 version = '0.0.1-SNAPSHOT'
 
+application {
+}
+
 java {
 	sourceCompatibility = '17'
 }
 javafx {
 	version = "21.0.1"
 	modules = [ 'javafx.controls', 'javafx.fxml' ]
+	mainClassName='agh.edu.pl.weedesign.library.LibraryApplication'
 }
 
 repositories {
