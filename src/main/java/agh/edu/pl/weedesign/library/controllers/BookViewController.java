@@ -89,6 +89,6 @@ public class BookViewController {
     public void handleRentAction(ActionEvent e){
         //switching to rental view
         LibraryApplication.getAppController().saveData(this.book);
-        LibraryApplication.getAppController().switchScene(SceneType.RENT_VIEW);
+        LibraryApplication.getAppController().switchScene(SceneType.COPIES_VIEW);
     }
 }   

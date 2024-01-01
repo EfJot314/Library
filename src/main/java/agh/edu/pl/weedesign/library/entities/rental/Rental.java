@@ -83,7 +83,6 @@ public class Rental {
 
     public void setBookCopy(BookCopy bookCopy){
         this.bookCopy = bookCopy;
-
     }
 
     public BookCopy getBookCopy(){

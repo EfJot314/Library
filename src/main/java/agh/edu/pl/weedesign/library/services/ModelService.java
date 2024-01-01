@@ -3,6 +3,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import agh.edu.pl.weedesign.library.entities.rental.Rental;
 import org.springframework.stereotype.Service;
 
 import agh.edu.pl.weedesign.library.entities.author.Author;
@@ -52,9 +53,7 @@ public class ModelService {
         return bookCopyRepository.findAll();
     }
 
-    public List<BookCopy> getCopies(Book book){
-        return bookCopyRepository.findBookCopiesByBook(book);
-    }
+    public List<BookCopy> getCopies(Book book){return bookCopyRepository.findBookCopiesByBook(book);}
 
     public List<Category> getCategories(){
         return categoryRepository.findAll();
@@ -67,6 +66,8 @@ public class ModelService {
     public List<Review> getReviews(){
         return reviewRepository.findAll();
     }
+
+    public List<Rental> getRentals() {return rentalRepository.findAll();}
 
     public void addNewReader(Reader reader) {
         readerRepository.save(reader);
