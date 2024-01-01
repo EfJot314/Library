@@ -19,13 +19,10 @@ import javafx.scene.image.ImageView;
 
 @Controller
 public class BookViewController {
-    private Book book;   
-    private RentalModel rental_model;
+    private Book book;
 
     @Autowired
-    BookViewController(RentalModel rental_model){
-        this.rental_model = rental_model;
-    }
+    BookViewController(RentalModel rental_model){}
 
     @FXML
     private ImageView image_cover; 

@@ -120,9 +120,8 @@ public class AuthController {
         }
         if (Objects.equals(encryptedUserPassword, encryptedRealPassword)){
             System.out.println("Access granted");
-//            hopToNextScene(SceneType.BOOK_LIST);
+            LibraryApplication.setUserEmail(login);
             hopToNextScene(SceneType.START_VIEW);
-            return;
         }
     }
 

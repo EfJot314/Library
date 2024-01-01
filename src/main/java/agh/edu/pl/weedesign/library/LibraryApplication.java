@@ -2,6 +2,7 @@ package agh.edu.pl.weedesign.library;
 
 import agh.edu.pl.weedesign.library.controllers.LibraryAppController;
 
+import agh.edu.pl.weedesign.library.entities.reader.Reader;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
@@ -17,6 +18,8 @@ public class LibraryApplication extends Application {
 	private static LibraryAppController libraryAppController;
 
 	private static ConfigurableApplicationContext context;
+
+	private static String userEmail;
 
 	public static void main(String[] args) {
 		launch(args);
@@ -40,5 +43,13 @@ public class LibraryApplication extends Application {
 
 	public static LibraryAppController getAppController(){
 		return libraryAppController;
+	}
+
+	public static String getUserEmail(){
+		return userEmail;
+	}
+
+	public static void setUserEmail(String email){
+		userEmail = email;
 	}
 }

@@ -5,6 +5,7 @@ import agh.edu.pl.weedesign.library.LibraryApplication;
 import agh.edu.pl.weedesign.library.entities.book.Book;
 import agh.edu.pl.weedesign.library.entities.bookCopy.BookCopy;
 import agh.edu.pl.weedesign.library.helpers.BookListProcessor;
+import agh.edu.pl.weedesign.library.models_mvc.RentalModel;
 import agh.edu.pl.weedesign.library.sceneObjects.SceneType;
 import agh.edu.pl.weedesign.library.services.ModelService;
 import javafx.beans.property.SimpleStringProperty;
@@ -44,10 +45,13 @@ public class BookCopiesController {
     private ModelService service;
     private BookListProcessor bookListProcessor;
 
+    private RentalModel rentalModel;
+
     @Autowired
-    public BookCopiesController(ModelService service, BookListProcessor bookListProcessor){
+    public BookCopiesController(ModelService service, BookListProcessor bookListProcessor, RentalModel rentalModel){
         this.service = service;
         this.bookListProcessor = bookListProcessor;
+        this.rentalModel = rentalModel;
     }
 
     @FXML
@@ -74,7 +78,7 @@ public class BookCopiesController {
 
         bookTable.setOnMousePressed(event -> {
             if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
-//                LibraryApplication.getAppController().saveData(getSelectedBook());
+                this.rentalModel.rentBook(bookTable.getSelectionModel().getSelectedItem());
                 LibraryApplication.getAppController().switchScene(SceneType.RENTALS_VIEW);
             }
         });

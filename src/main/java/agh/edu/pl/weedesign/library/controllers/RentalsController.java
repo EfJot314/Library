@@ -6,6 +6,7 @@ import agh.edu.pl.weedesign.library.entities.book.Book;
 import agh.edu.pl.weedesign.library.entities.bookCopy.BookCopy;
 import agh.edu.pl.weedesign.library.entities.rental.Rental;
 import agh.edu.pl.weedesign.library.helpers.BookListProcessor;
+import agh.edu.pl.weedesign.library.models_mvc.RentalModel;
 import agh.edu.pl.weedesign.library.sceneObjects.SceneType;
 import agh.edu.pl.weedesign.library.services.ModelService;
 import javafx.beans.property.SimpleStringProperty;
@@ -47,10 +48,13 @@ public class RentalsController {
     private ModelService service;
     private BookListProcessor bookListProcessor;
 
+    private RentalModel rentalModel;
+
     @Autowired
-    public RentalsController(ModelService service, BookListProcessor bookListProcessor){
+    public RentalsController(ModelService service, BookListProcessor bookListProcessor, RentalModel rentalModel){
         this.service = service;
         this.bookListProcessor = bookListProcessor;
+        this.rentalModel = rentalModel;
     }
 
     @FXML
@@ -60,7 +64,7 @@ public class RentalsController {
 
         titleColumn.setCellValueFactory(rentalValue -> new SimpleStringProperty(rentalValue.getValue().getBookCopy().getBook().getTitle()));
         authorColumn.setCellValueFactory(rentalValue -> new SimpleStringProperty(rentalValue.getValue().getBookCopy().getBook().getAuthor().getName() + " " + rentalValue.getValue().getBookCopy().getBook().getAuthor().getSurname()));
-        priceColumn.setCellValueFactory(rentalValue -> new SimpleStringProperty(rentalValue.getValue().getBookCopy().getWeek_unit_price() + " zł/tydz"));
+        priceColumn.setCellValueFactory(rentalValue -> new SimpleStringProperty(rentalValue.getValue().getPrice() + " zł"));
         startDateColumn.setCellValueFactory(rentalValue -> new SimpleStringProperty(rentalValue.getValue().getStart_date().toLocalDate().toString()));
         endDateColumn.setCellValueFactory(rentalValue -> new SimpleStringProperty(rentalValue.getValue().getEnd_date().toLocalDate().toString()));
 
@@ -73,8 +77,7 @@ public class RentalsController {
     }
 
     private void fetchRentalsData(){
-//        this.book = (Book)LibraryApplication.getAppController().getData();
-        this.rentals = new ArrayList<>(this.service.getRentals());
+        this.rentals = new ArrayList<>(this.service.getRentalsByReaderEmail(LibraryApplication.getUserEmail()));
         rentalsTable.setItems(FXCollections.observableList(this.rentals));
     }
 
