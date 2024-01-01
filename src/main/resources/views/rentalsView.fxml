@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import agh.edu.pl.weedesign.library.helpers.*?>
-<?import javafx.collections.*?>
-<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="438.0" prefWidth="760.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="agh.edu.pl.weedesign.library.controllers.RentalsController">
    <top>
-      <Label text="Twoje wypożyczone książki:">
-         <font>
-            <Font size="32.0" />
-         </font>
-      </Label>
+      <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <Label text="Twoje wypożyczone książki:">
+            <font>
+               <Font size="32.0" />
+            </font>
+         </Label>
+         <Button onAction="#toWelcomeView" text="Strona główna" />
+      </HBox>
    </top>
    <center>
       <TableView fx:id="rentalsTable" prefHeight="343.0" prefWidth="760.0" BorderPane.alignment="CENTER">
@@ -27,3 +27,4 @@
       </TableView>
    </center>
 </BorderPane>
+

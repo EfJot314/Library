@@ -9,11 +9,14 @@
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="438.0" prefWidth="760.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="agh.edu.pl.weedesign.library.controllers.BookCopiesController">
    <top>
-      <Label text="Nasze egzemplarze:">
-         <font>
-            <Font size="32.0" />
-         </font>
-      </Label>
+      <HBox>
+         <Label text="Nasze egzemplarze:">
+            <font>
+               <Font size="32.0" />
+            </font>
+         </Label>
+         <Button onAction="#back" text="Wróć do wyszukiwania książek" />
+      </HBox>
    </top>
    <center>
       <TableView fx:id="bookTable" prefHeight="343.0" prefWidth="760.0" BorderPane.alignment="CENTER">

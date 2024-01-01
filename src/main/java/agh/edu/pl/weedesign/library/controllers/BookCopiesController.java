@@ -9,6 +9,7 @@ import agh.edu.pl.weedesign.library.sceneObjects.SceneType;
 import agh.edu.pl.weedesign.library.services.ModelService;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -86,12 +87,9 @@ public class BookCopiesController {
     }
 
 
-    private void hopToNextScene(SceneType sceneType){
-        if (sceneType == null){
-            return;
-        }
-        
-        LibraryApplication.getAppController().switchScene(SceneType.BOOK_VIEW);
+    @FXML
+    private void back(ActionEvent actionEvent) {
+        LibraryApplication.getAppController().switchScene(SceneType.BOOK_LIST);
     }
 
 }

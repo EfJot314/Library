@@ -10,6 +10,7 @@ import agh.edu.pl.weedesign.library.sceneObjects.SceneType;
 import agh.edu.pl.weedesign.library.services.ModelService;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -75,6 +76,11 @@ public class RentalsController {
 //        this.book = (Book)LibraryApplication.getAppController().getData();
         this.rentals = new ArrayList<>(this.service.getRentals());
         rentalsTable.setItems(FXCollections.observableList(this.rentals));
+    }
+
+    @FXML
+    private void toWelcomeView(ActionEvent actionEvent) {
+        LibraryApplication.getAppController().switchScene(SceneType.START_VIEW);
     }
 
 }
