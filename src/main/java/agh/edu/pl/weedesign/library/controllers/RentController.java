@@ -3,11 +3,13 @@ package agh.edu.pl.weedesign.library.controllers;
 
 import agh.edu.pl.weedesign.library.LibraryApplication;
 import agh.edu.pl.weedesign.library.entities.book.Book;
+import agh.edu.pl.weedesign.library.entities.bookCopy.BookCopy;
 import agh.edu.pl.weedesign.library.helpers.BookListProcessor;
 import agh.edu.pl.weedesign.library.helpers.SearchStrategy;
 import agh.edu.pl.weedesign.library.helpers.SortOrder;
 import agh.edu.pl.weedesign.library.sceneObjects.SceneType;
 import agh.edu.pl.weedesign.library.services.ModelService;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -25,37 +27,24 @@ import java.util.Map;
 public class RentController {
 
     @FXML
-    public ComboBox<SearchStrategy> searchStrategyMenu;
-    @FXML
-    public TextField findTextField;
-    @FXML
-    public ComboBox<SearchStrategy> sortStrategyMenu;
-    @FXML
-    public ComboBox<SortOrder> sortOrderMenu;
-    @FXML
-    public CheckBox onlyAvailableCheckbox;
-
+    private TableView<BookCopy> bookTable;
 
     @FXML
-    private TableView<Book> bookTable;
+    private TableColumn<BookCopy, String> idColumn;
 
     @FXML
-    private TableColumn<Book, String> titleColumn;
+    private TableColumn<BookCopy, String> conditionColumn;
 
     @FXML
-    private TableColumn<Book, String> authorColumn;
+    private TableColumn<BookCopy, String> priceColumn;
 
     @FXML
-    private TableColumn<Book, String> ratingColumn;
-
-    @FXML
-    private TableColumn<Book, String> availabilityColumn;
+    private TableColumn<BookCopy, String> availabilityColumn;
 
 
-    List<Book> allBooks;
-    ObservableList<Book> visibleBooks;
+    private List<BookCopy> bookCopies;
 
-    Map<Book, Long> booksCount;
+    private Book book;
 
 
     private ModelService service;
@@ -70,44 +59,39 @@ public class RentController {
     @FXML
     public void initialize(){
         fetchBooksData();
-        LibraryApplication.getAppController().resize(760, 440); 
+        LibraryApplication.getAppController().resize(760, 440);
 
-        titleColumn.setCellValueFactory(bookValue -> new SimpleStringProperty(bookValue.getValue().getTitle()));
-        authorColumn.setCellValueFactory(bookValue -> new SimpleStringProperty(bookValue.getValue().getAuthor().getName() + " " + bookValue.getValue().getAuthor().getSurname()));
-        ratingColumn.setCellValueFactory(bookValue -> new SimpleStringProperty("4.2")); // TODO - implement rating
-        availabilityColumn.setCellValueFactory(bookValue -> {
-            if (booksCount == null){
-                return new SimpleStringProperty("Error");
-            }
-            if (booksCount.get(bookValue.getValue()) == null){
-                return new SimpleStringProperty("Brak książki!");
-            }
-            return new SimpleStringProperty(booksCount.get(bookValue.getValue()).toString());
-        });
+
+        idColumn.setCellValueFactory(bookValue -> new SimpleStringProperty(String.valueOf(bookValue.getValue().getId())));
+        conditionColumn.setCellValueFactory(bookValue -> new SimpleStringProperty(bookValue.getValue().getCondition()));
+        priceColumn.setCellValueFactory(bookValue -> new SimpleStringProperty(String.valueOf(bookValue.getValue().getWeek_unit_price()) + " zł"));
+//        availabilityColumn.setCellValueFactory(bookValue -> {
+//            if (booksCount == null){
+//                return new SimpleStringProperty("Error");
+//            }
+//            if (booksCount.get(bookValue.getValue()) == null){
+//                return new SimpleStringProperty("Brak książki!");
+//            }
+//            return new SimpleStringProperty(booksCount.get(bookValue.getValue()).toString());
+//        });
+        //TODO
+        availabilityColumn.setCellValueFactory(bookValue -> new SimpleStringProperty("TODO"));
 
 
         bookTable.setOnMousePressed(event -> {
             if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
-                LibraryApplication.getAppController().saveData(getSelectedBook());
-                LibraryApplication.getAppController().switchScene(SceneType.BOOK_VIEW);
+//                LibraryApplication.getAppController().saveData(getSelectedBook());
+//                LibraryApplication.getAppController().switchScene(SceneType.BOOK_VIEW);
             }
         });
     }
 
     private void fetchBooksData(){
-        this.allBooks = new ArrayList<>(this.service.getBooks());
-        this.visibleBooks = FXCollections.observableList(this.allBooks);
-        this.booksCount = this.service.getAvailableBookCount();
-        bookTable.setItems(this.visibleBooks);
+        this.book = (Book)LibraryApplication.getAppController().getData();
+        this.bookCopies = new ArrayList<>(this.service.getCopies(this.book));
+        bookTable.setItems(FXCollections.observableList(this.bookCopies));
     }
 
-    private Book getSelectedBook(){
-        return bookTable.getSelectionModel().getSelectedItem();
-    }
-
-    private SceneType getBookDetailsScene(Book book) {
-        return SceneType.BOOK_VIEW;
-    }
 
     private void hopToNextScene(SceneType sceneType){
         if (sceneType == null){
@@ -117,16 +101,4 @@ public class RentController {
         LibraryApplication.getAppController().switchScene(SceneType.BOOK_VIEW);
     }
 
-    @FXML
-    private void search(ActionEvent actionEvent) {
-        List<Book> tempBookList = new ArrayList<>(allBooks);
-
-        tempBookList = bookListProcessor.processList(tempBookList,searchStrategyMenu.getValue(), findTextField.getText(),sortStrategyMenu.getValue(),sortOrderMenu.getValue(), onlyAvailableCheckbox.isSelected());
-        this.visibleBooks = FXCollections.observableList(tempBookList);
-        bookTable.setItems(this.visibleBooks);
-    }
-
-    public void sth(ActionEvent actionEvent) {
-        LibraryApplication.getAppController().switchScene(SceneType.NEW_BOOK_VIEW);
-    }
 }

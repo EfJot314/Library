@@ -29,4 +29,7 @@ public class ReaderService {
     public Reader findByEmail(String email) {
         return readerRepository.findByEmail(email);
     }
+
+
+
 }

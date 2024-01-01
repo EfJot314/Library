@@ -87,7 +87,8 @@ public class BookViewController {
     }
 
     public void handleRentAction(ActionEvent e){
-        System.out.println("Rent a book!");
-        rental_model.RentBook(book);
+        //switching to rental view
+        LibraryApplication.getAppController().saveData(this.book);
+        LibraryApplication.getAppController().switchScene(SceneType.RENT_VIEW);
     }
 }   
