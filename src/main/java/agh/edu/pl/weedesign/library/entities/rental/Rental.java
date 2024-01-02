@@ -8,6 +8,7 @@ import agh.edu.pl.weedesign.library.entities.reader.Reader;
 import agh.edu.pl.weedesign.library.entities.review.Review;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
@@ -40,16 +41,16 @@ public class Rental {
 
     public Rental(){};
 
+    public Rental(LocalDateTime start_date){
+        this.start_date = start_date;
+        this.end_date = null;
+        this.price = 0;
+    }
+
     public Rental(LocalDateTime start_date, LocalDateTime end_date){
         this.start_date = start_date;
         this.end_date = end_date;
         this.price = 0;
-    }
-
-    public Rental(LocalDateTime start_date, LocalDateTime end_date, int price){
-        this.start_date = start_date;
-        this.end_date = end_date;
-        this.price = price;
     }
 
 
@@ -79,10 +80,23 @@ public class Rental {
 
     public void setEnd_date(LocalDateTime end_date) {
         this.end_date = end_date;
+        this.price = this.countPrice(end_date);
+    }
+
+    public int countPrice(LocalDateTime end){
+        if(this.bookCopy != null){
+            int nOfWeeks = (int)this.start_date.until(end, ChronoUnit.WEEKS) + 1;
+            return nOfWeeks*this.bookCopy.getWeek_unit_price();
+        }
+        return 0;
     }
 
     public void setBookCopy(BookCopy bookCopy){
         this.bookCopy = bookCopy;
+        if(end_date == null)
+            this.price = this.countPrice(LocalDateTime.now());
+        else
+            this.price = this.countPrice(end_date);
     }
 
     public BookCopy getBookCopy(){

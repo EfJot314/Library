@@ -137,8 +137,7 @@ public class AuthController {
 
     @FXML
     private void handleCancelAction(ActionEvent event){
-        System.out.println("Back button clicked!");
-        //printFields();
+        LibraryApplication.getAppController().switchScene(SceneType.WELCOME);
     }
 
 

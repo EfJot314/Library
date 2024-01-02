@@ -131,7 +131,8 @@ public class BookListController {
         bookTable.setItems(this.visibleBooks);
     }
 
-    public void sth(ActionEvent actionEvent) {
-        LibraryApplication.getAppController().switchScene(SceneType.NEW_BOOK_VIEW);
+    public void back(ActionEvent actionEvent) {
+//        LibraryApplication.getAppController().switchScene(SceneType.NEW_BOOK_VIEW);
+        LibraryApplication.getAppController().switchScene(SceneType.START_VIEW);
     }
 }

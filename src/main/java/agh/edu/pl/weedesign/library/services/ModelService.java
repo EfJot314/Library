@@ -69,13 +69,13 @@ public class ModelService {
 
     public List<Rental> getRentals() {return rentalRepository.findAll();}
 
-    public List<Rental> getRentalsByReaderEmail(String email){
-        return rentalRepository.findRentalsByReader(this.getReaderByEmail(email));
-    }
+    public List<Rental> getRentalsByReaderEmail(String email){return rentalRepository.findRentalsByReader(this.getReaderByEmail(email));}
 
     public List<Rental> getRentalsByReader(Reader reader){
         return rentalRepository.findRentalsByReader(reader);
     }
+
+    public List<Rental> getRentalsByBookCopy(BookCopy bookCopy){return rentalRepository.findRentalsByBookCopy(bookCopy);}
 
     public void addNewReader(Reader reader) {
         readerRepository.save(reader);

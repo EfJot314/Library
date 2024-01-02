@@ -11,6 +11,8 @@ import org.springframework.stereotype.Component;
 
 import agh.edu.pl.weedesign.library.entities.book.Book;
 import agh.edu.pl.weedesign.library.services.BookService;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.time.LocalDateTime;
 
@@ -29,8 +31,9 @@ public class RentalModel {
         this.rentalService = rentalService;
     }
 
-    public void rentBook(BookCopy bookCopy){
-        Rental rental = new Rental(LocalDateTime.now(), LocalDateTime.now().plusMonths(1));
+    @PostMapping
+    public void rentBook(@RequestBody BookCopy bookCopy){
+        Rental rental = new Rental(LocalDateTime.now());
 
         rental.setBookCopy(bookCopy);
         rental.setReader(LibraryApplication.getReader());

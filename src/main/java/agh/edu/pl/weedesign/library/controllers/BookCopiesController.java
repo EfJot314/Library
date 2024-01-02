@@ -4,6 +4,7 @@ package agh.edu.pl.weedesign.library.controllers;
 import agh.edu.pl.weedesign.library.LibraryApplication;
 import agh.edu.pl.weedesign.library.entities.book.Book;
 import agh.edu.pl.weedesign.library.entities.bookCopy.BookCopy;
+import agh.edu.pl.weedesign.library.entities.rental.Rental;
 import agh.edu.pl.weedesign.library.helpers.BookListProcessor;
 import agh.edu.pl.weedesign.library.models_mvc.RentalModel;
 import agh.edu.pl.weedesign.library.sceneObjects.SceneType;
@@ -63,23 +64,28 @@ public class BookCopiesController {
         idColumn.setCellValueFactory(copyValue -> new SimpleStringProperty(String.valueOf(copyValue.getValue().getId())));
         conditionColumn.setCellValueFactory(copyValue -> new SimpleStringProperty(copyValue.getValue().getCondition()));
         priceColumn.setCellValueFactory(copyValue -> new SimpleStringProperty(copyValue.getValue().getWeek_unit_price() + " zł"));
-//        availabilityColumn.setCellValueFactory(bookValue -> {
-//            if (booksCount == null){
-//                return new SimpleStringProperty("Error");
-//            }
-//            if (booksCount.get(bookValue.getValue()) == null){
-//                return new SimpleStringProperty("Brak książki!");
-//            }
-//            return new SimpleStringProperty(booksCount.get(bookValue.getValue()).toString());
-//        });
-        //TODO
-        availabilityColumn.setCellValueFactory(copyValue -> new SimpleStringProperty("TODO"));
+        availabilityColumn.setCellValueFactory(copyValue -> {
+
+            for(Rental rental : service.getRentalsByBookCopy(copyValue.getValue()))
+                if(rental.getEnd_date() == null)
+                    return new SimpleStringProperty("Aktualnie wypożyczona");
+            return new SimpleStringProperty("Dostępna");
+        });
 
 
         bookTable.setOnMousePressed(event -> {
             if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
-                this.rentalModel.rentBook(bookTable.getSelectionModel().getSelectedItem());
-                LibraryApplication.getAppController().switchScene(SceneType.RENTALS_VIEW);
+                BookCopy toRent = bookTable.getSelectionModel().getSelectedItem();
+                boolean canBeRented = true;
+                for(Rental rental : service.getRentalsByBookCopy(toRent))
+                    if(rental.getEnd_date() == null){
+                        canBeRented = false;
+                        break;
+                    }
+                if(canBeRented){
+                    this.rentalModel.rentBook(toRent);
+                    LibraryApplication.getAppController().switchScene(SceneType.RENTALS_VIEW);
+                }
             }
         });
     }

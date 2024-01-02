@@ -18,6 +18,7 @@ import javafx.scene.control.TableView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -64,9 +65,18 @@ public class RentalsController {
 
         titleColumn.setCellValueFactory(rentalValue -> new SimpleStringProperty(rentalValue.getValue().getBookCopy().getBook().getTitle()));
         authorColumn.setCellValueFactory(rentalValue -> new SimpleStringProperty(rentalValue.getValue().getBookCopy().getBook().getAuthor().getName() + " " + rentalValue.getValue().getBookCopy().getBook().getAuthor().getSurname()));
-        priceColumn.setCellValueFactory(rentalValue -> new SimpleStringProperty(rentalValue.getValue().getPrice() + " zł"));
+        priceColumn.setCellValueFactory(rentalValue -> {
+            if(rentalValue.getValue().getEnd_date() == null)
+                return new SimpleStringProperty(rentalValue.getValue().countPrice(LocalDateTime.now()) + " zł");
+            return new SimpleStringProperty(rentalValue.getValue().getPrice() + " zł");
+        });
         startDateColumn.setCellValueFactory(rentalValue -> new SimpleStringProperty(rentalValue.getValue().getStart_date().toLocalDate().toString()));
-//        endDateColumn.setCellValueFactory(rentalValue -> new SimpleStringProperty(rentalValue.getValue().getEnd_date().toLocalDate().toString()));
+        endDateColumn.setCellValueFactory(rentalValue -> {
+            LocalDateTime end = rentalValue.getValue().getEnd_date();
+            if(end == null)
+                return new SimpleStringProperty("Aktualnie wypożyczona");
+            return new SimpleStringProperty(end.toLocalDate().toString());
+        });
 
         rentalsTable.setOnMousePressed(event -> {
             if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
