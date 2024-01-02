@@ -33,7 +33,7 @@ public class RentalModel {
         Rental rental = new Rental(LocalDateTime.now(), LocalDateTime.now().plusMonths(1));
 
         rental.setBookCopy(bookCopy);
-        rental.setReader(readerService.findByEmail(LibraryApplication.getUserEmail()));
+        rental.setReader(LibraryApplication.getReader());
 
         rentalService.addNewRental(rental);
     }

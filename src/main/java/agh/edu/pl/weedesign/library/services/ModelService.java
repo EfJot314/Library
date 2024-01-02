@@ -73,6 +73,10 @@ public class ModelService {
         return rentalRepository.findRentalsByReader(this.getReaderByEmail(email));
     }
 
+    public List<Rental> getRentalsByReader(Reader reader){
+        return rentalRepository.findRentalsByReader(reader);
+    }
+
     public void addNewReader(Reader reader) {
         readerRepository.save(reader);
     }

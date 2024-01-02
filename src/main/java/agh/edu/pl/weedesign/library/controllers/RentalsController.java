@@ -66,18 +66,17 @@ public class RentalsController {
         authorColumn.setCellValueFactory(rentalValue -> new SimpleStringProperty(rentalValue.getValue().getBookCopy().getBook().getAuthor().getName() + " " + rentalValue.getValue().getBookCopy().getBook().getAuthor().getSurname()));
         priceColumn.setCellValueFactory(rentalValue -> new SimpleStringProperty(rentalValue.getValue().getPrice() + " zł"));
         startDateColumn.setCellValueFactory(rentalValue -> new SimpleStringProperty(rentalValue.getValue().getStart_date().toLocalDate().toString()));
-        endDateColumn.setCellValueFactory(rentalValue -> new SimpleStringProperty(rentalValue.getValue().getEnd_date().toLocalDate().toString()));
+//        endDateColumn.setCellValueFactory(rentalValue -> new SimpleStringProperty(rentalValue.getValue().getEnd_date().toLocalDate().toString()));
 
         rentalsTable.setOnMousePressed(event -> {
             if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
-//                LibraryApplication.getAppController().saveData(getSelectedBook());
-//                LibraryApplication.getAppController().switchScene(SceneType.BOOK_VIEW);
+                //TODO -> jak dwa razy klikniesz to mozesz sie przeniesc do jakiegos widoku pojedynczwgo wypozyczenia
             }
         });
     }
 
     private void fetchRentalsData(){
-        this.rentals = new ArrayList<>(this.service.getRentalsByReaderEmail(LibraryApplication.getUserEmail()));
+        this.rentals = new ArrayList<>(this.service.getRentalsByReader(LibraryApplication.getReader()));
         rentalsTable.setItems(FXCollections.observableList(this.rentals));
     }
 

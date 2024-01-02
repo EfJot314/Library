@@ -19,7 +19,7 @@ public class LibraryApplication extends Application {
 
 	private static ConfigurableApplicationContext context;
 
-	private static String userEmail;
+	private static Reader reader;
 
 	public static void main(String[] args) {
 		launch(args);
@@ -45,11 +45,11 @@ public class LibraryApplication extends Application {
 		return libraryAppController;
 	}
 
-	public static String getUserEmail(){
-		return userEmail;
+	public static Reader getReader(){
+		return reader;
 	}
 
-	public static void setUserEmail(String email){
-		userEmail = email;
+	public static void setReader(Reader r){
+		reader = r;
 	}
 }

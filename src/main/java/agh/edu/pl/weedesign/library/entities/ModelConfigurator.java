@@ -141,10 +141,10 @@ public class ModelConfigurator {
 
                 bookCopyRepository.saveAll(List.of(bc1, bc2, bc3, bc4, bc5, bc6));
 
-                Employee employee1 = new Employee("Filip", "Jedrzejewski", 1000);
-                Employee employee2 = new Employee("Sebastian", "Soczawa", 976);
-                Employee employee3 = new Employee("Piotr", "Sobczynski", 1000);
-                Employee employee4 = new Employee("Dominik", "Szot", 1000);
+                Employee employee1 = new Employee("Filip", "Jedrzejewski", 1000, "kk@kk.kk", "ppppppp");
+                Employee employee2 = new Employee("Sebastian", "Soczawa", 976, "ll@kk.kk", "ppppppp");
+                Employee employee3 = new Employee("Piotr", "Sobczynski", 1000, "oo@kk.kk", "ppppppp");
+                Employee employee4 = new Employee("Dominik", "Szot", 1000, "pp@kk.kk", "ppppppp");
 
                 employee1.setSupervisor(employee3);
                 employee2.setSupervisor(employee4);

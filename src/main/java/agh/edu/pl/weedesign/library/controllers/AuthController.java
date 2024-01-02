@@ -120,7 +120,7 @@ public class AuthController {
         }
         if (Objects.equals(encryptedUserPassword, encryptedRealPassword)){
             System.out.println("Access granted");
-            LibraryApplication.setUserEmail(login);
+            LibraryApplication.setReader(this.service.getReaderByEmail(login));
             hopToNextScene(SceneType.START_VIEW);
         }
     }
