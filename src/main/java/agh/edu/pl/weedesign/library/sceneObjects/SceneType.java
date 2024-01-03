@@ -7,5 +7,8 @@ public enum SceneType {
     WELCOME,
     BOOK_LIST,
     BOOK_VIEW,
-    NEW_BOOK_VIEW
+    NEW_BOOK_VIEW,
+    COPIES_VIEW,
+    RENTALS_VIEW,
+    START_VIEW
 }

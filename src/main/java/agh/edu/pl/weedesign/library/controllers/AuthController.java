@@ -120,8 +120,8 @@ public class AuthController {
         }
         if (Objects.equals(encryptedUserPassword, encryptedRealPassword)){
             System.out.println("Access granted");
-            hopToNextScene(SceneType.BOOK_LIST);
-            return;
+            LibraryApplication.setReader(this.service.getReaderByEmail(login));
+            hopToNextScene(SceneType.START_VIEW);
         }
     }
 
@@ -137,8 +137,7 @@ public class AuthController {
 
     @FXML
     private void handleCancelAction(ActionEvent event){
-        System.out.println("Back button clicked!");
-        //printFields();
+        LibraryApplication.getAppController().switchScene(SceneType.WELCOME);
     }
 
 

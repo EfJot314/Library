@@ -19,13 +19,10 @@ import javafx.scene.image.ImageView;
 
 @Controller
 public class BookViewController {
-    private Book book;   
-    private RentalModel rental_model;
+    private Book book;
 
     @Autowired
-    BookViewController(RentalModel rental_model){
-        this.rental_model = rental_model;
-    }
+    BookViewController(RentalModel rental_model){}
 
     @FXML
     private ImageView image_cover; 
@@ -87,7 +84,8 @@ public class BookViewController {
     }
 
     public void handleRentAction(ActionEvent e){
-        System.out.println("Rent a book!");
-        rental_model.RentBook(book);
+        //switching to rental view
+        LibraryApplication.getAppController().saveData(this.book);
+        LibraryApplication.getAppController().switchScene(SceneType.COPIES_VIEW);
     }
 }   

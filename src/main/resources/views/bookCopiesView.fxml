@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import agh.edu.pl.weedesign.library.helpers.*?>
+<?import javafx.collections.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="438.0" prefWidth="760.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="agh.edu.pl.weedesign.library.controllers.BookCopiesController">
+   <top>
+      <HBox>
+         <Label text="Nasze egzemplarze:">
+            <font>
+               <Font size="32.0" />
+            </font>
+         </Label>
+         <Button onAction="#back" text="Wróć do wyszukiwania książek" />
+      </HBox>
+   </top>
+   <center>
+      <TableView fx:id="bookTable" prefHeight="343.0" prefWidth="760.0" BorderPane.alignment="CENTER">
+         <columns>
+            <TableColumn fx:id="idColumn" prefWidth="100.0" text="Identyfikator" />
+            <TableColumn fx:id="conditionColumn" minWidth="0.0" prefWidth="230.0" text="Stan książki" />
+            <TableColumn fx:id="priceColumn" minWidth="0.0" prefWidth="200.0" text="Cena tygodniowa" />
+            <TableColumn fx:id="availabilityColumn" prefWidth="250.0" text="Dostępność" />
+         </columns>
+      </TableView>
+   </center>
+</BorderPane>

@@ -93,6 +93,9 @@ public class BookListController {
 
         bookTable.setOnMousePressed(event -> {
             if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
+                if (getSelectedBook() == null){
+                    return;
+                }
                 LibraryApplication.getAppController().saveData(getSelectedBook());
                 LibraryApplication.getAppController().switchScene(SceneType.BOOK_VIEW);
             }
@@ -131,7 +134,8 @@ public class BookListController {
         bookTable.setItems(this.visibleBooks);
     }
 
-    public void sth(ActionEvent actionEvent) {
-        LibraryApplication.getAppController().switchScene(SceneType.NEW_BOOK_VIEW);
+    public void back(ActionEvent actionEvent) {
+//        LibraryApplication.getAppController().switchScene(SceneType.NEW_BOOK_VIEW);
+        LibraryApplication.getAppController().switchScene(SceneType.START_VIEW);
     }
 }

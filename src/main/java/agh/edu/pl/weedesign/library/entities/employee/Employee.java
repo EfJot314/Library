@@ -16,6 +16,10 @@ public class Employee {
 
     private String surname;
 
+    private String email;
+
+    private String password;
+
     private int salary;
 
     @ManyToOne
@@ -25,10 +29,12 @@ public class Employee {
 
     public Employee(){};
 
-    public Employee(String name, String surname, int salary){
+    public Employee(String name, String surname, int salary, String email, String password){
         this.name = name;
         this.surname = surname;
         this.salary = salary;
+        this.email = email;
+        this.password = password;
     }
 
 
@@ -68,5 +74,19 @@ public class Employee {
         return reports_to;
     }
 
+    public String getEmail() {
+        return email;
+    }
 
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 }

@@ -46,9 +46,7 @@ public class RegisterModel {
             checkerGuard(checker.isRegisterBirthdateValid( LocalDate.parse(data.get("birthDateField"), formatter)));
             checkerGuard(checker.isRegisterSexValid(data.get("sexField")));
 
-            if (readerService.findByEmail(data.get("emailField")) != null){
-                throw new IllegalArgumentException("Email already used");
-            }
+
         } catch (IllegalArgumentException e ){
             return new HashMap<String, String>(){{
                 put("status", "failure");
