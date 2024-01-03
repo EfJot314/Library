@@ -93,6 +93,9 @@ public class BookListController {
 
         bookTable.setOnMousePressed(event -> {
             if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
+                if (getSelectedBook() == null){
+                    return;
+                }
                 LibraryApplication.getAppController().saveData(getSelectedBook());
                 LibraryApplication.getAppController().switchScene(SceneType.BOOK_VIEW);
             }
