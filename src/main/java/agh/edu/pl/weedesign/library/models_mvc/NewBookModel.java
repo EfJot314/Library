@@ -1,5 +1,7 @@
 package agh.edu.pl.weedesign.library.models_mvc;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.stereotype.Component;
@@ -22,6 +24,7 @@ public class NewBookModel {
     private String cover; 
     private String author_first_name; 
     private String author_second_name; 
+    private String condition; 
     private Integer page_count; 
     private Integer no_of_copies; 
 
@@ -143,6 +146,34 @@ public class NewBookModel {
 
     public Integer getPageCount(){
         return this.page_count;
+    }
+
+    public void setCondition(String condition){
+
+        ArrayList<String> valid_condition =  new ArrayList<String>(){
+            {
+                add("good");
+                add("bad");
+                add("very good");
+                add("very bad");
+
+            }
+        };
+
+        if(!valid_condition.contains(condition)){
+            String message = "[ERR] Valid conditions: | ";
+            for(String cond: valid_condition)
+                message += " " + cond + " |";
+
+            throw new IllegalArgumentException(message);
+
+        }
+
+        this.condition = condition; 
+    }
+
+    public String getCondition(){
+        return this.condition;
     }
 
      public void setNoOfCopies(Integer no_of_copies){

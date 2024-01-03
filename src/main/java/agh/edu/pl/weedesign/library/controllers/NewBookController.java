@@ -55,6 +55,10 @@ public class NewBookController {
     @FXML 
     private TextField message_label;
 
+    @FXML 
+    private TextField condition_textfield;
+
+
     @FXML
     public ComboBox<Categories> categories;
 
@@ -77,8 +81,12 @@ public class NewBookController {
             this.model.setAuthorFirstName(author_first_name_text_field.getText());
             this.model.setAuthorSecondName(author_surname_text_field.getText());
             this.model.setNoOfCopies(Integer.valueOf(no_of_copies_text_field.getText()));
+            this.model.setCondition(condition_textfield.getText());
 
             this.model.addNewBook();
+
+            message_label.setText("");
+            message_label.setVisible(false);
  
         } catch (Exception e){
             message_label.setText(String.valueOf(e.getMessage()));

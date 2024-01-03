@@ -19,7 +19,7 @@ class EmployeeRepositoryTest {
 
 	@Test
 	public void givenEmployee_whenSave_thenGetOk() {
-		Employee employee = new Employee("Dominik", "S", 1000);
+		Employee employee = new Employee("Dominik", "S", 1000, "", "");
 		Employee savedEmployee =  employeeRepository.save(employee);
 
 		Employee retrievedEmployee = employeeRepository.findById(savedEmployee.getId()).orElse(null);
