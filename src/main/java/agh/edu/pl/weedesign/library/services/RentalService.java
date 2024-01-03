@@ -27,6 +27,9 @@ public class RentalService {
     public Rental addNewRental(Rental newRental) {
         return rentalRepository.save(newRental);
     }
+    public Rental updateRental(Rental rental){
+        return rentalRepository.save(rental);
+    }
 
     public List<Rental> findByReader(Reader reader) {
         return rentalRepository.findRentalsByReader(reader);

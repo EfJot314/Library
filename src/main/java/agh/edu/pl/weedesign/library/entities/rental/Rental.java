@@ -16,7 +16,9 @@ import java.util.stream.Collectors;
 
 @Entity
 public class Rental {
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
+    @Column(name = "id")
     private int id;
 
     private int price;
@@ -37,6 +39,7 @@ public class Rental {
     private Reader reader;
 
     @OneToOne
+    @JoinColumn(name="review_id", referencedColumnName = "id")
     private Review review;
 
     public Rental(){};
