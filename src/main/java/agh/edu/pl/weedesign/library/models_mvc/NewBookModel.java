@@ -64,7 +64,7 @@ public class NewBookModel {
         book_service.addNewBook(book);
 
         for(int i = 0; i < getNumberOfCopies(); i++){
-            BookCopy bc = new BookCopy(12, "very good");
+            BookCopy bc = new BookCopy(12, getCondition());
             bc.setBook(book);
 
             this.book_service.addNewBookCopy(bc);
