@@ -1,32 +1,32 @@
 package agh.edu.pl.weedesign.library.controllers;
 
 import agh.edu.pl.weedesign.library.LibraryApplication;
-import agh.edu.pl.weedesign.library.entities.book.Book;
 import agh.edu.pl.weedesign.library.entities.rental.Rental;
 import agh.edu.pl.weedesign.library.entities.review.Review;
+import agh.edu.pl.weedesign.library.entities.review.ReviewRepository;
 import agh.edu.pl.weedesign.library.sceneObjects.SceneFactory;
 import agh.edu.pl.weedesign.library.sceneObjects.SceneType;
 import agh.edu.pl.weedesign.library.services.RentalService;
 import agh.edu.pl.weedesign.library.services.ReviewService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 
-@Component
-public class ReviewController {
+@Controller
+public class AddReviewController {
     private final RentalsController rentalsController;
-    private Stage reviewStage;
-//    TODO I think that sceneFactory should be a singleton
-    private final SceneFactory sceneFactory;
     @FXML
     private Button cancelButton;
     @FXML
@@ -35,33 +35,34 @@ public class ReviewController {
     private TextArea commentArea;
     @FXML
     private ChoiceBox<Integer> choiceBox;
+    @FXML
+    private Label bookTitle;
+    @FXML
+    private Text errorMsg;
     private final ReviewService reviewService;
     private Rental rental;
     private final RentalService rentalService;
+    private final ReviewRepository reviewRepository;
     @Autowired
-    public ReviewController(ReviewService reviewService, RentalsController rentalsController, RentalService rentalService){
-        sceneFactory = new SceneFactory();
+    public AddReviewController(ReviewRepository reviewRepository, ReviewService reviewService, RentalsController rentalsController, RentalService rentalService){
         this.reviewService = reviewService;
         this.rentalService = rentalService;
         this.rentalsController = rentalsController;
+        this.reviewRepository = reviewRepository;
     }
     @FXML
     public void initialize(){
         this.rental = rentalsController.getSelectedRental();
     }
-//    public void createReviewView(Book book){
-//        reviewStage = new Stage();
-//
-//        this.reviewStage.setTitle("Podziel się swoją opinią!");
-//        Scene reviewScene = new Scene(sceneFactory.createScene(SceneType.REVIEW));
-//        reviewStage.setScene(reviewScene);
-//        reviewStage.show();
-//    }
     @FXML
     private void handleAddReviewAction(ActionEvent event){
+        if (this.choiceBox.getValue() == null){
+            this.errorMsg.setText("Należy wybrać ocenę!");
+            System.out.println("rate is null");
+            return;
+        }
         int rating = choiceBox.getValue();
         String comment = commentArea.getText();
-//        TODO some validation?
         Review review = new Review(rating, comment, LocalDateTime.now(), rental);
         saveReview(review);
     }
@@ -75,5 +76,6 @@ public class ReviewController {
         rental.setReview(review);
         reviewService.addNewReview(review);
         rental = rentalService.updateRental(rental);
+        LibraryApplication.getAppController().switchScene(SceneType.RENTALS_VIEW);
     }
 }

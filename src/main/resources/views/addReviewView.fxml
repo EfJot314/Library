@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.String?>
+<?import java.lang.Integer?>
 <?import javafx.collections.FXCollections?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
@@ -8,12 +8,11 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Text?>
 
-<?import java.lang.Integer?>
-<AnchorPane fx:controller="agh.edu.pl.weedesign.library.controllers.ReviewController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="348.0" prefWidth="505.0" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="agh.edu.pl.weedesign.library.controllers.AddReviewController">
    <children>
-      <Text layoutX="105.0" layoutY="59.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Książka:  &lt;Tytuł książki &gt;" />
-      <Text layoutX="286.0" layoutY="138.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ocena" wrappingWidth="45.051998138427734" />
-      <ChoiceBox fx:id="choiceBox" layoutX="234.0" layoutY="149.0" prefWidth="150.0">
+      <Text layoutX="247.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ocena" wrappingWidth="45.051998138427734" />
+      <Text fx:id="errorMsg" layoutX="66.0" layoutY="263.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+      <ChoiceBox fx:id="choiceBox" layoutX="195.0" layoutY="52.0" prefWidth="150.0">
          <items>
             <FXCollections fx:factory="observableArrayList">
                <Integer fx:value="1" />
@@ -25,13 +24,13 @@
                <Integer fx:value="7" />
                <Integer fx:value="8" />
                <Integer fx:value="9" />
-               <Integer fx:value="10"/>
+               <Integer fx:value="10" />
             </FXCollections>
          </items>
       </ChoiceBox>
-      <Text layoutX="105.0" layoutY="205.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Komentarz:" wrappingWidth="213.04800033569336" />
-      <TextArea fx:id="commentArea" layoutX="105.0" layoutY="221.0" prefHeight="106.0" prefWidth="408.0" />
-      <Button fx:id="addReviewButton" onAction="#handleAddReviewAction" layoutX="519.0" layoutY="360.0" mnemonicParsing="false" text="Dodaj" />
-      <Button fx:id="cancelButton" onAction="#handleCancelAction" layoutX="447.0" layoutY="360.0" mnemonicParsing="false" text="Anuluj" />
+      <Text layoutX="66.0" layoutY="108.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Komentarz:" wrappingWidth="213.04800033569336" />
+      <TextArea fx:id="commentArea" layoutX="66.0" layoutY="124.0" prefHeight="106.0" prefWidth="408.0" />
+      <Button fx:id="addReviewButton" layoutX="417.0" layoutY="267.0" mnemonicParsing="false" onAction="#handleAddReviewAction" text="Dodaj" />
+      <Button fx:id="cancelButton" layoutX="345.0" layoutY="267.0" mnemonicParsing="false" onAction="#handleCancelAction" text="Anuluj" />
    </children>
 </AnchorPane>

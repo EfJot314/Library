@@ -81,9 +81,11 @@ public class RentalsController {
 
         rentalsTable.setOnMousePressed(event -> {
             if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
-                this.selectedRental = getSelectedEntity();
-                System.out.println(this.selectedRental);
-                LibraryApplication.getAppController().switchScene(SceneType.REVIEW);
+                if( getSelectedEntity() != null) {
+                    this.selectedRental = getSelectedEntity();
+                    System.out.println(this.selectedRental);
+                    LibraryApplication.getAppController().switchScene(SceneType.ADD_REVIEW);
+                }
             }
         });
     }

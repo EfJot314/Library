@@ -11,5 +11,6 @@ public enum SceneType {
     COPIES_VIEW,
     RENTALS_VIEW,
     START_VIEW,
-    REVIEW
+    REVIEWS,
+    ADD_REVIEW
 }
