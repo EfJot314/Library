@@ -60,7 +60,11 @@
             <Label fx:id="rating_label" prefHeight="18.0" prefWidth="305.0" text="Ratings:" GridPane.columnSpan="2" GridPane.rowIndex="5">
                <font>
                   <Font name="DejaVuMathTeXGyre-Regular" size="14.0" />
-               </font></Label>
+               </font>
+            </Label>
+             <Button defaultButton="true" mnemonicParsing="false" onAction="#handleShowReviewsAction" prefHeight="30.0" prefWidth="145.0" style="-fx-background-radius: 5; -fx-border-radius: 5; -fx-background-color: rgba(128,26,0,0.82);" text="Pokaż recenzje" textAlignment="CENTER" textFill="WHITE" GridPane.rowIndex="1">
+
+             </Button>
          </children>
       </GridPane>
       <Label fx:id="description_label" alignment="TOP_LEFT" prefHeight="269.0" prefWidth="306.0" text="Lorem ipsum &#10;dolor sit amet,&#10;consectetur " wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="1">
@@ -92,7 +96,7 @@
          </children>
       </GridPane>
       <TextFlow prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-   
+
       
    </children>
    <opaqueInsets>

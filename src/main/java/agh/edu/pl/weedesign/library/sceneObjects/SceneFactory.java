@@ -20,6 +20,10 @@ public class SceneFactory {
     private final String bookCopiesViewPath = "/views/bookCopiesView.fxml";
     private final String rentalsViewPath = "/views/rentalsView.fxml";
     private final String startViewPath = "/views/startView.fxml";
+    private final String addReviewViewPath = "/views/addReviewView.fxml";
+    private final String reviewsViewPath = "/views/bookReviewsView.fxml";
+    private final String employeePanelPath = "/views/employeePanelView.fxml";
+    private final String addEmployeeViewPath = "/views/addEmployeeView.fxml";
 
     public Pane createScene(SceneType sceneType) {
         try {
@@ -54,6 +58,18 @@ public class SceneFactory {
                 case START_VIEW -> {
                     return loadScene(startViewPath);
                 }
+                case REVIEWS -> {
+                    return loadScene(reviewsViewPath);
+                }
+                case ADD_REVIEW -> {
+                    return loadScene(addReviewViewPath);
+                }
+                case EMPLOYEE_PANEL -> {
+                    return loadScene(employeePanelPath);
+                }
+                case ADD_EMPLOYEE -> {
+                    return loadScene(addEmployeeViewPath);
+                }
                 default -> {
                     return null;
                 }
@@ -70,7 +86,6 @@ public class SceneFactory {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(LibraryApplication.class.getResource(path));
         loader.setControllerFactory(LibraryApplication.getAppContext()::getBean);
-
         return loader.load();
     }
 

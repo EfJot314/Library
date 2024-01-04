@@ -45,6 +45,7 @@ public class RentalsController {
 
 
     private List<Rental> rentals;
+    private Rental selectedRental;
 
     private ModelService service;
     private BookListProcessor bookListProcessor;
@@ -80,7 +81,11 @@ public class RentalsController {
 
         rentalsTable.setOnMousePressed(event -> {
             if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
-                //TODO -> jak dwa razy klikniesz to mozesz sie przeniesc do jakiegos widoku pojedynczwgo wypozyczenia
+                if( getSelectedEntity() != null) {
+                    this.selectedRental = getSelectedEntity();
+                    System.out.println(this.selectedRental);
+                    LibraryApplication.getAppController().switchScene(SceneType.ADD_REVIEW);
+                }
             }
         });
     }
@@ -93,6 +98,13 @@ public class RentalsController {
     @FXML
     private void toWelcomeView(ActionEvent actionEvent) {
         LibraryApplication.getAppController().switchScene(SceneType.START_VIEW);
+    }
+
+    private Rental getSelectedEntity(){
+        return rentalsTable.getSelectionModel().getSelectedItem();
+    }
+    public Rental getSelectedRental(){
+        return this.selectedRental;
     }
 
 }

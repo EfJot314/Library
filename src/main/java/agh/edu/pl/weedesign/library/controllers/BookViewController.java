@@ -2,6 +2,7 @@ package agh.edu.pl.weedesign.library.controllers;
 
 import java.io.IOException;
 
+import agh.edu.pl.weedesign.library.helpers.DataProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
@@ -87,5 +88,9 @@ public class BookViewController {
         //switching to rental view
         LibraryApplication.getAppController().saveData(this.book);
         LibraryApplication.getAppController().switchScene(SceneType.COPIES_VIEW);
+    }
+    public void handleShowReviewsAction(){
+        DataProvider.setSelectedBook(book);
+        LibraryApplication.getAppController().switchScene(SceneType.REVIEWS);
     }
 }   

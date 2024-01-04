@@ -8,8 +8,11 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
+@Table(name="review")
 public class Review {
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
+    @Column(name = "id")
     private int id;
 
     private int stars;
@@ -17,6 +20,8 @@ public class Review {
     private String comment;
 
     private LocalDateTime dateTime;
+    @OneToOne(mappedBy = "review")
+    private Rental rental;
 
 
     public Review(){};
@@ -31,6 +36,12 @@ public class Review {
         this.stars = stars;
         this.comment = comment;
         this.dateTime = dateTime;
+    }
+    public Review(int stars, String comment, LocalDateTime dateTime, Rental rental){
+        this.stars = stars;
+        this.comment = comment;
+        this.dateTime = dateTime;
+        this.rental = rental;
     }
 
 

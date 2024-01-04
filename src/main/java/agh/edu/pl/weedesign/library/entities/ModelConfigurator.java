@@ -1,5 +1,6 @@
 package agh.edu.pl.weedesign.library.entities;
 
+import agh.edu.pl.weedesign.library.entities.employee.AccessLevel;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -141,7 +142,7 @@ public class ModelConfigurator {
 
                 bookCopyRepository.saveAll(List.of(bc1, bc2, bc3, bc4, bc5, bc6));
 
-                Employee employee1 = new Employee("Filip", "Jedrzejewski", 1000, "kk@kk.kk", "ppppppp");
+                Employee employee1 = new Employee("Filip", "Jedrzejewski", 1000, "kk@kk.kk", "ppppppp", AccessLevel.ADMIN);
                 Employee employee2 = new Employee("Sebastian", "Soczawa", 976, "ll@kk.kk", "ppppppp");
                 Employee employee3 = new Employee("Piotr", "Sobczynski", 1000, "oo@kk.kk", "ppppppp");
                 Employee employee4 = new Employee("Dominik", "Szot", 1000, "pp@kk.kk", "ppppppp");

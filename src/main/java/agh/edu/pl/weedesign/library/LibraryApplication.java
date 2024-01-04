@@ -2,6 +2,7 @@ package agh.edu.pl.weedesign.library;
 
 import agh.edu.pl.weedesign.library.controllers.LibraryAppController;
 
+import agh.edu.pl.weedesign.library.entities.employee.Employee;
 import agh.edu.pl.weedesign.library.entities.reader.Reader;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -20,10 +21,12 @@ public class LibraryApplication extends Application {
 	private static ConfigurableApplicationContext context;
 
 	private static Reader reader;
+	private static Employee employee;
 
 	public static void main(String[] args) {
 		launch(args);
 	}
+
 
 	@Override
 	public void start(Stage primaryStage) {
@@ -51,5 +54,13 @@ public class LibraryApplication extends Application {
 
 	public static void setReader(Reader r){
 		reader = r;
+	}
+
+	public static Employee getEmployee() {
+		return employee;
+	}
+
+	public static void setEmployee(Employee e) {
+		employee = e;
 	}
 }

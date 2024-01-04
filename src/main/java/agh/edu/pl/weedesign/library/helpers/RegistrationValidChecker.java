@@ -116,4 +116,11 @@ public class RegistrationValidChecker {
         return new ValidCheck(true, "ok");
     }
 
+    public ValidCheck isSalaryValid(String salary){
+        if (!salary.matches("\\d+")){
+            return new ValidCheck(false, "Salary must be an integer");
+        }
+        return new ValidCheck(true, "ok");
+    }
+
 }
