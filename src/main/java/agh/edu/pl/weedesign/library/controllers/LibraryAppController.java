@@ -24,7 +24,7 @@ public class LibraryAppController {
     public void initWelcomeLayout() {
         this.primaryStage.setTitle("Biblioteka");
 
-        currentScene = new Scene(factory.createScene(SceneType.WELCOME));
+        currentScene = new Scene(factory.createScene(SceneType.ADD_EMPLOYEE));
         primaryStage.setScene(currentScene);
         primaryStage.show();
     }

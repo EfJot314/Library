@@ -25,16 +25,36 @@ public class Employee {
     @ManyToOne
     @JoinColumn
     private Employee reports_to;
-
+    private AccessLevel accessLevel;
 
     public Employee(){};
-
-    public Employee(String name, String surname, int salary, String email, String password){
+    public Employee(String name, String surname, int salary, String email, String password) {
         this.name = name;
         this.surname = surname;
         this.salary = salary;
         this.email = email;
         this.password = password;
+    }
+    public Employee(String name, String surname, int salary, String email, String password, AccessLevel accessLevel) {
+        this.name = name;
+        this.surname = surname;
+        this.salary = salary;
+        this.email = email;
+        this.password = password;
+        this.accessLevel = accessLevel;
+    }
+
+    public Employee(String name, String surname, int salary){
+        this.name = name;
+        this.surname = surname;
+        this.salary = salary;
+        this.accessLevel = AccessLevel.NONE;
+    }
+    public Employee(String name, String surname, int salary, AccessLevel accessLevel){
+        this.name = name;
+        this.surname = surname;
+        this.salary = salary;
+        this.accessLevel = accessLevel;
     }
 
 
@@ -73,9 +93,12 @@ public class Employee {
     public Employee getSupervisor(){
         return reports_to;
     }
-
     public String getEmail() {
         return email;
+    }
+    @Override
+    public String toString(){
+        return this.name + " " + this.surname;
     }
 
     public void setEmail(String email) {

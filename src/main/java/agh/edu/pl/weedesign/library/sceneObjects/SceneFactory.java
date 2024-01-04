@@ -23,6 +23,8 @@ public class SceneFactory {
     private final String addReviewViewPath = "/views/addReviewView.fxml";
     private final String reviewsViewPath = "/views/bookReviewsView.fxml";
     private final String employeePanelPath = "/views/employeePanelView.fxml";
+    private final String addEmployeeViewPath = "/views/addEmployeeView.fxml";
+
     public Pane createScene(SceneType sceneType) {
         try {
             switch (sceneType) {
@@ -64,6 +66,9 @@ public class SceneFactory {
                 }
                 case EMPLOYEE_PANEL -> {
                     return loadScene(employeePanelPath);
+                }
+                case ADD_EMPLOYEE -> {
+                    return loadScene(addEmployeeViewPath);
                 }
                 default -> {
                     return null;

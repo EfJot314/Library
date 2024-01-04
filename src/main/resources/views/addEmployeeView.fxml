@@ -11,4 +11,39 @@
             fx:controller="agh.edu.pl.weedesign.library.controllers.AddEmployeeController"
             prefHeight="400.0" prefWidth="600.0">
 
+=======
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Text?>
+
+
+<?import javafx.collections.FXCollections?>
+<AnchorPane
+        fx:controller="agh.edu.pl.weedesign.library.controllers.AddEmployeeController"
+        prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21.0.1"
+        xmlns:fx="http://javafx.com/fxml/1">
+    <TextField layoutX="104.0" layoutY="104.0"/>
+    <TextField layoutX="319.0" layoutY="104.0"/>
+    <TextField layoutX="104.0" layoutY="187.0"/>
+    <Text layoutX="219.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Dodaj nowego pracownika"/>
+    <Text layoutX="104.0" layoutY="88.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Imię"/>
+    <Text layoutX="319.0" layoutY="88.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nazwisko"/>
+    <Text layoutX="105.0" layoutY="177.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Pensja"/>
+    <Text layoutX="319.0" layoutY="177.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Przełożony"/>
+    <ChoiceBox
+            fx:id="reportsToChoiceBox"
+            layoutX="319.0" layoutY="187.0" prefHeight="26.0" prefWidth="162.0">
+    </ChoiceBox>
+    <Text layoutX="105.0" layoutY="266.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Poziom uprawnień"/>
+    <ChoiceBox
+            fx:id="accessLevelChoiceBox"
+            layoutX="104.0" layoutY="284.0" prefHeight="26.0" prefWidth="162.0"/>
+    <Button
+            onAction="#handleAddAction"
+            layoutX="481.0" layoutY="340.0" mnemonicParsing="false" text="Dodaj"/>
+    <Button
+            onAction="#handleCancelAction"
+            layoutX="382.0" layoutY="340.0" mnemonicParsing="false" text="Anuluj"/>
 </AnchorPane>
