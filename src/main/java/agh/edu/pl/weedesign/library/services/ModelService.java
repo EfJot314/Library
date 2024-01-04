@@ -62,6 +62,7 @@ public class ModelService {
     public List<Employee> getEmployees(){
         return employeeRepository.findAll();
     }
+    public void addNewEmployee(Employee e){employeeRepository.save(e);}
     public Employee getEmployeeByEmail(String email){return employeeRepository.findByEmail(email);}
 
     public List<Review> getReviews(){

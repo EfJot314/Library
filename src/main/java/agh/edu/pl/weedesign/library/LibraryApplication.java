@@ -55,6 +55,11 @@ public class LibraryApplication extends Application {
 	public static void setReader(Reader r){
 		reader = r;
 	}
+
+	public static Employee getEmployee() {
+		return employee;
+	}
+
 	public static void setEmployee(Employee e) {
 		employee = e;
 	}

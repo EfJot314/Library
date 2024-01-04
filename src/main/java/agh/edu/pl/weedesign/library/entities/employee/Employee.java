@@ -34,6 +34,7 @@ public class Employee {
         this.salary = salary;
         this.email = email;
         this.password = password;
+        this.accessLevel = AccessLevel.NONE;
     }
     public Employee(String name, String surname, int salary, String email, String password, AccessLevel accessLevel) {
         this.name = name;
@@ -50,12 +51,6 @@ public class Employee {
         this.salary = salary;
         this.accessLevel = AccessLevel.NONE;
     }
-    public Employee(String name, String surname, int salary, AccessLevel accessLevel){
-        this.name = name;
-        this.surname = surname;
-        this.salary = salary;
-        this.accessLevel = accessLevel;
-    }
 
 
     public int getId() {
@@ -64,6 +59,14 @@ public class Employee {
 
     public String getName() {
         return name;
+    }
+
+    public Employee getReports_to() {
+        return reports_to;
+    }
+
+    public AccessLevel getAccessLevel() {
+        return accessLevel;
     }
 
     public void setName(String name) {
