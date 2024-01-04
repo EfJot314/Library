@@ -64,7 +64,7 @@ public class NewBookController {
     }
 
     public void handleCancelAction(){
-        LibraryApplication.getAppController().switchScene(SceneType.BOOK_LIST);
+        LibraryApplication.getAppController().switchScene(SceneType.EMPLOYEE_PANEL);
     }
 
     public void saveBookAction(){

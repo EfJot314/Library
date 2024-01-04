@@ -62,6 +62,7 @@ public class ModelService {
     public List<Employee> getEmployees(){
         return employeeRepository.findAll();
     }
+    public Employee getEmployeeByEmail(String email){return employeeRepository.findByEmail(email);}
 
     public List<Review> getReviews(){
         return reviewRepository.findAll();
@@ -104,4 +105,10 @@ public class ModelService {
         return bookCount;
     }
 
+    public String getEmployeePasswordByEmail(String email) {
+        if (getEmployeeByEmail(email) == null){
+            return null;
+        }
+        return getEmployeeByEmail(email).getPassword();
+    }
 }

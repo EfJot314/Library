@@ -12,5 +12,7 @@ public enum SceneType {
     RENTALS_VIEW,
     START_VIEW,
     REVIEWS,
-    ADD_REVIEW
+    EMPLOYEE_PANEL,
+    ADD_REVIEW,
+    ADD_EMPLOYEE
 }

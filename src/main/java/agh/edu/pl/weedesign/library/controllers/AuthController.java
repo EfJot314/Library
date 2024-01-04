@@ -2,6 +2,7 @@ package agh.edu.pl.weedesign.library.controllers;
 
 import java.util.Objects;
 
+import javafx.scene.control.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -14,10 +15,6 @@ import agh.edu.pl.weedesign.library.sceneObjects.SceneType;
 import agh.edu.pl.weedesign.library.services.ModelService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
 
 
 @Component
@@ -58,6 +55,8 @@ public class AuthController {
     private TextField loginField;
     @FXML
     private PasswordField loginPasswordField;
+    @FXML
+    private CheckBox employeeLoginCheckBox;
 
     @Autowired
     private ModelService service;
@@ -106,11 +105,12 @@ public class AuthController {
 
     public void handleLoginAction(ActionEvent event) {
         String login = loginField.getText();
-        String encryptedRealPassword = service.getReaderPasswordByEmail(login);
+        boolean employeeLogin = employeeLoginCheckBox.isSelected();
+        String encryptedRealPassword = employeeLogin ? service.getEmployeePasswordByEmail(login) : service.getReaderPasswordByEmail(login);
 
         String encryptedUserPassword = passwordEncryptor.encryptMessage(loginPasswordField.getText());
 
-        if (encryptedRealPassword == null){
+        if (encryptedRealPassword == null) {
             System.out.println("Bad login or password");
             return;
         }
@@ -118,11 +118,18 @@ public class AuthController {
             System.out.println("Bad login or password");
             return;
         }
-        if (Objects.equals(encryptedUserPassword, encryptedRealPassword)){
+//        employee login
+        else if (Objects.equals(encryptedUserPassword, encryptedRealPassword) && employeeLogin) {
+            System.out.println("Access granted");
+            LibraryApplication.setEmployee(this.service.getEmployeeByEmail(login));
+            hopToNextScene(SceneType.EMPLOYEE_PANEL);
+        }
+        else if (Objects.equals(encryptedUserPassword, encryptedRealPassword) && !employeeLogin) {
             System.out.println("Access granted");
             LibraryApplication.setReader(this.service.getReaderByEmail(login));
             hopToNextScene(SceneType.START_VIEW);
         }
+
     }
 
     public void hopToNextScene(SceneType sceneType){
