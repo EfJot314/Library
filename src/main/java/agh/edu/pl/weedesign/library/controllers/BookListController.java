@@ -1,18 +1,18 @@
 package agh.edu.pl.weedesign.library.controllers;
 
 
-import java.util.ArrayList;
+
 import java.util.List;
 import java.util.Map;
 
+import agh.edu.pl.weedesign.library.entities.author.Author;
+import agh.edu.pl.weedesign.library.entities.category.Category;
+import agh.edu.pl.weedesign.library.helpers.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import agh.edu.pl.weedesign.library.LibraryApplication;
 import agh.edu.pl.weedesign.library.entities.book.Book;
-import agh.edu.pl.weedesign.library.helpers.BookListProcessor;
-import agh.edu.pl.weedesign.library.helpers.SearchStrategy;
-import agh.edu.pl.weedesign.library.helpers.SortOrder;
 import agh.edu.pl.weedesign.library.sceneObjects.SceneType;
 import agh.edu.pl.weedesign.library.services.ModelService;
 import javafx.beans.property.SimpleStringProperty;
@@ -39,6 +39,10 @@ public class BookListController {
     public ComboBox<SortOrder> sortOrderMenu;
     @FXML
     public CheckBox onlyAvailableCheckbox;
+    @FXML
+    public ComboBox<FilterStrategy> filterStrategyMenu;
+    @FXML
+    public ComboBox<String> filterValueMenu;
 
 
     @FXML
@@ -66,11 +70,15 @@ public class BookListController {
     private ModelService service;
     private BookListProcessor bookListProcessor;
 
+
+
     @Autowired
     public BookListController(ModelService service, BookListProcessor bookListProcessor){
         this.service = service;
         this.bookListProcessor = bookListProcessor;
     }
+
+
 
     @FXML
     public void initialize(){
@@ -100,13 +108,55 @@ public class BookListController {
                 LibraryApplication.getAppController().switchScene(SceneType.BOOK_VIEW);
             }
         });
+
+
+        filterStrategyMenu.setOnAction((e) ->{
+            this.setFilteringMenuContent();
+        });
+    }
+
+    @FXML
+    private void search(ActionEvent actionEvent) {
+        showProcessedBooks();
+    }
+
+    @FXML
+    public void back(ActionEvent actionEvent) {
+//        LibraryApplication.getAppController().switchScene(SceneType.NEW_BOOK_VIEW);
+        LibraryApplication.getAppController().switchScene(SceneType.START_VIEW);
+    }
+
+    @FXML
+    public void clear(ActionEvent actionEvent) {
+        clearSearchingOptions();
+    }
+
+
+    private void setFilteringMenuContent() {
+        if (this.filterStrategyMenu.getValue() == null) {
+            this.filterValueMenu.setItems(FXCollections.observableArrayList());
+            return;
+        }
+        switch (this.filterStrategyMenu.getValue()){
+            case AUTHOR -> {
+                List<Author> authorList = this.service.getAuthors();
+                List<String> surrnameList = authorList.stream().map(Author::getSurname).toList();
+
+                this.filterValueMenu.setItems(FXCollections.observableList(surrnameList));
+            }
+            case CATEGORY -> {
+                List<Category> categories = this.service.getCategories();
+                List<String> categoryNameList = categories.stream().map(Category::getName).toList();
+                this.filterValueMenu.setItems(FXCollections.observableList(categoryNameList));
+            }
+        }
+
     }
 
     private void fetchBooksData(){
-        this.allBooks = new ArrayList<>(this.service.getBooks());
-        this.visibleBooks = FXCollections.observableList(this.allBooks);
         this.booksCount = this.service.getAvailableBookCount();
-        bookTable.setItems(this.visibleBooks);
+
+        showProcessedBooks();
     }
 
     private Book getSelectedBook(){
@@ -125,17 +175,31 @@ public class BookListController {
         LibraryApplication.getAppController().switchScene(SceneType.BOOK_VIEW);
     }
 
-    @FXML
-    private void search(ActionEvent actionEvent) {
-        List<Book> tempBookList = new ArrayList<>(allBooks);
 
-        tempBookList = bookListProcessor.processList(tempBookList,searchStrategyMenu.getValue(), findTextField.getText(),sortStrategyMenu.getValue(),sortOrderMenu.getValue(), onlyAvailableCheckbox.isSelected());
+    private void showProcessedBooks() {
+        List<Book> tempBookList = bookListProcessor.processList(searchStrategyMenu.getValue(), findTextField.getText(),sortStrategyMenu.getValue(),sortOrderMenu.getValue(),filterStrategyMenu.getValue(), filterValueMenu.getValue(), onlyAvailableCheckbox.isSelected());
         this.visibleBooks = FXCollections.observableList(tempBookList);
         bookTable.setItems(this.visibleBooks);
     }
 
-    public void back(ActionEvent actionEvent) {
-//        LibraryApplication.getAppController().switchScene(SceneType.NEW_BOOK_VIEW);
-        LibraryApplication.getAppController().switchScene(SceneType.START_VIEW);
+
+
+    private void clearSearchingOptions() {
+        // Ni chuja nie wiem jak tu zrobić żeby znowu wyświetlił się prompt text, nienawidzę javafx
+        this.searchStrategyMenu.getSelectionModel().clearSelection();
+        this.searchStrategyMenu.setPromptText("Wyszukaj po");
+
+        this.findTextField.setText("");
+
+        this.sortOrderMenu.getSelectionModel().clearSelection();
+        this.sortOrderMenu.setPromptText("Sortuj");
+
+        this.sortStrategyMenu.getSelectionModel().clearSelection();
+        this.sortStrategyMenu.setPromptText("Sortuj po");
+
+        this.filterStrategyMenu.getSelectionModel().clearSelection();
+        this.filterValueMenu.getSelectionModel().clearSelection();
+
+        showProcessedBooks();
     }
 }

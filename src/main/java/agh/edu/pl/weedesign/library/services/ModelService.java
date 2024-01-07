@@ -71,6 +71,8 @@ public class ModelService {
 
     public List<Rental> getRentals() {return rentalRepository.findAll();}
 
+    public List<Author> getAuthors() {return authorRepository.findAll();}
+
     public List<Rental> getRentalsByReaderEmail(String email){return rentalRepository.findRentalsByReader(this.getReaderByEmail(email));}
 
     public List<Rental> getRentalsByReader(Reader reader){
@@ -111,5 +113,9 @@ public class ModelService {
             return null;
         }
         return getEmployeeByEmail(email).getPassword();
+    }
+
+    public List<Book> getAllBooksByAuthorSurnameOrCategoryName(String authorSurname, String categoryName) {
+        return this.bookRepository. getAllByAuthorSurnameOrCategoryName(authorSurname, categoryName);
     }
 }

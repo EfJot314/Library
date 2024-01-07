@@ -17,6 +17,7 @@
 <?import agh.edu.pl.weedesign.library.helpers.SearchStrategy?>
 <?import agh.edu.pl.weedesign.library.helpers.SortOrder?>
 
+<?import agh.edu.pl.weedesign.library.helpers.FilterStrategy?>
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="438.0" prefWidth="760.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="agh.edu.pl.weedesign.library.controllers.BookListController">
    <top>
       <HBox prefHeight="100.0" prefWidth="200.0" spacing="20.0" BorderPane.alignment="CENTER">
@@ -67,12 +68,32 @@
                   </ComboBox>
                </children>
             </VBox>
+            <VBox  prefHeight="80.0" prefWidth="162.0">
+               <children>
+                  <Label prefHeight="25.0" prefWidth="235.0" text="Filtruj">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Label>
+                  <ComboBox fx:id="filterStrategyMenu" prefWidth="150.0" promptText="Filtruj po">
+                     <items>
+                        <FXCollections fx:factory="observableArrayList">
+                           <FilterStrategy fx:value="AUTHOR"/>
+                           <FilterStrategy fx:value="CATEGORY"/>
+                        </FXCollections>
+                     </items>
+                  </ComboBox>
+                  <ComboBox fx:id="filterValueMenu" prefWidth="150.0" promptText="Filtruj" >
+                  </ComboBox>
+               </children>
+            </VBox>
             <VBox prefHeight="60.0" prefWidth="151.0">
                <children>
                   <CheckBox fx:id="onlyAvailableCheckbox" onAction="#search" mnemonicParsing="false" prefHeight="0.0" prefWidth="151.0" text="Tylko dostępne" />
                </children>
             </VBox>
             <Button onAction="#search">Szukaj</Button>
+            <Button onAction="#clear">Wyczyść</Button>
             <Button onAction="#back">Wróć</Button>
          </children>
          <padding>
