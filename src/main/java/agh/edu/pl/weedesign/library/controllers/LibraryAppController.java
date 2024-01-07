@@ -3,8 +3,10 @@ package agh.edu.pl.weedesign.library.controllers;
 
 import org.springframework.context.ConfigurableApplicationContext;
 
+import agh.edu.pl.weedesign.library.LibraryApplication;
 import agh.edu.pl.weedesign.library.sceneObjects.SceneFactory;
 import agh.edu.pl.weedesign.library.sceneObjects.SceneType;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
@@ -24,13 +26,17 @@ public class LibraryAppController {
     public void initWelcomeLayout() {
         this.primaryStage.setTitle("Biblioteka");
 
-        currentScene = new Scene(factory.createScene(SceneType.WELCOME));
+        currentScene = new Scene(factory.createScene(SceneType.BOOK_LIST));
+        LibraryApplication.getAppController().resize(1000, 800);
+
         primaryStage.setScene(currentScene);
         primaryStage.show();
     }
 
     public void switchScene(SceneType sceneType){
+        currentScene.setUserData(currentScene.getRoot());
         currentScene.setRoot(factory.createScene(sceneType));
+        LibraryApplication.getAppController().resize(1000, 800);
     }
 
     public void saveData(Object obj){
@@ -44,6 +50,20 @@ public class LibraryAppController {
     public void resize(int width, int height){
         this.primaryStage.setWidth(width);
         this.primaryStage.setHeight(height);
+    }
+
+    public void back(){
+        currentScene.setRoot((Parent)currentScene.getUserData());
+    }
+
+    public void forward(){
+        currentScene.setRoot((Parent)currentScene.getUserData());
+    }
+
+    public void logOut(){
+        switchScene(SceneType.LOGIN);
+        LibraryApplication.setEmployee(null);
+        LibraryApplication.setReader(null);
     }
 
 }

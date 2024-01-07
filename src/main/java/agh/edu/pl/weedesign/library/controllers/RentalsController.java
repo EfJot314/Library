@@ -13,8 +13,11 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.ToggleButton;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
@@ -43,6 +46,19 @@ public class RentalsController {
     @FXML
     private TableColumn<Rental, String> endDateColumn;
 
+    // Navbar controls 
+    @FXML
+    private Button mainPage; 
+
+    @FXML
+    private Button myRentals; 
+
+    @FXML
+    private Button logOut; 
+
+    @FXML 
+    private ToggleButton themeChange;
+
 
     private List<Rental> rentals;
     private Rental selectedRental;
@@ -62,10 +78,9 @@ public class RentalsController {
     @FXML
     public void initialize(){
         fetchRentalsData();
-        LibraryApplication.getAppController().resize(760, 440);
 
         titleColumn.setCellValueFactory(rentalValue -> new SimpleStringProperty(rentalValue.getValue().getBookCopy().getBook().getTitle()));
-        authorColumn.setCellValueFactory(rentalValue -> new SimpleStringProperty(rentalValue.getValue().getBookCopy().getBook().getAuthor().getName() + " " + rentalValue.getValue().getBookCopy().getBook().getAuthor().getSurname()));
+        authorColumn.setCellValueFactory(rentalValue -> new SimpleStringProperty(rentalValue.getValue().getBookCopy().getBook().getAuthorString()));
         priceColumn.setCellValueFactory(rentalValue -> {
             if(rentalValue.getValue().getEnd_date() == null)
                 return new SimpleStringProperty(rentalValue.getValue().countPrice(LocalDateTime.now()) + " zł");
@@ -105,6 +120,10 @@ public class RentalsController {
     }
     public Rental getSelectedRental(){
         return this.selectedRental;
+    }
+
+    public void changeTheme(){
+        LibraryApplication.changeTheme("");
     }
 
 }

@@ -42,14 +42,16 @@ public class BookListProcessor {
         switch (searchBy){
             case NAME -> {
                 for (Book book : books) {
-                    if (book.getAuthor().getName().toLowerCase().contains(searchLowerCase)) {
+                    // Do poprawienia!
+                    if (book.getAuthorString().toLowerCase().contains(searchLowerCase)) {
                         tempBooks.add(book);
                     }
                 }
             }
             case SURNAME -> {
                 for (Book book : books) {
-                    if (book.getAuthor().getSurname().toLowerCase().contains(searchLowerCase)) {
+                    // Do poprawienia!
+                    if (book.getAuthorString().toLowerCase().contains(searchLowerCase)) {
                         tempBooks.add(book);
                     }
                 }
@@ -66,10 +68,11 @@ public class BookListProcessor {
     }
 
     // THIS METHOD SORTS IN PLACE!!!
+    // Zmiana!
     private void sort(List<Book> books, SearchStrategy sortStrategy, SortOrder order){
         Comparator<Book> comparator = switch (sortStrategy) {
-            case NAME -> Comparator.comparing(book -> book.getAuthor().getName());
-            case SURNAME -> Comparator.comparing(book -> book.getAuthor().getSurname());
+            case NAME -> Comparator.comparing(book -> book.getAuthorString());
+            case SURNAME -> Comparator.comparing(book -> book.getAuthorString());
             case TITLE -> Comparator.comparing(Book::getTitle);
         };
 

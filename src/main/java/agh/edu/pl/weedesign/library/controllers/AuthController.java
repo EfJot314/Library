@@ -47,19 +47,31 @@ public class AuthController {
     private Button registerButton;
     @FXML
     private Button cancelButton;
+    @FXML
+    private Label signInLabel;
+    @FXML
+    private Label MessageLabel;
 
     // login view
-    @FXML
-    private Button loginButton;
+
     @FXML
     private TextField loginField;
+
     @FXML
     private PasswordField loginPasswordField;
+
+    @FXML
+    private Button loginButton;
+
     @FXML
     private CheckBox employeeLoginCheckBox;
 
+    @FXML 
+    private Label signUp;
+
     @Autowired
     private ModelService service;
+    
     @Autowired
     private RegistrationValidChecker checker;
 
@@ -76,17 +88,19 @@ public class AuthController {
         try {
             checkerGuard(checker.isRegisterNameValid(nameField.getText()));
             checkerGuard(checker.isRegisterSurnameValid(nameField.getText()));
+            checkerGuard(checker.isRegisterPasswordValid(passwordField.getText()));
+            checkerGuard(checker.isRegisterCountryValid(countryField.getText()));
             checkerGuard(checker.isRegisterCityValid(cityField.getText()));
             checkerGuard(checker.isRegisterVoivodeshipValid(cityField.getText()));
             checkerGuard(checker.isRegisterPostcodeValid(postcodeField.getText()));
-            checkerGuard(checker.isRegisterCountryValid(countryField.getText()));
             checkerGuard(checker.isRegisterEmailValid(emailField.getText()));
-            checkerGuard(checker.isRegisterPasswordValid(passwordField.getText()));
             checkerGuard(checker.isPhoneNumberValid(phoneField.getText()));
             checkerGuard(checker.isRegisterBirthdateValid(birthDateField.getValue()));
             checkerGuard(checker.isRegisterSexValid(sexField.getText()));
-        } catch (IllegalArgumentException e ){
+        } catch (Exception e ){
             System.out.println(e.getMessage());
+            MessageLabel.setText(e.getMessage());
+            MessageLabel.setVisible(true);
             return;
         }
         finally {
@@ -112,10 +126,14 @@ public class AuthController {
 
         if (encryptedRealPassword == null) {
             System.out.println("Bad login or password");
+            MessageLabel.setText("Bad login or password");
+            MessageLabel.setVisible(true);
             return;
         }
         if (!Objects.equals(encryptedUserPassword, encryptedRealPassword)){
             System.out.println("Bad login or password");
+            MessageLabel.setText("Bad login or password");
+            MessageLabel.setVisible(true);
             return;
         }
 //        employee login
@@ -127,7 +145,7 @@ public class AuthController {
         else if (Objects.equals(encryptedUserPassword, encryptedRealPassword) && !employeeLogin) {
             System.out.println("Access granted");
             LibraryApplication.setReader(this.service.getReaderByEmail(login));
-            hopToNextScene(SceneType.START_VIEW);
+            hopToNextScene(SceneType.BOOK_LIST);
         }
 
     }
@@ -142,12 +160,18 @@ public class AuthController {
         }
     }
 
+    public void signUpButtonClicked(){
+        hopToNextScene(SceneType.REGISTER);
+    }
+
     @FXML
     private void handleCancelAction(ActionEvent event){
         LibraryApplication.getAppController().switchScene(SceneType.WELCOME);
     }
 
-
+    public void signInActionHandle(){
+        hopToNextScene(SceneType.LOGIN);
+    }
 
     private void printFields(){
         System.out.println("---------------------FORM----------------------");

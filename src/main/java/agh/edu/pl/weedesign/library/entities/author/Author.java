@@ -6,11 +6,12 @@ import javax.persistence.*;
 import agh.edu.pl.weedesign.library.entities.book.Book;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 @Entity
-@Table(name="AUTHOR")
+@Table(name="Author")
 public class Author {
     @Id @GeneratedValue
     private int id;
@@ -22,8 +23,8 @@ public class Author {
     @Column(length = 1024)
     private String bio;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Book> books;
+    @ManyToMany(mappedBy = "authors")
+    private Set<Book> books = new HashSet<Book>();
 
     public Author(){}
 
@@ -65,4 +66,7 @@ public class Author {
         this.books.add(book);
     }
 
+    public String getFormattedName(){
+        return this.getName() + " " + this.getSurname();
+    }
 }

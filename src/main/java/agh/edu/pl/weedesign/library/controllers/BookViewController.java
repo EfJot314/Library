@@ -2,18 +2,21 @@ package agh.edu.pl.weedesign.library.controllers;
 
 import java.io.IOException;
 
-import agh.edu.pl.weedesign.library.helpers.DataProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import agh.edu.pl.weedesign.library.LibraryApplication;
 import agh.edu.pl.weedesign.library.entities.book.Book;
+import agh.edu.pl.weedesign.library.helpers.DataProvider;
 import agh.edu.pl.weedesign.library.models_mvc.RentalModel;
 import agh.edu.pl.weedesign.library.sceneObjects.SceneType;
+import antlr.debug.Event;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -46,14 +49,41 @@ public class BookViewController {
     @FXML
     private Button cancel_button;
 
+    // navbar 
+    @FXML 
+    private Button mainPage;
+
+    @FXML
+    private Button  myRentals;
+
+    @FXML 
+    private ChoiceBox<String> themeChange;
+
+    @FXML 
+    private Button logOut; 
+    
+    private String[] themes = {
+        "Cupertino Dark",
+        "Cupertino Light",
+        "Dracula",
+        "Nord Dark", 
+        "Nord Light", 
+        "Primer Dark", 
+        "Primer Light"
+    };
+
     @FXML
     public void initialize() throws IOException  {
         // Pobieram wybraną książkę za pomocą metody getUserData która 
         // pozwala na zapisywanie obieków w scenie
 
-        LibraryApplication.getAppController().resize(650, 550); 
+        this.book = LibraryApplication.getBook();
 
-        this.book = (Book)LibraryApplication.getAppController().getData();  
+        themeChange.getItems().addAll(themes);
+        themeChange.setOnAction(this::changeTheme);
+        themeChange.setValue(LibraryApplication.getTheme());
+
+        System.out.println(this.book);
         
         if(this.book == null){
             System.out.println("No book was selected");
@@ -64,8 +94,7 @@ public class BookViewController {
         book_title_label.setText(book.getTitle());
 
         author_label.setText(
-            "Autor: " + book.getAuthor().getName() 
-                + " " + book.getAuthor().getSurname()
+            "Autor: " + book.getAuthorString()
         );
 
         Image img;
@@ -86,11 +115,35 @@ public class BookViewController {
 
     public void handleRentAction(ActionEvent e){
         //switching to rental view
-        LibraryApplication.getAppController().saveData(this.book);
         LibraryApplication.getAppController().switchScene(SceneType.COPIES_VIEW);
     }
+
     public void handleShowReviewsAction(){
         DataProvider.setSelectedBook(book);
         LibraryApplication.getAppController().switchScene(SceneType.REVIEWS);
+    }
+
+    public void goBackAction(){
+        LibraryApplication.getAppController().back();
+    }
+
+    public void goForwardAction(){
+        LibraryApplication.getAppController().forward();
+    }
+
+    public void mainPageButtonHandler(){
+        LibraryApplication.getAppController().switchScene(SceneType.BOOK_LIST); 
+    }
+
+    public void myRentalsButtonHandler(){
+        LibraryApplication.getAppController().switchScene(SceneType.RENTALS_VIEW); 
+    }
+
+    public void changeTheme(ActionEvent e){
+        LibraryApplication.changeTheme(themeChange.getValue());
+    }
+
+    public void LogOutAction(){
+        LibraryApplication.getAppController().logOut();
     }
 }   

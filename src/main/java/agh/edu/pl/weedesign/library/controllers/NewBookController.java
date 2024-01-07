@@ -96,7 +96,7 @@ public class NewBookController {
 
     @FXML
     public void initialize(){
-        LibraryApplication.getAppController().resize(600, 600);
+        
     }
 
 }

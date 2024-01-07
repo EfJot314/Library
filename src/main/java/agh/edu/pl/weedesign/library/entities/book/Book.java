@@ -8,12 +8,14 @@ import agh.edu.pl.weedesign.library.entities.bookCopy.BookCopy;
 import agh.edu.pl.weedesign.library.entities.category.Category;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
-@Table(name="BOOK")
+@Table(name="Book")
 public class Book {
     
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,12 +33,14 @@ public class Book {
 
     private String cover_url;
 
-    @ManyToOne(fetch = FetchType.EAGER) // WARNING! (Pepe) - zmieniłem tu na EAGER bo nie wiedzialem jak się dostać do autora
-    @JoinColumn(name="author_id")
-    private Author author;
+    @ManyToMany(fetch=FetchType.EAGER)
+    @JoinTable(name = "book_author", 
+            joinColumns = { @JoinColumn(name = "book_id") }, 
+            inverseJoinColumns = { @JoinColumn(name = "author_id") })
+    private Set<Author> authors = new HashSet<Author>();
 
-    @ManyToOne
-    private Category category;
+    @ManyToMany
+    private Set<Category> category = new HashSet<>();
 
     @OneToMany(mappedBy="book")
     private Set<BookCopy> bookCopies;
@@ -97,19 +101,26 @@ public class Book {
     }
 
     public void setAuthor(Author author){
-        this.author = author;
+        this.authors.add(author);
     }
 
-    public Author getAuthor(){
-        return author;
+    public Set<Author> getAuthor(){
+        return authors;
     }
+
+    public String getAuthorString(){
+        return this.authors.stream()
+            .map(e ->  e.getFormattedName())
+            .collect(Collectors.joining(","));
+    }
+
 
     public void setCategory(Category category){
-        this.category = category;
+        this.category.add(category);
     }
 
-    public Category getCategory(){
-        return category;
+    public Set<Category> getCategory(){
+        return this.category;
     }
 
     public Set<BookCopy> getCopies(){

@@ -38,6 +38,28 @@ public class BookCopiesController {
     @FXML
     private TableColumn<BookCopy, String> availabilityColumn;
 
+    // Navbar controls 
+    @FXML
+    private Button mainPage; 
+
+    @FXML
+    private Button myRentals; 
+
+    @FXML
+    private Button logOut; 
+
+    @FXML 
+    private ChoiceBox<String> themeChange;
+
+    private String[] themes = {
+        "Cupertino Dark",
+        "Cupertino Light",
+        "Dracula",
+        "Nord Dark", 
+        "Nord Light", 
+        "Primer Dark", 
+        "Primer Light"
+    };
 
     private List<BookCopy> bookCopies;
 
@@ -57,9 +79,12 @@ public class BookCopiesController {
 
     @FXML
     public void initialize(){
-        fetchCopiesData();
-        LibraryApplication.getAppController().resize(760, 440);
 
+        themeChange.getItems().addAll(themes);
+        themeChange.setOnAction(this::changeTheme);
+        themeChange.setValue(LibraryApplication.getTheme());
+
+        fetchCopiesData();
 
         idColumn.setCellValueFactory(copyValue -> new SimpleStringProperty(String.valueOf(copyValue.getValue().getId())));
         conditionColumn.setCellValueFactory(copyValue -> new SimpleStringProperty(copyValue.getValue().getCondition()));
@@ -91,15 +116,33 @@ public class BookCopiesController {
     }
 
     private void fetchCopiesData(){
-        this.book = (Book)LibraryApplication.getAppController().getData();
+        this.book = LibraryApplication.getBook();
         this.bookCopies = new ArrayList<>(this.service.getCopies(this.book));
         bookTable.setItems(FXCollections.observableList(this.bookCopies));
     }
 
+    public void goBackAction(){
+        LibraryApplication.getAppController().back();
+    }
 
-    @FXML
-    private void back(ActionEvent actionEvent) {
-        LibraryApplication.getAppController().switchScene(SceneType.BOOK_LIST);
+    public void goForwardAction(){
+        LibraryApplication.getAppController().forward();
+    }
+
+    public void mainPageButtonHandler(){
+        LibraryApplication.getAppController().switchScene(SceneType.BOOK_LIST); 
+    }
+
+    public void myRentalsButtonHandler(){
+        LibraryApplication.getAppController().switchScene(SceneType.RENTALS_VIEW); 
+    }
+
+    public void changeTheme(ActionEvent e){
+        LibraryApplication.changeTheme(themeChange.getValue());
+    }
+
+    public void LogOutAction(){
+        LibraryApplication.getAppController().logOut();
     }
 
 }

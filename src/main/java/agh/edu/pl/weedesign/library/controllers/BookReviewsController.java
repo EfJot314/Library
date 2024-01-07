@@ -48,7 +48,6 @@ public class BookReviewsController {
 
     @FXML
     public void initialize(){
-        LibraryApplication.getAppController().resize(850, 550);
 
         this.book = DataProvider.getSelectedBook();
 

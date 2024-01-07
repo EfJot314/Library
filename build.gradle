@@ -15,6 +15,7 @@ application {
 java {
 	sourceCompatibility = '17'
 }
+
 javafx {
 	version = "21.0.1"
 	modules = [ 'javafx.controls', 'javafx.fxml' ]
@@ -44,6 +45,8 @@ dependencies {
 	testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
 	testImplementation "org.testfx:testfx-junit5:4.0.17"
 	testImplementation 'org.awaitility:awaitility:4.2.0'
+	implementation 'io.github.mkpaz:atlantafx-base:2.0.1'
+	implementation "org.jsoup:jsoup:1.16.1"
 }
 
 
