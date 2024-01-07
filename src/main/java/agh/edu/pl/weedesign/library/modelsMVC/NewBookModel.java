@@ -1,4 +1,4 @@
-package agh.edu.pl.weedesign.library.models_mvc;
+package agh.edu.pl.weedesign.library.modelsMVC;
 
 import java.util.ArrayList;
 
@@ -73,7 +73,10 @@ public class NewBookModel {
 
     public void setTitle(String title){
         if(title == "")
-            throw new IllegalArgumentException("[ERR] Empty Title!");
+            throw new IllegalArgumentException("[ERR] Pusty tytuł!");
+        
+        if(title.length() < 255)
+            throw new IllegalArgumentException("[ERR] Zbyt długi tytuł (Max. 255 znaków)!");
 
         this.title = title; 
     }
@@ -84,7 +87,10 @@ public class NewBookModel {
 
     public void setDescription(String description){
         if(description == "")
-            throw new IllegalArgumentException("[ERR] Empty Description!");
+            throw new IllegalArgumentException("[ERR] Brak Opisu!");
+        
+        if(description.length() < 255)
+            throw new IllegalArgumentException("[ERR] Zbyt długi opis (Max. 255 znaków)!");
         
         this.description = description;
     }

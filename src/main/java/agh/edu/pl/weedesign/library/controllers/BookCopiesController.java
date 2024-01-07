@@ -6,7 +6,8 @@ import agh.edu.pl.weedesign.library.entities.book.Book;
 import agh.edu.pl.weedesign.library.entities.bookCopy.BookCopy;
 import agh.edu.pl.weedesign.library.entities.rental.Rental;
 import agh.edu.pl.weedesign.library.helpers.BookListProcessor;
-import agh.edu.pl.weedesign.library.models_mvc.RentalModel;
+import agh.edu.pl.weedesign.library.helpers.Themes;
+import agh.edu.pl.weedesign.library.modelsMVC.RentalModel;
 import agh.edu.pl.weedesign.library.sceneObjects.SceneType;
 import agh.edu.pl.weedesign.library.services.ModelService;
 import javafx.beans.property.SimpleStringProperty;
@@ -51,16 +52,6 @@ public class BookCopiesController {
     @FXML 
     private ChoiceBox<String> themeChange;
 
-    private String[] themes = {
-        "Cupertino Dark",
-        "Cupertino Light",
-        "Dracula",
-        "Nord Dark", 
-        "Nord Light", 
-        "Primer Dark", 
-        "Primer Light"
-    };
-
     private List<BookCopy> bookCopies;
 
     private Book book;
@@ -80,7 +71,7 @@ public class BookCopiesController {
     @FXML
     public void initialize(){
 
-        themeChange.getItems().addAll(themes);
+        themeChange.getItems().addAll(Themes.getAllThemes());
         themeChange.setOnAction(this::changeTheme);
         themeChange.setValue(LibraryApplication.getTheme());
 

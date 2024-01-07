@@ -1,4 +1,4 @@
-package agh.edu.pl.weedesign.library.models_mvc;
+package agh.edu.pl.weedesign.library.modelsMVC;
 
 import agh.edu.pl.weedesign.library.entities.reader.Reader;
 import agh.edu.pl.weedesign.library.services.ReaderService;

@@ -1,4 +1,4 @@
-package agh.edu.pl.weedesign.library.models_mvc;
+package agh.edu.pl.weedesign.library.modelsMVC;
 
 import java.util.HashMap;
 import java.util.Objects;

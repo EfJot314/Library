@@ -76,27 +76,27 @@ public class Book {
         this.description = description;
     }
 
-    public int getPage_count() {
+    public int getPageCount() {
         return page_count;
     }
 
-    public void setPage_count(int page_count) {
+    public void setPageCount(int page_count) {
         this.page_count = page_count;
     }
 
-    public String getTable_of_content() {
+    public String getTableOfContent() {
         return table_of_content;
     }
 
-    public void setTable_of_content(String table_of_content) {
+    public void setTableOfContent(String table_of_content) {
         this.table_of_content = table_of_content;
     }
 
-    public String getCover_url() {
+    public String getCoverUrl() {
         return cover_url;
     }
 
-    public void setCover_url(String cover_url) {
+    public void setCoverUrl(String cover_url) {
         this.cover_url = cover_url;
     }
 

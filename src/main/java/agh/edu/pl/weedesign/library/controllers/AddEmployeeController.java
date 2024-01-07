@@ -23,26 +23,37 @@ import java.util.List;
 public class AddEmployeeController {
     @FXML
     public TextField emailInput;
+
     @FXML
     public TextField salaryInput;
+
     @FXML
     public TextField surnameInput;
+
     @FXML
     public TextField nameInput;
+
     @FXML
     public TextField passwordInput;
+
     @FXML
     public Button addButton;
+
     @FXML
     public Button cancelButton;
+
     @FXML
     private ChoiceBox<Employee> reportsToChoiceBox;
+
     @FXML
     private ChoiceBox<AccessLevel> accessLevelChoiceBox;
+
     @Autowired
     private RegistrationValidChecker checker;
+
     @Autowired
     private Encryptor passwordEncryptor;
+    
     @Autowired
     private ModelService service;
 

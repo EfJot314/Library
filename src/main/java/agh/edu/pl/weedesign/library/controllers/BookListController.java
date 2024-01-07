@@ -2,6 +2,7 @@ package agh.edu.pl.weedesign.library.controllers;
 
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -13,6 +14,7 @@ import agh.edu.pl.weedesign.library.entities.book.Book;
 import agh.edu.pl.weedesign.library.helpers.BookListProcessor;
 import agh.edu.pl.weedesign.library.helpers.SearchStrategy;
 import agh.edu.pl.weedesign.library.helpers.SortOrder;
+import agh.edu.pl.weedesign.library.helpers.Themes;
 import agh.edu.pl.weedesign.library.sceneObjects.SceneType;
 import agh.edu.pl.weedesign.library.services.ModelService;
 import javafx.beans.property.SimpleStringProperty;
@@ -59,6 +61,7 @@ public class BookListController {
     @FXML
     private CheckBox changeView;
 
+    // Tabel view
     @FXML
     private TableView<Book> bookTable;
 
@@ -74,6 +77,7 @@ public class BookListController {
     @FXML
     private TableColumn<Book, String> availabilityColumn;
 
+    // Tiles View
     @FXML
     private AnchorPane mainAnchor;
 
@@ -96,16 +100,6 @@ public class BookListController {
    @FXML 
     private ChoiceBox<String> themeChange;
 
-    private String[] themes = {
-        "Cupertino Dark",
-        "Cupertino Light",
-        "Dracula",
-        "Nord Dark", 
-        "Nord Light", 
-        "Primer Dark", 
-        "Primer Light"
-    };
-
     private boolean isTableVisible = false;
 
     private List<Book> allBooks;
@@ -126,7 +120,7 @@ public class BookListController {
 
     @FXML
     public void initialize(){
-        themeChange.getItems().addAll(themes);
+        themeChange.getItems().addAll(Themes.getAllThemes());
         themeChange.setOnAction(this::changeTheme);
         themeChange.setValue(LibraryApplication.getTheme());
 
@@ -134,8 +128,11 @@ public class BookListController {
         bookTable.setVisible(isTableVisible);
 
         fetchBooksData();
-        displayBooks();
+        initializeTilesDisplay();
+        initializeTabelDisplay();
+    }
 
+    private void initializeTabelDisplay(){
         titleColumn.setCellValueFactory(bookValue -> new SimpleStringProperty(bookValue.getValue().getTitle()));
         authorColumn.setCellValueFactory(bookValue -> new SimpleStringProperty(bookValue.getValue().getAuthorString()));
         ratingColumn.setCellValueFactory(bookValue -> new SimpleStringProperty("4.2")); // TODO - implement rating
@@ -150,7 +147,6 @@ public class BookListController {
             return new SimpleStringProperty(booksCount.get(bookValue.getValue()).toString());
         });
 
-
         bookTable.setOnMousePressed(event -> {
             if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
                 if (getSelectedBook() == null){
@@ -162,59 +158,51 @@ public class BookListController {
         });
     }
 
-    private void displayBooks(){
-            mainViewBox.getChildren().clear();
-            rows.clear();
+    private void initializeTilesDisplay(){
+        mainViewBox.getChildren().clear();
+        rows.clear();
 
-            for(int i = 0 ; i <= this.visibleBooks.size()/5; i++)
-                rows.add(new HBox());
-            
+        for(int i = 0 ; i <= this.visibleBooks.size()/5; i++)
+            rows.add(new HBox());
+        
+        int i = 0;
+
+        for(Book b: this.visibleBooks){
+            ImageView newCover = new ImageView();
+            newCover.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+
+                @Override 
+                public void handle(MouseEvent event){
+                    if(LibraryApplication.getBook() == b)
+                        LibraryApplication.getAppController().switchScene(SceneType.BOOK_VIEW);
+                    
+                    LibraryApplication.setBook(b);
+                    System.out.println(LibraryApplication.getBook());
+                }
+            }
+            );
+
+            newCover.setFitHeight(300);
+            newCover.setFitWidth(194);
+            newCover.maxHeight(300);
+            newCover.maxWidth(194);
+
             Image img;
-            int i = 0;
 
-            for(Book b: this.visibleBooks){
-                ImageView newCover = new ImageView();
-                newCover.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-
-                    @Override 
-                    public void handle(MouseEvent event){
-                        if(LibraryApplication.getBook() == b)
-                            LibraryApplication.getAppController().switchScene(SceneType.BOOK_VIEW);
-                        
-                        LibraryApplication.setBook(b);
-                        System.out.println(LibraryApplication.getBook());
-                    }
-                }
-                );
-
-                newCover.setFitHeight(300);
-                newCover.setFitWidth(194);
-                newCover.maxHeight(300);
-                newCover.maxWidth(194);
-
-                try {
-                    // System.out.println(b.getCover_url());
-                    img = new Image("" + b.getCover_url() + "", true);
-                    newCover.setImage(img);
-                } catch (Exception e){
-                    img = new Image(getClass().getClassLoader().getResource("default_book_cover_2015.jpg").toString(), true);
-                    newCover.setImage(img);
-                }
-
-                rows.get(Integer.valueOf(i/5)).getChildren().add(newCover);
-                i++;
+            try {
+                img = new Image("" + b.getCoverUrl() + "", true);
+            } catch (Exception e){
+                img = new Image(getClass().getClassLoader().getResource("default_book_cover_2015.jpg").toString(), true);
             }
 
-            for(HBox x : rows)
-                mainViewBox.getChildren().add(x);
-
-            // System.out.println("Visble Books: " + this.visibleBooks.size());
-            // System.out.println("No of. rows: " + this.rows.size());
-            // System.out.println("Javafx visible property: " + this.scrollPane.isVisible() + " " + mainViewBox.isVisible() + " " + mainAnchor.isVisible());
-            // System.out.println("Main View Children Counter: " + this.mainViewBox.getChildren().size());
-            // System.out.println("Size of Main View: " + this.mainAnchor.getWidth() + "x"+  this.mainAnchor.getHeight());
-        
+            newCover.setImage(img);
+            rows.get(Integer.valueOf(i/5)).getChildren().add(newCover);
+            i++;
         }
+
+        for(HBox x : rows)
+            mainViewBox.getChildren().add(x);
+    }
 
     private void fetchBooksData(){
         this.allBooks = new ArrayList<>(this.service.getBooks());
@@ -234,7 +222,8 @@ public class BookListController {
         tempBookList = bookListProcessor.processList(tempBookList,searchStrategyMenu.getValue(), findTextField.getText(),sortStrategyMenu.getValue(),sortOrderMenu.getValue(), onlyAvailableCheckbox.isSelected());
         this.visibleBooks = FXCollections.observableList(tempBookList);
         bookTable.setItems(this.visibleBooks);
-        displayBooks();
+        
+        initializeTilesDisplay();
     }
 
     public void changeView(){

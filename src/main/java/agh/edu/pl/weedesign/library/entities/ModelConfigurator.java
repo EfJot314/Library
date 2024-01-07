@@ -45,6 +45,7 @@ public class ModelConfigurator {
     CommandLineRunner commandLineRunner(AuthorRepository authorRepository, BookRepository bookRepository, BookCopyRepository bookCopyRepository, CategoryRepository categoryRepository, EmployeeRepository employeeRepository, ReaderRepository readerRepository, RentalRepository rentalRepository, ReviewRepository reviewRepository) {
         return args -> {
             if (bookRepository.count() == 0) {
+                // TODO: Opis jest przycinany w złych miejscach + Poprawić Autorów i Kategorie! 
 
                 Map<Object, Object> bookPrice = Stream.of(
                     new AbstractMap.SimpleEntry<>("very good", 25),
@@ -60,7 +61,7 @@ public class ModelConfigurator {
                 while ((line = br.readLine()) != null) {
                         String[] values = line.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)");
                         records.add(Arrays.asList(values));
-                        }
+                    }
                 }
                 
                 for(List<String> line: records){
@@ -72,9 +73,7 @@ public class ModelConfigurator {
                             no_pages = 0;
                         }
 
-                        
-                        // System.out.print("COVER: "+ line.get(6));
-
+                
                         // Create new book 
                         Book book1 = new Book(
                                 line.get(2),
@@ -85,7 +84,7 @@ public class ModelConfigurator {
                         );
 
                         // Set Authors
-                        String[] authors = line.get(4).split(",");
+                        String[] authors = line.get(4).split(";");
 
                         for(String author : authors){
                             int i = author.lastIndexOf(" ");

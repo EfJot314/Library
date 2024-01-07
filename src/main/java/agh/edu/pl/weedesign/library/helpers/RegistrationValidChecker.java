@@ -3,7 +3,7 @@ package agh.edu.pl.weedesign.library.helpers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import agh.edu.pl.weedesign.library.models_mvc.*;
+import agh.edu.pl.weedesign.library.modelsMVC.*;
 import agh.edu.pl.weedesign.library.services.ModelService;
 
 import java.time.LocalDate;

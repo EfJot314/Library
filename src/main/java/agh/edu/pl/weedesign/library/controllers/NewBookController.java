@@ -6,7 +6,7 @@ import org.springframework.stereotype.Controller;
 
 import agh.edu.pl.weedesign.library.LibraryApplication;
 import agh.edu.pl.weedesign.library.helpers.Categories;
-import agh.edu.pl.weedesign.library.models_mvc.NewBookModel;
+import agh.edu.pl.weedesign.library.modelsMVC.NewBookModel;
 import agh.edu.pl.weedesign.library.sceneObjects.SceneType;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;

@@ -1,8 +1,5 @@
 package agh.edu.pl.weedesign.library.controllers;
-
-
 import org.springframework.context.ConfigurableApplicationContext;
-
 import agh.edu.pl.weedesign.library.LibraryApplication;
 import agh.edu.pl.weedesign.library.sceneObjects.SceneFactory;
 import agh.edu.pl.weedesign.library.sceneObjects.SceneType;
@@ -25,7 +22,6 @@ public class LibraryAppController {
 
     public void initWelcomeLayout() {
         this.primaryStage.setTitle("Biblioteka");
-
         currentScene = new Scene(factory.createScene(SceneType.BOOK_LIST));
         LibraryApplication.getAppController().resize(1000, 800);
 
@@ -53,6 +49,7 @@ public class LibraryAppController {
     }
 
     public void back(){
+        // Poprzednia scena jest przechowywana na razie w UserDataSceny
         currentScene.setRoot((Parent)currentScene.getUserData());
     }
 

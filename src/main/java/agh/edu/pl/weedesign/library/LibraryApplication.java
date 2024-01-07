@@ -17,13 +17,10 @@ import org.springframework.context.ConfigurableApplicationContext;
 public class LibraryApplication extends Application {
 	private Stage primaryStage;
 	private static LibraryAppController libraryAppController;
-
 	private static ConfigurableApplicationContext context;
-
 	private static Reader reader;
 	private static Book book;
 	private static Employee employee;
-
 	private static String theme = "Nord Dark";
 
 	public static void main(String[] args) {

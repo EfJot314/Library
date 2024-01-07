@@ -8,7 +8,8 @@ import org.springframework.stereotype.Controller;
 import agh.edu.pl.weedesign.library.LibraryApplication;
 import agh.edu.pl.weedesign.library.entities.book.Book;
 import agh.edu.pl.weedesign.library.helpers.DataProvider;
-import agh.edu.pl.weedesign.library.models_mvc.RentalModel;
+import agh.edu.pl.weedesign.library.helpers.Themes;
+import agh.edu.pl.weedesign.library.modelsMVC.RentalModel;
 import agh.edu.pl.weedesign.library.sceneObjects.SceneType;
 import antlr.debug.Event;
 import javafx.event.ActionEvent;
@@ -62,28 +63,13 @@ public class BookViewController {
     @FXML 
     private Button logOut; 
     
-    private String[] themes = {
-        "Cupertino Dark",
-        "Cupertino Light",
-        "Dracula",
-        "Nord Dark", 
-        "Nord Light", 
-        "Primer Dark", 
-        "Primer Light"
-    };
-
     @FXML
     public void initialize() throws IOException  {
-        // Pobieram wybraną książkę za pomocą metody getUserData która 
-        // pozwala na zapisywanie obieków w scenie
-
         this.book = LibraryApplication.getBook();
 
-        themeChange.getItems().addAll(themes);
+        themeChange.getItems().addAll(Themes.getAllThemes());
         themeChange.setOnAction(this::changeTheme);
         themeChange.setValue(LibraryApplication.getTheme());
-
-        System.out.println(this.book);
         
         if(this.book == null){
             System.out.println("No book was selected");
@@ -100,7 +86,7 @@ public class BookViewController {
         Image img;
 
         try {
-            img = new Image("" + book.getCover_url() + "");
+            img = new Image("" + book.getCoverUrl() + "");
             image_cover.setImage(img);
         } catch (Exception e){
             System.out.println("Cover not found");

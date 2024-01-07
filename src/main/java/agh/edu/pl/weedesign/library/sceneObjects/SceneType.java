@@ -15,5 +15,5 @@ public enum SceneType {
     EMPLOYEE_PANEL,
     ADD_REVIEW,
     ADD_EMPLOYEE,
-    BOOK_LIST_SECOND
+    
 }
