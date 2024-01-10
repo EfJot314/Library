@@ -40,4 +40,8 @@ public class EmployeePanelController {
     public void showStats(ActionEvent actionEvent) {
         LibraryApplication.getAppController().switchScene(SceneType.STATS_VIEW);
     }
+
+    public void acceptRental(ActionEvent actionEvent) {
+        LibraryApplication.getAppController().switchScene(SceneType.RENTALS_ACCEPTANCE_VIEW);
+    }
 }
