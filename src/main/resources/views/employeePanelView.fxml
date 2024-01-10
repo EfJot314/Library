@@ -8,6 +8,7 @@
    <children>
       <Button fx:id="addEmployee" layoutX="236.0" layoutY="128.0" mnemonicParsing="false" onAction="#handleAddEmployeeAction" text="Dodaj pracownika" />
       <Button fx:id="addNewBook" layoutX="249.0" layoutY="233.0" mnemonicParsing="false" onAction="#handleAddNewBookAction" text="Dodaj książkę" />
+      <Button fx:id="showStatsButton" layoutX="249.0" layoutY="270.0" mnemonicParsing="false" onAction="#showStats" text="Statystyki" />
       <Text fx:id="errorMsg" layoutX="206.0" layoutY="68.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="188.0" />
    </children>
 </AnchorPane>

@@ -16,6 +16,8 @@ public class EmployeePanelController {
     private Button addEmployee;
     @FXML
     private Button addNewBook;
+    @FXML
+    private Button showStatsButton;
 
     public void handleAddNewBookAction(ActionEvent actionEvent) {
         if (LibraryApplication.getEmployee().getAccessLevel().ordinal() >= AccessLevel.EMPLOYEE.ordinal()){
@@ -33,5 +35,9 @@ public class EmployeePanelController {
         else{
             errorMsg.setText("Nie masz uprawnień, aby dodać nowego pracownika!");
         }
+    }
+
+    public void showStats(ActionEvent actionEvent) {
+        LibraryApplication.getAppController().switchScene(SceneType.STATS_VIEW);
     }
 }
