@@ -1,20 +1,17 @@
 package agh.edu.pl.weedesign.library.controllers;
 
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
+import agh.edu.pl.weedesign.library.helpers.*;
+import javafx.geometry.Insets;
+import javafx.scene.control.*;
+import javafx.scene.text.Font;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import agh.edu.pl.weedesign.library.LibraryApplication;
 import agh.edu.pl.weedesign.library.entities.book.Book;
-import agh.edu.pl.weedesign.library.helpers.BookListProcessor;
-import agh.edu.pl.weedesign.library.helpers.SearchStrategy;
-import agh.edu.pl.weedesign.library.helpers.SortOrder;
-import agh.edu.pl.weedesign.library.helpers.Themes;
 import agh.edu.pl.weedesign.library.sceneObjects.SceneType;
 import agh.edu.pl.weedesign.library.services.ModelService;
 import javafx.beans.property.SimpleStringProperty;
@@ -24,15 +21,6 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleButton;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -42,7 +30,10 @@ import javafx.scene.layout.VBox;
 
 @Controller
 public class BookListController {
-
+    @FXML
+    public HBox popularBooksHBox;
+    @FXML
+    public HBox recommendedBooksHBox;
     @FXML
     private ComboBox<SearchStrategy> searchStrategyMenu;
 
@@ -110,12 +101,14 @@ public class BookListController {
     private ModelService service;
     private BookListProcessor bookListProcessor;
     private ArrayList<HBox> rows = new ArrayList<>();
+    private Recommender recommender;
 
 
     @Autowired
-    public BookListController(ModelService service, BookListProcessor bookListProcessor){
+    public BookListController(ModelService service, BookListProcessor bookListProcessor, Recommender recommender){
         this.service = service;
         this.bookListProcessor = bookListProcessor;
+        this.recommender = recommender;
     }
 
     @FXML
@@ -161,47 +154,90 @@ public class BookListController {
     private void initializeTilesDisplay(){
         mainViewBox.getChildren().clear();
         rows.clear();
+        int currRow= 0;
 
+//      adding popular books and recommendations
+        if(this.recommender.showPopularBooks()){
+            this.showPopularBooks();
+            currRow++;
+        }
+        if(this.recommender.showRecommendations()) {
+            this.showRecommendations();
+            currRow++;
+        }
         for(int i = 0 ; i <= this.visibleBooks.size()/5; i++)
             rows.add(new HBox());
-        
-        int i = 0;
 
         for(Book b: this.visibleBooks){
-            ImageView newCover = new ImageView();
-            newCover.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-
-                @Override 
-                public void handle(MouseEvent event){
-                    if(LibraryApplication.getBook() == b)
-                        LibraryApplication.getAppController().switchScene(SceneType.BOOK_VIEW);
-                    
-                    LibraryApplication.setBook(b);
-                    System.out.println(LibraryApplication.getBook());
-                }
+            ImageView newCover = this.createImageCover(b);
+            rows.get(currRow).getChildren().add(newCover);
+            if (rows.get(currRow).getChildren().size() >= 5) {
+                currRow++;
             }
-            );
-
-            newCover.setFitHeight(300);
-            newCover.setFitWidth(194);
-            newCover.maxHeight(300);
-            newCover.maxWidth(194);
-
-            Image img;
-
-            try {
-                img = new Image("" + b.getCoverUrl() + "", true);
-            } catch (Exception e){
-                img = new Image(getClass().getClassLoader().getResource("default_book_cover_2015.jpg").toString(), true);
-            }
-
-            newCover.setImage(img);
-            rows.get(Integer.valueOf(i/5)).getChildren().add(newCover);
-            i++;
         }
 
         for(HBox x : rows)
             mainViewBox.getChildren().add(x);
+    }
+
+    private ImageView createImageCover(Book b) {
+        ImageView newCover = new ImageView();
+        newCover.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+
+                    @Override
+                    public void handle(MouseEvent event){
+                        if(LibraryApplication.getBook() == b)
+                            LibraryApplication.getAppController().switchScene(SceneType.BOOK_VIEW);
+
+                        LibraryApplication.setBook(b);
+                        System.out.println(LibraryApplication.getBook());
+                    }
+                }
+        );
+
+        newCover.setFitHeight(300);
+        newCover.setFitWidth(194);
+        newCover.maxHeight(300);
+        newCover.maxWidth(194);
+
+        Image img;
+
+        try {
+            img = new Image("" + b.getCoverUrl() + "", true);
+        } catch (Exception e){
+            img = new Image(Objects.requireNonNull(getClass().getClassLoader().getResource("default_book_cover_2015.jpg")).toString(), true);
+        }
+
+        newCover.setImage(img);
+        return newCover;
+    }
+
+    private void showRecommendations() {
+        Label label = new Label("Polecane dla ciebie");
+        label.setFont(new Font("System Bold",21.0));
+        label.setPadding(new Insets(5, 0, 0, 10));
+        HBox recommendationsHBox = new HBox();
+
+        for (Book book : recommender.getMostPopularBooks(2)){
+            ImageView newCover = this.createImageCover(book);
+            recommendationsHBox.getChildren().add(newCover);
+        }
+
+        this.rows.add(new HBox(new VBox(label, recommendationsHBox)));
+    }
+
+    private void showPopularBooks() {
+        Label label = new Label("Popularne");
+        label.setFont(new Font("System Bold",21.0));
+        label.setPadding(new Insets(5, 0, 0, 10));
+        HBox popularHBox = new HBox();
+
+        for (Book book : this.recommender.getRecommendedBooks(3)){
+            ImageView newCover = this.createImageCover(book);
+            popularHBox.getChildren().add(newCover);
+        }
+
+        this.rows.add(new HBox(new VBox(label, popularHBox)));
     }
 
     private void fetchBooksData(){

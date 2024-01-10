@@ -3,6 +3,7 @@ package agh.edu.pl.weedesign.library.entities.reader;
 
 import javax.persistence.*;
 
+import agh.edu.pl.weedesign.library.entities.category.Category;
 import agh.edu.pl.weedesign.library.entities.rental.Rental;
 
 import java.time.LocalDate;
@@ -36,6 +37,8 @@ public class Reader {
     private LocalDate birth_date;
 
     private String sex;
+    @OneToMany
+    Set<Category> likedCategories;
 
     @OneToMany(mappedBy = "reader")
     Set<Rental> rentals;

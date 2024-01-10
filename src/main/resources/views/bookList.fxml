@@ -20,7 +20,7 @@
 <!-- <?import agh.edu.pl.weedesign.library.helpers.SearchStrategy?>
 <?import agh.edu.pl.weedesign.library.helpers.SortOrder?> -->
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="agh.edu.pl.weedesign.library.controllers.BookListController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="agh.edu.pl.weedesign.library.controllers.BookListController">
    <top>
       <HBox prefHeight="44.0" prefWidth="1011.0" spacing="20.0" BorderPane.alignment="CENTER">
          <children>
@@ -151,7 +151,33 @@
                <content>
                   <AnchorPane fx:id="mainAnchor" prefWidth="960.0">
                      <children>
-                        <VBox fx:id="mainViewBox" prefWidth="970.0" />
+                        <VBox fx:id="mainViewBox" prefWidth="970.0">
+                           <children>
+                              <Label text="Popularne">
+                                 <font>
+                                    <Font name="System Bold" size="21.0" />
+                                 </font>
+                                 <opaqueInsets>
+                                    <Insets />
+                                 </opaqueInsets>
+                                 <padding>
+                                    <Insets left="10.0" top="5.0" />
+                                 </padding>
+                              </Label>
+                              <HBox fx:id="popularBooksHBox" prefHeight="100.0" prefWidth="200.0" />
+                              <Label text="Polecane dla ciebie">
+                                 <font>
+                                    <Font name="System Bold" size="21.0" />
+                                 </font>
+                                 <VBox.margin>
+                                    <Insets />
+                                 </VBox.margin>
+                                 <padding>
+                                    <Insets left="10.0" top="5.0" />
+                                 </padding>
+                              </Label>
+                              <HBox fx:id="recommendedBooksHBox" prefHeight="100.0" prefWidth="200.0" />
+                           </children></VBox>
                      </children>
                   </AnchorPane>
                </content>
