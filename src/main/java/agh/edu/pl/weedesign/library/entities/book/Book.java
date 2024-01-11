@@ -23,7 +23,7 @@ public class Book {
 
     private String title;
 
-    @Column(length = 1024)
+    @Column(length = 4000)
     private String description;
 
     private int page_count;
@@ -111,7 +111,7 @@ public class Book {
     public String getAuthorString(){
         return this.authors.stream()
             .map(e ->  e.getFormattedName())
-            .collect(Collectors.joining(","));
+            .collect(Collectors.joining(", "));
     }
 
 

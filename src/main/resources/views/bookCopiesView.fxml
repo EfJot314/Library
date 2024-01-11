@@ -64,14 +64,20 @@
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
+               <padding>
+                  <Insets left="5.0" />
+               </padding>
             </HBox>
          </children>
          <opaqueInsets>
             <Insets />
          </opaqueInsets>
          <BorderPane.margin>
-            <Insets left="15.0" top="10.0" />
+            <Insets top="10.0" />
          </BorderPane.margin>
+         <padding>
+            <Insets left="2.0" />
+         </padding>
       </HBox>
    </top>
    <center>

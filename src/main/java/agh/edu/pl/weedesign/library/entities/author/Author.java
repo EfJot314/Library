@@ -67,6 +67,6 @@ public class Author {
     }
 
     public String getFormattedName(){
-        return this.getName() + " " + this.getSurname();
+        return this.getName() + this.getSurname();
     }
 }

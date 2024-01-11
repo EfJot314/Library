@@ -5,6 +5,11 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.opencsv.CSVParser;
+import com.opencsv.CSVParserBuilder;
+import com.opencsv.CSVReader;
+import com.opencsv.CSVReaderBuilder;
+
 import agh.edu.pl.weedesign.library.entities.author.Author;
 import agh.edu.pl.weedesign.library.entities.author.AuthorRepository;
 import agh.edu.pl.weedesign.library.entities.book.Book;
@@ -24,6 +29,7 @@ import agh.edu.pl.weedesign.library.entities.review.ReviewRepository;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.StringReader;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.AbstractMap;
@@ -54,21 +60,32 @@ public class ModelConfigurator {
                     new AbstractMap.SimpleEntry<>("good", 20))
                     .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
                 
+                CSVParser parser = new CSVParserBuilder()
+                    .withSeparator(',')
+                    .build();
 
-                List<List<String>> records = new ArrayList<>();
-                try (BufferedReader br = new BufferedReader(new FileReader("jk-czw-0940-weedesign/src/main/resources/books/books.csv"))) {
-                String line;
-                while ((line = br.readLine()) != null) {
-                        String[] values = line.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)");
-                        records.add(Arrays.asList(values));
-                    }
-                }
+                // BufferedReader br = new BufferedReader(new FileReader("jk-czw-0940-weedesign/src/main/resources/books/books.csv"));
+
+                CSVReader reader = new CSVReaderBuilder(new BufferedReader(new FileReader("jk-czw-0940-weedesign/src/main/resources/books/books.csv")))
+                    .withCSVParser(parser)
+                    .build();
+
+                List<String[]> records = new ArrayList<>();
+                records = reader.readAll();
+                reader.close();
+                // try () {
+                // String line;
+                // while ((line = br.readLine()) != null) {
+                //         String[] values = line.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)");
+                //         records.add(Arrays.asList(values));
+                //     }
+                // }
                 
-                for(List<String> line: records){
+                for(String[] line: records){
 
                         int no_pages; 
                         try {
-                            no_pages = Integer.valueOf(line.get(10));
+                            no_pages = Integer.valueOf(line[10]);
                         } catch (Exception e){
                             no_pages = 0;
                         }
@@ -76,15 +93,15 @@ public class ModelConfigurator {
                 
                         // Create new book 
                         Book book1 = new Book(
-                                line.get(2),
-                                line.get(7).substring(0, Math.min(254, line.get(7).length())), 
+                                line[2].replaceAll("[-+^]*", ""),
+                                line[7].substring(0, Math.min(4000, line[7].length())).replaceAll("[-+^]*", ""), 
                                 no_pages,
                                 "", 
-                                line.get(6)
+                                line[6].replaceAll("[-+^]*", "")
                         );
 
                         // Set Authors
-                        String[] authors = line.get(4).split(";");
+                        String[] authors = line[4].split(";");
 
                         for(String author : authors){
                             int i = author.lastIndexOf(" ");
@@ -94,8 +111,8 @@ public class ModelConfigurator {
                                 authorDetails[0] = author;
                                 authorDetails[1] = author;
                             } else {
-                                authorDetails[0] = author.substring(0, i);
-                                authorDetails[1] = author.substring(i);
+                                authorDetails[0] = author.substring(0, i).replaceAll("[-+^]*", "");
+                                authorDetails[1] = author.substring(i).replaceAll("[-+^]*", "");
                             }
 
                             List<Author> authorList = authorRepository.findByNameAndSurname(authorDetails[0], authorDetails[1]);
@@ -117,13 +134,13 @@ public class ModelConfigurator {
                         }
 
                         // Categories
-                        String[] categories = line.get(5).split(",");
+                        String[] categories = line[5].split(", ");
                         for(String category : categories){
                             Category categoryEntity = categoryRepository.findByName(category);
 
                             if(categoryEntity == null){
                                 categoryEntity = new Category(
-                                    category
+                                    category.replaceAll("[-+^]*", "")
                                 );
 
                                 categoryRepository.save(categoryEntity);

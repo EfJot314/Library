@@ -47,6 +47,7 @@ dependencies {
 	testImplementation 'org.awaitility:awaitility:4.2.0'
 	implementation 'io.github.mkpaz:atlantafx-base:2.0.1'
 	implementation "org.jsoup:jsoup:1.16.1"
+	implementation 'com.opencsv:opencsv:4.1'
 }
 
 
