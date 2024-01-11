@@ -22,22 +22,17 @@
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="agh.edu.pl.weedesign.library.controllers.BookListController">
    <top>
-      <HBox prefHeight="42.0" prefWidth="974.0" spacing="20.0" BorderPane.alignment="CENTER">
+      <HBox prefHeight="42.0" prefWidth="974.0" BorderPane.alignment="CENTER">
          <children>
             <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="42.0" prefWidth="974.0" style="-fx-border-width: 0 0 1 0; -fx-border-color: #8aa4b7;">
                <children>
-                  <Label prefHeight="30.0" prefWidth="10.0">
-                     <HBox.margin>
-                        <Insets />
-                     </HBox.margin>
-                  </Label>
                   <Label contentDisplay="BOTTOM" prefHeight="30.0" prefWidth="13.0" />
                   <Button maxHeight="31.0" minHeight="31.0" mnemonicParsing="false" onAction="#goBackAction" prefHeight="31.0" style="-fx-background-radius: 2;" text="&lt;">
                      <font>
                         <Font size="12.0" />
                      </font>
                   </Button>
-                  <Label contentDisplay="BOTTOM" prefHeight="30.0" prefWidth="18.0" />
+                  <Label contentDisplay="BOTTOM" prefHeight="30.0" prefWidth="20.0" />
                   <Button maxHeight="31.0" minHeight="31.0" mnemonicParsing="false" onAction="#goForwardAction" prefHeight="31.0" style="-fx-background-radius: 2;" text="&gt;">
                      <font>
                         <Font size="12.0" />
@@ -82,16 +77,16 @@
                   <Insets />
                </opaqueInsets>
                <HBox.margin>
-                  <Insets />
-               </HBox.margin>
-               <padding>
                   <Insets left="5.0" />
-               </padding>
+               </HBox.margin>
             </HBox>
             <Label contentDisplay="BOTTOM" prefHeight="30.0" prefWidth="436.0" />
          </children>
+         <BorderPane.margin>
+            <Insets left="2.0" top="10.0" />
+         </BorderPane.margin>
          <padding>
-            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+            <Insets bottom="10.0" />
          </padding>
       </HBox>
    </top>

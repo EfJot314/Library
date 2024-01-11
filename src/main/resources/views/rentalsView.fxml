@@ -15,43 +15,43 @@
    <top>
       <HBox prefHeight="42.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="42.0" prefWidth="969.0" style="-fx-border-width: 0 0 1 0; -fx-border-color: #8aa4b7;">
+            <HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="42.0" prefWidth="974.0" style="-fx-border-width: 0 0 1 0; -fx-border-color: #8aa4b7;">
                <children>
-                  <Label prefHeight="30.0" prefWidth="10.0" />
                   <Label contentDisplay="BOTTOM" prefHeight="30.0" prefWidth="13.0" />
-                  <Button maxHeight="31.0" minHeight="31.0" mnemonicParsing="false" prefHeight="31.0" style="-fx-background-radius: 2;" text="&lt;">
+                  <Button maxHeight="31.0" minHeight="31.0" mnemonicParsing="false" onAction="#goBackAction" prefHeight="31.0" style="-fx-background-radius: 2;" text="&lt;">
                      <font>
                         <Font size="12.0" />
                      </font>
                   </Button>
-                  <Label contentDisplay="BOTTOM" prefHeight="30.0" prefWidth="18.0" />
-                  <Button maxHeight="31.0" minHeight="31.0" mnemonicParsing="false" prefHeight="31.0" style="-fx-background-radius: 2;" text="&gt;">
+                  <Label contentDisplay="BOTTOM" prefHeight="30.0" prefWidth="20.0" />
+                  <Button maxHeight="31.0" minHeight="31.0" mnemonicParsing="false" onAction="#goForwardAction" prefHeight="31.0" style="-fx-background-radius: 2;" text="&gt;">
                      <font>
                         <Font size="12.0" />
                      </font>
                   </Button>
                   <Label contentDisplay="BOTTOM" prefHeight="30.0" prefWidth="25.0" />
-                  <Button fx:id="mainPage" mnemonicParsing="false" prefHeight="31.0" prefWidth="131.0" style="-fx-background-radius: 2;" text="Strona Główna">
+                  <Button fx:id="mainPage" mnemonicParsing="false" onAction="#mainPageButtonHandler" prefHeight="31.0" prefWidth="131.0" style="-fx-background-radius: 2;" text="Strona Główna">
                      <font>
                         <Font size="12.0" />
                      </font>
                   </Button>
                   <Label contentDisplay="BOTTOM" prefHeight="30.0" prefWidth="18.0" />
-                  <Label contentDisplay="BOTTOM" prefHeight="30.0" prefWidth="18.0" />
-                  <Button fx:id="myRentals" mnemonicParsing="false" prefHeight="31.0" prefWidth="160.0" style="-fx-background-radius: 2;" text="Moje Wypożyczenia">
+                  <Button fx:id="myRentals" mnemonicParsing="false" onAction="#myRentalsButtonHandler" prefHeight="31.0" prefWidth="160.0" style="-fx-background-radius: 2;" text="Moje Wypożyczenia">
                      <font>
                         <Font size="12.0" />
                      </font>
+                     <HBox.margin>
+                        <Insets left="5.0" />
+                     </HBox.margin>
                   </Button>
-                  <Label contentDisplay="BOTTOM" prefHeight="30.0" prefWidth="358.0" />
+                  <Label contentDisplay="BOTTOM" prefHeight="30.0" prefWidth="370.0" />
                   <ChoiceBox fx:id="themeChange" maxHeight="31.0" minHeight="30.0" prefHeight="31.0" prefWidth="168.0">
                      <HBox.margin>
                         <Insets right="10.0" top="1.0" />
                      </HBox.margin>
                   </ChoiceBox>
                   <Label contentDisplay="BOTTOM" prefHeight="30.0" prefWidth="16.0" />
-                  <Label contentDisplay="BOTTOM" prefHeight="30.0" prefWidth="18.0" />
-                  <Button fx:id="logOut" contentDisplay="BOTTOM" minHeight="30.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="118.0" style="-fx-background-color: red; -fx-background-radius: 2;" text="Wyloguj się">
+                  <Button fx:id="logOut" contentDisplay="BOTTOM" minHeight="30.0" mnemonicParsing="false" onAction="#LogOutAction" prefHeight="31.0" prefWidth="118.0" style="-fx-background-color: red; -fx-background-radius: 2;" text="Wyloguj się">
                      <HBox.margin>
                         <Insets top="1.0" />
                      </HBox.margin>
