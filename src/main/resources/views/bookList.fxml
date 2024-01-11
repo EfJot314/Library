@@ -57,9 +57,9 @@
                      </HBox.margin>
                   </Button>
                   <Label contentDisplay="BOTTOM" prefHeight="30.0" prefWidth="370.0" />
-                  <ChoiceBox fx:id="themeChange" maxHeight="31.0" minHeight="30.0" prefHeight="31.0" prefWidth="168.0">
+                  <ChoiceBox fx:id="themeChange" maxHeight="31.0" minHeight="35.0" prefHeight="35.0" prefWidth="168.0">
                      <HBox.margin>
-                        <Insets right="10.0" />
+                        <Insets right="10.0" top="-1.5" />
                      </HBox.margin>
                   </ChoiceBox>
                   <Label contentDisplay="BOTTOM" prefHeight="30.0" prefWidth="16.0" />
