@@ -1,4 +1,6 @@
 package agh.edu.pl.weedesign.library.controllers;
+import java.util.ArrayList;
+
 import org.springframework.context.ConfigurableApplicationContext;
 import agh.edu.pl.weedesign.library.LibraryApplication;
 import agh.edu.pl.weedesign.library.sceneObjects.SceneFactory;
@@ -12,12 +14,19 @@ public class LibraryAppController {
     private Scene currentScene;
     private SceneFactory factory;
 
+    private ArrayList<Parent> undo_stack; 
+    private ArrayList<Parent> next_stack; 
+
+
     ConfigurableApplicationContext springContext;
 
     public LibraryAppController(Stage stage, ConfigurableApplicationContext springContext){
         this.primaryStage = stage;
         this.springContext = springContext;
         factory = new SceneFactory();
+
+        undo_stack = new ArrayList<>(5);
+        next_stack = new ArrayList<>(5);
     }
 
     public void initWelcomeLayout() {
@@ -30,7 +39,13 @@ public class LibraryAppController {
     }
 
     public void switchScene(SceneType sceneType){
-        currentScene.setUserData(currentScene.getRoot());
+
+        if(undo_stack.size() == 5)
+            undo_stack.remove(0);
+
+        undo_stack.add(currentScene.getRoot());
+        // currentScene.setUserData(currentScene.getRoot());
+
         currentScene.setRoot(factory.createScene(sceneType));
         LibraryApplication.getAppController().resize(1000, 800);
     }
@@ -50,11 +65,19 @@ public class LibraryAppController {
 
     public void back(){
         // Poprzednia scena jest przechowywana na razie w UserDataSceny
-        currentScene.setRoot((Parent)currentScene.getUserData());
+        if(next_stack.size() == 5)
+            next_stack.remove(0);
+
+        next_stack.add(currentScene.getRoot());
+        currentScene.setRoot((Parent)undo_stack.get(undo_stack.size() - 1));
     }
 
     public void forward(){
-        currentScene.setRoot((Parent)currentScene.getUserData());
+        if(next_stack.size() == 0)
+            return; 
+        
+        undo_stack.add(currentScene.getRoot());
+        currentScene.setRoot((Parent)next_stack.get(next_stack.size() - 1));
     }
 
     public void logOut(){

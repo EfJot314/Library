@@ -1,18 +1,25 @@
 package agh.edu.pl.weedesign.library.controllers;
 
 
+import java.util.ArrayList;
+
+import org.hibernate.mapping.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import agh.edu.pl.weedesign.library.LibraryApplication;
+import agh.edu.pl.weedesign.library.entities.category.Category;
 import agh.edu.pl.weedesign.library.helpers.Categories;
+import agh.edu.pl.weedesign.library.helpers.Themes;
 import agh.edu.pl.weedesign.library.modelsMVC.NewBookModel;
 import agh.edu.pl.weedesign.library.sceneObjects.SceneType;
+import agh.edu.pl.weedesign.library.services.ModelService;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+
 
 @Controller
 public class NewBookController {
@@ -32,10 +39,16 @@ public class NewBookController {
     private TextField author_surname_text_field;
 
     @FXML
-    private TextField page_count_text_field;
+    private TextField page_count_text_field;    
+    
+    @FXML
+    public ComboBox<String> categories;
 
     @FXML
-    private TextField no_of_copies_text_field;
+    private TextField no_of_copies_text_field; 
+    
+    @FXML 
+    private TextField condition_textfield;
 
     @FXML
     private TextField book_cover_text_field;
@@ -55,16 +68,12 @@ public class NewBookController {
     @FXML 
     private TextField message_label;
 
-    @FXML 
-    private TextField condition_textfield;
-
-
-    @FXML
-    public ComboBox<Categories> categories;
+    private ModelService service;
 
     @Autowired
-    public NewBookController(NewBookModel model){
+    public NewBookController(NewBookModel model, ModelService service){
         this.model = model;
+        this.service = service;
     }
 
     public void handleCancelAction(){
@@ -73,6 +82,8 @@ public class NewBookController {
 
     public void saveBookAction(){
         try {
+
+            // TODO kategorie! 
             this.model.setTitle(title_text_field.getText());
             this.model.setDescription(book_description_text_area.getText());
             this.model.setPageCount(Integer.valueOf(page_count_text_field.getText()));
@@ -82,7 +93,6 @@ public class NewBookController {
             this.model.setAuthorSecondName(author_surname_text_field.getText());
             this.model.setNoOfCopies(Integer.valueOf(no_of_copies_text_field.getText()));
             this.model.setCondition(condition_textfield.getText());
-
             this.model.addNewBook();
 
             message_label.setText("");
@@ -96,7 +106,10 @@ public class NewBookController {
 
     @FXML
     public void initialize(){
-        
+        ArrayList<Category> categoryList = (ArrayList<Category>) service.getCategories();
+        for(Category i: categoryList)
+            categories.getItems().add(i.getName());
+
     }
 
 }

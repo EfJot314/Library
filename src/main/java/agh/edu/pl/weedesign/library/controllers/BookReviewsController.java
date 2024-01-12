@@ -8,7 +8,10 @@ import agh.edu.pl.weedesign.library.helpers.DataProvider;
 import agh.edu.pl.weedesign.library.sceneObjects.SceneType;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.image.Image;
@@ -37,6 +40,21 @@ public class BookReviewsController {
     private TableColumn<Review, String> commentColumn;
     @FXML
     private TableColumn<Review, String> dateColumn;
+
+ // Navbar controls 
+    @FXML
+    private Button mainPage; 
+
+    @FXML
+    private Button myRentals; 
+
+    @FXML
+    private Button logOut; 
+
+   @FXML 
+    private ChoiceBox<String> themeChange;
+
+
     @FXML
     private void handleBackAction(){
         LibraryApplication.getAppController().switchScene(SceneType.BOOK_VIEW);
@@ -70,5 +88,29 @@ public class BookReviewsController {
                 new SimpleStringProperty(reviewValue.getValue().getDateTime().toLocalDate().toString())
         );
 
+    }
+
+    public void goBackAction(){
+        LibraryApplication.getAppController().back();
+    }
+
+    public void goForwardAction(){
+        LibraryApplication.getAppController().forward();
+    }
+
+    public void mainPageButtonHandler(){
+        LibraryApplication.getAppController().switchScene(SceneType.BOOK_LIST);
+    }
+
+    public void myRentalsButtonHandler(){
+        LibraryApplication.getAppController().switchScene(SceneType.RENTALS_VIEW); 
+    }
+
+    public void changeTheme(ActionEvent e){
+        LibraryApplication.changeTheme(themeChange.getValue());
+    }
+
+    public void LogOutAction(){
+        LibraryApplication.getAppController().logOut();
     }
 }
