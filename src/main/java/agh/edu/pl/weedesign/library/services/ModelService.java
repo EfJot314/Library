@@ -1,4 +1,5 @@
 package agh.edu.pl.weedesign.library.services;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -71,6 +72,20 @@ public class ModelService {
 
     public List<Rental> getRentals() {return rentalRepository.findAll();}
 
+    public List<Rental> getRentalsByBook(Book book) {
+        List<Rental> toReturn = new ArrayList<>();
+        for(BookCopy bc : bookCopyRepository.findBookCopiesByBook(book))
+            toReturn.addAll(rentalRepository.getRentalsByBookCopy(bc));
+        return toReturn;
+    }
+
+    public List<Rental> getRentalsByCategory(Category category){
+        List<Rental> toReturn = new ArrayList<>();
+        for(Book book : bookRepository.findBookByCategory(category))
+            toReturn.addAll(this.getRentalsByBook(book));
+        return toReturn;
+    }
+
     public List<Author> getAuthors() {return authorRepository.findAll();}
 
     public List<Rental> getRentalsByReaderEmail(String email){return rentalRepository.findRentalsByReader(this.getReaderByEmail(email));}
@@ -116,10 +131,7 @@ public class ModelService {
         }
         return getEmployeeByEmail(email).getPassword();
     }
-//    public List<Book> getMostPopularBooks(int n){
-//        List<Object[]> books = bookRepository.findBooksWithRentalCount();
-//        return (List<Book>) books.stream().map(el -> el[0]).limit(n);
-//    }
+
     public List<Book> getAllBooksByAuthorSurnameOrCategoryName(String authorSurname, String categoryName) {
         return this.bookRepository.getAllByAuthorSurnameOrCategoryName_test(authorSurname, categoryName);
     }

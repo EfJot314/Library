@@ -2,6 +2,7 @@ package agh.edu.pl.weedesign.library.controllers;
 
 
 import agh.edu.pl.weedesign.library.LibraryApplication;
+import agh.edu.pl.weedesign.library.entities.author.Author;
 import agh.edu.pl.weedesign.library.entities.rental.Rental;
 import agh.edu.pl.weedesign.library.helpers.BookListProcessor;
 import agh.edu.pl.weedesign.library.modelsMVC.RentalModel;
@@ -66,7 +67,12 @@ public class RentalsAcceptanceController {
         LibraryApplication.getAppController().resize(760, 440);
 
         titleColumn.setCellValueFactory(rentalValue -> new SimpleStringProperty(rentalValue.getValue().getBookCopy().getBook().getTitle()));
-//        authorColumn.setCellValueFactory(rentalValue -> new SimpleStringProperty(rentalValue.getValue().getBookCopy().getBook().getAuthor().getName() + " " + rentalValue.getValue().getBookCopy().getBook().getAuthor().getSurname()));
+        authorColumn.setCellValueFactory(rentalValue -> {
+                String authors = "";
+                for(Author author : rentalValue.getValue().getBookCopy().getBook().getAuthors())
+                    authors += author.getName() + " " + author.getSurname() + "   ";
+                return new SimpleStringProperty(authors);
+        });
         priceColumn.setCellValueFactory(rentalValue -> {
             if(rentalValue.getValue().getEnd_date() == null)
                 return new SimpleStringProperty(rentalValue.getValue().countPrice(LocalDateTime.now()) + " zł");

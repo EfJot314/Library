@@ -25,13 +25,13 @@ public class LibraryAppController {
         this.springContext = springContext;
         factory = new SceneFactory();
 
-        undo_stack = new ArrayList<>(5);
-        next_stack = new ArrayList<>(5);
+        undo_stack = new ArrayList<>(10);
+        next_stack = new ArrayList<>(10);
     }
 
     public void initWelcomeLayout() {
         this.primaryStage.setTitle("Biblioteka");
-        currentScene = new Scene(factory.createScene(SceneType.BOOK_LIST));
+        currentScene = new Scene(factory.createScene(SceneType.WELCOME));
         LibraryApplication.getAppController().resize(1000, 800);
         primaryStage.setScene(currentScene);
         primaryStage.show();
@@ -39,11 +39,11 @@ public class LibraryAppController {
 
     public void switchScene(SceneType sceneType){
 
-        if(undo_stack.size() == 5)
+        if(undo_stack.size() == 10)
             undo_stack.remove(0);
 
         undo_stack.add(currentScene.getRoot());
-        // currentScene.setUserData(currentScene.getRoot());
+//         currentScene.setUserData(currentScene.getRoot());
 
         currentScene.setRoot(factory.createScene(sceneType));
         LibraryApplication.getAppController().resize(1000, 800);
@@ -63,8 +63,7 @@ public class LibraryAppController {
     }
 
     public void back(){
-        // Poprzednia scena jest przechowywana na razie w UserDataSceny
-        if(next_stack.size() == 5)
+        if(next_stack.size() == 10)
             next_stack.remove(0);
 
         next_stack.add(currentScene.getRoot());
