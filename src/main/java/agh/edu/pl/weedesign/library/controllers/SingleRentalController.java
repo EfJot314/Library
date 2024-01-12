@@ -81,8 +81,15 @@ public class SingleRentalController {
 
     @FXML
     private void cancelRental(ActionEvent event){
+        if(this.rental.getEmployee() == null){
+            //jezeli nie bylo akceptacji, to po prostu usuwam to wypozyczenie
+            this.rentalService.removeRental(this.rental);
+            backAction(null);
+            return;
+        }
         this.rental.setEnd_date(LocalDateTime.now());
         this.rentalService.updateRental(this.rental);
+        this.cancelButton.setVisible(false);
     }
 
     @FXML

@@ -12,19 +12,19 @@
                <Font size="32.0" />
             </font>
          </Label>
-         <Button onAction="#toWelcomeView" text="Strona główna" />
+         <Button onAction="#toWelcomeView" text="Strona główna" textAlignment="CENTER" />
+         <CheckBox fx:id="showAllBox" onAction="#updateTable" mnemonicParsing="false" text="Wyświetl wszystkie" />
       </HBox>
    </top>
    <center>
       <TableView fx:id="rentalsTable" prefHeight="343.0" prefWidth="760.0" BorderPane.alignment="CENTER">
          <columns>
-            <TableColumn fx:id="titleColumn" prefWidth="210.0" text="Tytuł" />
-            <TableColumn fx:id="authorColumn" minWidth="0.0" prefWidth="180.0" text="Autor" />
-            <TableColumn fx:id="priceColumn" minWidth="0.0" prefWidth="70.0" text="Cena" />
-            <TableColumn fx:id="startDateColumn" prefWidth="150.0" text="Data wypożyczenia" />
-            <TableColumn fx:id="endDateColumn" prefWidth="150.0" text="Data zwrotu" />
+            <TableColumn fx:id="titleColumn" prefWidth="202.0" text="Tytuł" />
+            <TableColumn fx:id="authorColumn" minWidth="0.0" prefWidth="188.0" text="Autor" />
+            <TableColumn fx:id="priceColumn" minWidth="0.0" prefWidth="75.0" text="Cena" />
+            <TableColumn fx:id="startDateColumn" prefWidth="140.0" text="Data wypożyczenia" />
+            <TableColumn fx:id="endDateColumn" prefWidth="155.0" text="Data zwrotu" />
          </columns>
       </TableView>
    </center>
 </BorderPane>
-

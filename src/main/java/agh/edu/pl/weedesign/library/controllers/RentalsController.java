@@ -13,6 +13,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,8 @@ public class RentalsController {
 
     @FXML
     private TableView<Rental> rentalsTable;
+    @FXML
+    private CheckBox showAllBox;
 
     @FXML
     private TableColumn<Rental, String> titleColumn;
@@ -71,11 +74,18 @@ public class RentalsController {
                 return new SimpleStringProperty(rentalValue.getValue().countPrice(LocalDateTime.now()) + " zł");
             return new SimpleStringProperty(rentalValue.getValue().getPrice() + " zł");
         });
-        startDateColumn.setCellValueFactory(rentalValue -> new SimpleStringProperty(rentalValue.getValue().getStart_date().toLocalDate().toString()));
+        startDateColumn.setCellValueFactory(rentalValue -> {
+            if(rentalValue.getValue().getEmployee() != null)
+                return new SimpleStringProperty(rentalValue.getValue().getStart_date().toLocalDate().toString());
+            return new SimpleStringProperty("---------");
+        });
         endDateColumn.setCellValueFactory(rentalValue -> {
             LocalDateTime end = rentalValue.getValue().getEnd_date();
             if(end == null)
-                return new SimpleStringProperty("Aktualnie wypożyczona");
+                if(rentalValue.getValue().getEmployee() != null)
+                    return new SimpleStringProperty("Aktualnie wypożyczona");
+                else
+                    return new SimpleStringProperty("---------");
             return new SimpleStringProperty(end.toLocalDate().toString());
         });
 
@@ -92,6 +102,16 @@ public class RentalsController {
 
     private void fetchRentalsData(){
         this.rentals = new ArrayList<>(this.service.getRentalsByReader(LibraryApplication.getReader()));
+        //removing history if checkbox is not selected
+        boolean history = this.showAllBox.isSelected();
+        List<Rental> tmpRentals = new ArrayList<>();
+        if(!history){
+            for(Rental rental : this.rentals)
+                if(rental.getEnd_date() == null)
+                    tmpRentals.add(rental);
+            this.rentals = tmpRentals;
+        }
+
         rentalsTable.setItems(FXCollections.observableList(this.rentals));
     }
 
@@ -105,6 +125,10 @@ public class RentalsController {
     }
     public Rental getSelectedRental(){
         return this.selectedRental;
+    }
+
+    public void updateTable(){
+        initialize();
     }
 
 }
