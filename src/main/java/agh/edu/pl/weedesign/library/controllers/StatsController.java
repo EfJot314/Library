@@ -123,6 +123,8 @@ public class StatsController {
         this.rentalPlot.legendVisibleProperty().set(false);
         this.rentalPlot.getData().add(rentalSeries);
 
+        //
+
 
     }
 
