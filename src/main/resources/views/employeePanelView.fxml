@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Text?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="agh.edu.pl.weedesign.library.controllers.EmployeePanelController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="agh.edu.pl.weedesign.library.controllers.EmployeePanelController">
    <children>
       <Button fx:id="addEmployee" layoutX="236.0" layoutY="128.0" mnemonicParsing="false" onAction="#handleAddEmployeeAction" text="Dodaj pracownika" />
-      <Button fx:id="addNewBook" layoutX="249.0" layoutY="233.0" mnemonicParsing="false" onAction="#handleAddNewBookAction" text="Dodaj książkę" />
-      <Button fx:id="showStatsButton" layoutX="249.0" layoutY="270.0" mnemonicParsing="false" onAction="#showStats" text="Statystyki" />
-      <Button fx:id="acceptRentalButton" layoutX="249.0" layoutY="310.0" mnemonicParsing="false" onAction="#acceptRental" text="Akcepacja wypożyczeń" />
+      <Button fx:id="addNewBook" layoutX="249.0" layoutY="187.0" mnemonicParsing="false" onAction="#handleAddNewBookAction" text="Dodaj książkę" />
+      <Button fx:id="showStatsButton" layoutX="262.0" layoutY="231.0" mnemonicParsing="false" onAction="#showStats" text="Statystyki" />
+      <Button layoutX="222.0" layoutY="267.0" mnemonicParsing="false" onAction="#acceptRental" text="Akcepacja wypożyczeń" />
       <Text fx:id="errorMsg" layoutX="206.0" layoutY="68.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="188.0" />
+      <Button layoutX="266.0" layoutY="310.0" onAction="#logoutAction" mnemonicParsing="false" text="Wyloguj" />
    </children>
 </AnchorPane>

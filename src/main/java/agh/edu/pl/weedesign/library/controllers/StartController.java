@@ -18,4 +18,9 @@ public class StartController {
     public void toRentals(ActionEvent e){
         LibraryApplication.getAppController().switchScene(SceneType.RENTALS_VIEW);
     }
+
+    public void logoutAction(ActionEvent e){
+        LibraryApplication.setReader(null);
+        LibraryApplication.getAppController().switchScene(SceneType.WELCOME);
+    }
 }
