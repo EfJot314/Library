@@ -84,7 +84,7 @@ public class RentalsController {
                 if( getSelectedEntity() != null) {
                     this.selectedRental = getSelectedEntity();
                     System.out.println(this.selectedRental);
-                    LibraryApplication.getAppController().switchScene(SceneType.ADD_REVIEW);
+                    LibraryApplication.getAppController().switchScene(SceneType.SINGLE_RENTAL);
                 }
             }
         });

@@ -68,7 +68,7 @@ public class AddReviewController {
     }
     @FXML
     private void handleCancelAction(ActionEvent event){
-        LibraryApplication.getAppController().switchScene(SceneType.RENTALS_VIEW);
+        LibraryApplication.getAppController().switchScene(SceneType.SINGLE_RENTAL);
     }
 
     @Transactional
