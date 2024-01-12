@@ -112,4 +112,8 @@ public class ModelService {
         }
         return getEmployeeByEmail(email).getPassword();
     }
+//    public List<Book> getMostPopularBooks(int n){
+//        List<Object[]> books = bookRepository.findBooksWithRentalCount();
+//        return (List<Book>) books.stream().map(el -> el[0]).limit(n);
+//    }
 }
