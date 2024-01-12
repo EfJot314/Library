@@ -124,19 +124,18 @@ public class AuthController {
 
         String encryptedUserPassword = passwordEncryptor.encryptMessage(loginPasswordField.getText());
 
+        //reader login
         if (encryptedRealPassword == null) {
             System.out.println("Bad login or password");
             MessageLabel.setText("Bad login or password");
             MessageLabel.setVisible(true);
-            return;
         }
-        if (!Objects.equals(encryptedUserPassword, encryptedRealPassword)){
+        else if (!Objects.equals(encryptedUserPassword, encryptedRealPassword)){
             System.out.println("Bad login or password");
             MessageLabel.setText("Bad login or password");
             MessageLabel.setVisible(true);
-            return;
         }
-//        employee login
+        //employee login
         else if (Objects.equals(encryptedUserPassword, encryptedRealPassword) && employeeLogin) {
             System.out.println("Access granted");
             LibraryApplication.setEmployee(this.service.getEmployeeByEmail(login));

@@ -42,6 +42,11 @@ public class EmployeePanelController {
     }
 
     public void acceptRental(ActionEvent actionEvent) {
-        LibraryApplication.getAppController().switchScene(SceneType.RENTALS_ACCEPTANCE_VIEW);
+        LibraryApplication.getAppController().switchScene(SceneType.RENTALS_ACCEPTANCE);
+    }
+
+    public void logoutAction(ActionEvent e){
+        LibraryApplication.setEmployee(null);
+        LibraryApplication.getAppController().switchScene(SceneType.WELCOME);
     }
 }

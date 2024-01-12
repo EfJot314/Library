@@ -58,7 +58,7 @@ public class ModelService {
     public List<Category> getCategories(){
         return categoryRepository.findAll();
     }
-
+    public List<Reader> getReaders(){return readerRepository.findAll();}
     public List<Employee> getEmployees(){
         return employeeRepository.findAll();
     }
@@ -80,6 +80,8 @@ public class ModelService {
     }
 
     public List<Rental> getRentalsByBookCopy(BookCopy bookCopy){return rentalRepository.findRentalsByBookCopy(bookCopy);}
+
+    public List<Rental> getRentalsWithoutAcceptance(){return rentalRepository.findRentalsWithoutAcceptance();}
 
     public void addNewReader(Reader reader) {
         readerRepository.save(reader);

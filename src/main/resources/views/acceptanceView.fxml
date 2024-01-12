@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="agh.edu.pl.weedesign.library.controllers.acceptanceController">
+   <children>
+      <Text fx:id="titleText" layoutX="193.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Author" textAlignment="CENTER" wrappingWidth="213.04800033569336" />
+      <Text fx:id="authorText" layoutX="163.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Title" textAlignment="CENTER" wrappingWidth="274.9610023498535" />
+      <Button layoutX="272.0" layoutY="200.0" mnemonicParsing="false" onAction="#acceptRental" text="Akceptuj" />
+      <Button layoutX="252.0" layoutY="236.0" mnemonicParsing="false" onAction="#rejectRental" text="Odrzuć" />
+      <Button layoutX="269.0" layoutY="280.0" mnemonicParsing="false" onAction="#backAction" text="Powrót" />
+   </children>
+</AnchorPane>

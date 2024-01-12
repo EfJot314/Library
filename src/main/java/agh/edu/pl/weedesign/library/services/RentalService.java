@@ -30,6 +30,9 @@ public class RentalService {
     public Rental updateRental(Rental rental){
         return rentalRepository.save(rental);
     }
+    public void removeRental(Rental rental){
+        rentalRepository.delete(rental);
+    }
 
     public List<Rental> findByReader(Reader reader) {
         return rentalRepository.findRentalsByReader(reader);

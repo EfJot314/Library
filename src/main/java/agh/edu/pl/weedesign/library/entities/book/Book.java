@@ -39,8 +39,8 @@ public class Book {
             inverseJoinColumns = { @JoinColumn(name = "author_id") })
     private Set<Author> authors = new HashSet<Author>();
 
-    @ManyToMany
-    private Set<Category> category = new HashSet<>();
+    @ManyToOne
+    private Category category;
 
     @OneToMany(mappedBy="book")
     private Set<BookCopy> bookCopies;
@@ -116,10 +116,10 @@ public class Book {
 
 
     public void setCategory(Category category){
-        this.category.add(category);
+        this.category = category;
     }
 
-    public Set<Category> getCategory(){
+    public Category getCategory(){
         return this.category;
     }
 

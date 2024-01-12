@@ -11,6 +11,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
+<?import javafx.scene.control.CheckBox?>
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="agh.edu.pl.weedesign.library.controllers.RentalsController">
    <top>
       <HBox prefHeight="42.0" prefWidth="200.0" BorderPane.alignment="CENTER">
@@ -60,6 +61,7 @@
                      </font>
                   </Button>
                   <Label contentDisplay="BOTTOM" prefHeight="30.0" prefWidth="14.0" />
+                  <CheckBox fx:id="showAllBox" onAction="#updateTable" mnemonicParsing="false" text="Wyświetl wszystkie" />
                </children>
                <opaqueInsets>
                   <Insets />
