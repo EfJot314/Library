@@ -58,7 +58,7 @@ public class ModelService {
     public List<Category> getCategories(){
         return categoryRepository.findAll();
     }
-
+    public List<Reader> getReaders(){return readerRepository.findAll();}
     public List<Employee> getEmployees(){
         return employeeRepository.findAll();
     }
