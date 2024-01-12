@@ -123,6 +123,7 @@ public class RentalsController {
     private Rental getSelectedEntity(){
         return rentalsTable.getSelectionModel().getSelectedItem();
     }
+
     public Rental getSelectedRental(){
         return this.selectedRental;
     }

@@ -83,11 +83,7 @@ public class RentalsAcceptanceController {
         rentalsTable.setOnMousePressed(event -> {
             if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
                 if( getSelectedEntity() != null) {
-                    this.selectedRental = getSelectedEntity();
-                    this.selectedRental.setEmployee(LibraryApplication.getEmployee());
-                    this.rentalService.updateRental(this.selectedRental);
-                    //remove rental from table
-                    initialize();
+                    LibraryApplication.getAppController().switchScene(SceneType.ACCEPTANCE);
                 }
             }
         });
