@@ -7,6 +7,7 @@ import agh.edu.pl.weedesign.library.helpers.BookListProcessor;
 import agh.edu.pl.weedesign.library.models_mvc.RentalModel;
 import agh.edu.pl.weedesign.library.sceneObjects.SceneType;
 import agh.edu.pl.weedesign.library.services.ModelService;
+import agh.edu.pl.weedesign.library.services.RentalService;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -49,12 +50,14 @@ public class RentalsAcceptanceController {
     private BookListProcessor bookListProcessor;
 
     private RentalModel rentalModel;
+    private RentalService rentalService;
 
     @Autowired
-    public RentalsAcceptanceController(ModelService service, BookListProcessor bookListProcessor, RentalModel rentalModel){
+    public RentalsAcceptanceController(ModelService service, BookListProcessor bookListProcessor, RentalModel rentalModel, RentalService rentalService){
         this.service = service;
         this.bookListProcessor = bookListProcessor;
         this.rentalModel = rentalModel;
+        this.rentalService = rentalService;
     }
 
     @FXML
@@ -81,15 +84,17 @@ public class RentalsAcceptanceController {
             if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
                 if( getSelectedEntity() != null) {
                     this.selectedRental = getSelectedEntity();
-                    System.out.println(this.selectedRental);
-                    LibraryApplication.getAppController().switchScene(SceneType.ADD_REVIEW);
+                    this.selectedRental.setEmployee(LibraryApplication.getEmployee());
+                    this.rentalService.updateRental(this.selectedRental);
+                    //remove rental from table
+                    initialize();
                 }
             }
         });
     }
 
     private void fetchRentalsData(){
-        this.rentals = new ArrayList<>(this.service.getRentalsByReader(LibraryApplication.getReader()));
+        this.rentals = new ArrayList<>(this.service.getRentalsWithoutAcceptance());
         rentalsTable.setItems(FXCollections.observableList(this.rentals));
     }
 
@@ -100,9 +105,6 @@ public class RentalsAcceptanceController {
 
     private Rental getSelectedEntity(){
         return rentalsTable.getSelectionModel().getSelectedItem();
-    }
-    public Rental getSelectedRental(){
-        return this.selectedRental;
     }
 
 }

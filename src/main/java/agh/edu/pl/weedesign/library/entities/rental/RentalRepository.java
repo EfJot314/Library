@@ -16,4 +16,7 @@ public interface RentalRepository extends JpaRepository<Rental, Integer> {
 
     List<Rental> findRentalsByBookCopy(BookCopy bookCopy);
 
+    @Query("SELECT r FROM Rental r WHERE EMPLOYEE_ID IS NULL")
+    List<Rental> findRentalsWithoutAcceptance();
+
 }

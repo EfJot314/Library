@@ -79,6 +79,8 @@ public class ModelService {
 
     public List<Rental> getRentalsByBookCopy(BookCopy bookCopy){return rentalRepository.findRentalsByBookCopy(bookCopy);}
 
+    public List<Rental> getRentalsWithoutAcceptance(){return rentalRepository.findRentalsWithoutAcceptance();}
+
     public void addNewReader(Reader reader) {
         readerRepository.save(reader);
     }
