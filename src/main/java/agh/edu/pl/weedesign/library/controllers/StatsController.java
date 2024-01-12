@@ -9,13 +9,10 @@ import javafx.scene.layout.BorderPane;
 import org.springframework.stereotype.Controller;
 
 @Controller
-public class StartController {
+public class StatsController {
 
-    public void toBooks(ActionEvent e){
-        LibraryApplication.getAppController().switchScene(SceneType.BOOK_LIST);
+    public void handleRegisterButton(ActionEvent e){
+        LibraryApplication.getAppController().switchScene(SceneType.REGISTER);
     }
 
-    public void toRentals(ActionEvent e){
-        LibraryApplication.getAppController().switchScene(SceneType.RENTALS_VIEW);
-    }
 }

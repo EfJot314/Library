@@ -2,11 +2,8 @@ package agh.edu.pl.weedesign.library.controllers;
 
 
 import agh.edu.pl.weedesign.library.LibraryApplication;
-import agh.edu.pl.weedesign.library.entities.book.Book;
-import agh.edu.pl.weedesign.library.entities.bookCopy.BookCopy;
 import agh.edu.pl.weedesign.library.entities.rental.Rental;
 import agh.edu.pl.weedesign.library.helpers.BookListProcessor;
-import agh.edu.pl.weedesign.library.helpers.Themes;
 import agh.edu.pl.weedesign.library.modelsMVC.RentalModel;
 import agh.edu.pl.weedesign.library.sceneObjects.SceneType;
 import agh.edu.pl.weedesign.library.services.ModelService;
@@ -14,12 +11,8 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.ToggleButton;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
@@ -28,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Controller
-public class RentalsController {
+public class RentalsAcceptanceController {
 
     @FXML
     private TableView<Rental> rentalsTable;
@@ -48,19 +41,6 @@ public class RentalsController {
     @FXML
     private TableColumn<Rental, String> endDateColumn;
 
-    // Navbar controls 
-    @FXML
-    private Button mainPage; 
-
-    @FXML
-    private Button myRentals; 
-
-    @FXML
-    private Button logOut; 
-
-    @FXML 
-    private ChoiceBox<String> themeChange;
-
 
     private List<Rental> rentals;
     private Rental selectedRental;
@@ -71,7 +51,7 @@ public class RentalsController {
     private RentalModel rentalModel;
 
     @Autowired
-    public RentalsController(ModelService service, BookListProcessor bookListProcessor, RentalModel rentalModel){
+    public RentalsAcceptanceController(ModelService service, BookListProcessor bookListProcessor, RentalModel rentalModel){
         this.service = service;
         this.bookListProcessor = bookListProcessor;
         this.rentalModel = rentalModel;
@@ -79,15 +59,11 @@ public class RentalsController {
 
     @FXML
     public void initialize(){
-        themeChange.getItems().addAll(Themes.getAllThemes());
-        themeChange.setOnAction(this::changeTheme);
-        themeChange.setValue(LibraryApplication.getTheme());
-
-
         fetchRentalsData();
+        LibraryApplication.getAppController().resize(760, 440);
 
         titleColumn.setCellValueFactory(rentalValue -> new SimpleStringProperty(rentalValue.getValue().getBookCopy().getBook().getTitle()));
-        authorColumn.setCellValueFactory(rentalValue -> new SimpleStringProperty(rentalValue.getValue().getBookCopy().getBook().getAuthorString()));
+//        authorColumn.setCellValueFactory(rentalValue -> new SimpleStringProperty(rentalValue.getValue().getBookCopy().getBook().getAuthor().getName() + " " + rentalValue.getValue().getBookCopy().getBook().getAuthor().getSurname()));
         priceColumn.setCellValueFactory(rentalValue -> {
             if(rentalValue.getValue().getEnd_date() == null)
                 return new SimpleStringProperty(rentalValue.getValue().countPrice(LocalDateTime.now()) + " zł");
@@ -118,41 +94,15 @@ public class RentalsController {
     }
 
     @FXML
-    private void toWelcomeView(ActionEvent actionEvent) {
-        LibraryApplication.getAppController().switchScene(SceneType.START_VIEW);
+    private void toPanelView(ActionEvent actionEvent) {
+        LibraryApplication.getAppController().switchScene(SceneType.EMPLOYEE_PANEL);
     }
 
     private Rental getSelectedEntity(){
         return rentalsTable.getSelectionModel().getSelectedItem();
     }
-
     public Rental getSelectedRental(){
         return this.selectedRental;
     }
 
-    public void goBackAction(){
-        LibraryApplication.getAppController().back();
-    }
-
-    public void goForwardAction(){
-        LibraryApplication.getAppController().forward();
-    }
-
-    public void mainPageButtonHandler(){
-        LibraryApplication.getAppController().switchScene(SceneType.BOOK_LIST);
-    }
-
-    public void myRentalsButtonHandler(){
-        LibraryApplication.getAppController().switchScene(SceneType.RENTALS_VIEW); 
-    }
-
-    public void changeTheme(ActionEvent e){
-        LibraryApplication.changeTheme(themeChange.getValue());
-    }
-
-    public void LogOutAction(){
-        LibraryApplication.getAppController().logOut();
-    }
-
-    
 }
