@@ -1,7 +1,6 @@
 package agh.edu.pl.weedesign.library.helpers;
 
 import agh.edu.pl.weedesign.library.entities.book.*;
-import agh.edu.pl.weedesign.library.modelsMVC.*;
 import agh.edu.pl.weedesign.library.services.ModelService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +20,8 @@ public class BookListProcessor {
         this.service = service;
     }
 
-    public List<Book> processList(List<Book> books, SearchStrategy searchBy, String searchName, SearchStrategy sortStrategy, SortOrder order, boolean onlyAvailable){
-        List<Book> tempBooks = new ArrayList<>(books);
+    public List<Book> processList(SearchStrategy searchBy, String searchName, SearchStrategy sortStrategy, SortOrder order, FilterStrategy filterStrategy, String filterValue, boolean onlyAvailable){
+        List<Book> tempBooks = filter(filterStrategy, filterValue);
         if (onlyAvailable){
             tempBooks = onlyAvailableBooks(tempBooks);
         }
@@ -82,6 +81,16 @@ public class BookListProcessor {
             }
             books.sort(comparator);
         }
+    }
+
+    private List<Book> filter(FilterStrategy filterStrategy, String filterValue){
+        if (filterStrategy == null){
+            return this.service.getBooks();
+        }
+        return switch (filterStrategy){
+            case CATEGORY -> this.service.getAllBooksByAuthorSurnameOrCategoryName(null, filterValue);
+            case AUTHOR -> this.service.getAllBooksByAuthorSurnameOrCategoryName(filterValue, null);
+        };
     }
 
 
