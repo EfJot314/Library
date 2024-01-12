@@ -110,9 +110,18 @@ public class Book {
 
     public String getAuthorString(){
         return this.authors.stream()
-            .map(e ->  e.getFormattedName())
+            .map(Author::getFormattedName)
             .collect(Collectors.joining(", "));
     }
+
+    public String getAuthorsNames() {
+        return this.authors.stream().map(Author::getName).collect(Collectors.joining());
+    }
+
+    public String getAuthorsSurnames() {
+        return this.authors.stream().map(Author::getSurname).collect(Collectors.joining());
+    }
+
 
 
     public void setCategory(Category category){

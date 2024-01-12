@@ -4,6 +4,11 @@ import java.util.List;
 import java.util.Map;
 
 import agh.edu.pl.weedesign.library.entities.rental.Rental;
+import agh.edu.pl.weedesign.library.helpers.SortOrder;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import agh.edu.pl.weedesign.library.entities.author.Author;
@@ -24,6 +29,8 @@ import agh.edu.pl.weedesign.library.entities.review.ReviewRepository;
 
 @Service
 public class ModelService {
+
+    private int PAGE_SIZE = 1000;
 
     private final AuthorRepository authorRepository;
     private final BookRepository bookRepository;
@@ -102,9 +109,9 @@ public class ModelService {
         return getReaderByEmail(email).getPassword();
     }
 
-    public Map<Book, Long> getAvailableBookCount(){
+    public Map<Book, Long> getAvailableBookCount(List<Book> books){
         Map<Book, Long> bookCount = new HashMap<>();
-        for(Object[] obj: bookCopyRepository.findBooksWithCopyCount()) {
+        for(Object[] obj: bookCopyRepository.findBooksWithCopyCount(books)) {
             bookCount.put((Book) obj[0],(Long) obj[1]);
         }
         return bookCount;
@@ -121,6 +128,18 @@ public class ModelService {
 //        return (List<Book>) books.stream().map(el -> el[0]).limit(n);
 //    }
     public List<Book> getAllBooksByAuthorSurnameOrCategoryName(String authorSurname, String categoryName) {
-        return this.bookRepository.getAllByAuthorSurnameOrCategoryName_test(authorSurname, categoryName);
+        return this.bookRepository.getAllByAuthorSurname(authorSurname, categoryName);
+    }
+
+    public Page<Book> getBooksFilteredSorted(int page, String categoryName, SortOrder sortDirection){
+        Sort sort;
+        if (sortDirection == null) {
+            sort = Sort.unsorted();
+        } else {
+            sort = Sort.by(sortDirection.toSpringDirection(), "title");
+        }
+
+        Pageable pageable = PageRequest.of(page, PAGE_SIZE, sort);
+        return this.bookRepository.findBooksByCategoryAndSort(categoryName, pageable);
     }
 }

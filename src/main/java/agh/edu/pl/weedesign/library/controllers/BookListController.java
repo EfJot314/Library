@@ -13,6 +13,7 @@ import java.util.Map;
 import agh.edu.pl.weedesign.library.entities.author.Author;
 import agh.edu.pl.weedesign.library.entities.category.Category;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 
 import agh.edu.pl.weedesign.library.LibraryApplication;
@@ -23,9 +24,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -35,6 +34,13 @@ import javafx.scene.layout.VBox;
 
 @Controller
 public class BookListController {
+
+    public Button prevPageButton;
+    public Button nextPageButton;
+
+    private int pageCounter = 0;
+    private int maxPageCounter = 0;
+
     @FXML
     public HBox popularBooksHBox;
     @FXML
@@ -125,6 +131,7 @@ public class BookListController {
 
     @FXML
     public void initialize(){
+        pageCounter = 0;
         themeChange.getItems().addAll(Themes.getAllThemes());
         themeChange.setOnAction(this::changeTheme);
         themeChange.setValue(LibraryApplication.getTheme());
@@ -132,9 +139,9 @@ public class BookListController {
         scrollPane.setVisible(!isTableVisible);
         bookTable.setVisible(isTableVisible);
 
-        fetchBooksData();
-        initializeTilesDisplay();
-        initializeTabelDisplay();
+        fetchAndProcessBooksData();
+        reloadDisplayedBooks();
+        updateButtonState();
     }
 
     private void initializeTabelDisplay(){
@@ -162,15 +169,15 @@ public class BookListController {
             }
         });
 
-
-        filterStrategyMenu.setOnAction((e) ->{
-            this.setFilteringMenuContent();
-        });
+        bookTable.setItems(FXCollections.observableList(this.visibleBooks));
     }
 
     @FXML
     private void search(ActionEvent actionEvent) {
-        showProcessedBooks();
+        pageCounter = 0;
+        fetchAndProcessBooksData();
+        reloadDisplayedBooks();
+        updateButtonState();
     }
 
     @FXML
@@ -185,23 +192,18 @@ public class BookListController {
     }
 
 
-    private void setFilteringMenuContent() {
+    public void setFilteringMenuContent() {
         if (this.filterStrategyMenu.getValue() == null) {
             this.filterValueMenu.setItems(FXCollections.observableArrayList());
             return;
         }
         switch (this.filterStrategyMenu.getValue()){
-            case AUTHOR -> {
-                List<Author> authorList = this.service.getAuthors();
-                List<String> surrnameList = authorList.stream().map(Author::getSurname).toList();
-
-                this.filterValueMenu.setItems(FXCollections.observableList(surrnameList));
-            }
-            case CATEGORY -> {
-                List<Category> categories = this.service.getCategories();
-                List<String> categoryNameList = categories.stream().map(Category::getName).toList();
-                this.filterValueMenu.setItems(FXCollections.observableList(categoryNameList));
-            }
+            case AUTHOR -> this.filterValueMenu.setItems(FXCollections.observableList(
+                    this.service.getAuthors().stream().map(Author::getSurname).toList()
+            ));
+            case CATEGORY -> this.filterValueMenu.setItems(FXCollections.observableList(
+                    this.service.getCategories().stream().map(Category::getName).toList()
+            ));
         }
 
     }
@@ -237,17 +239,13 @@ public class BookListController {
 
     private ImageView createImageCover(Book b) {
         ImageView newCover = new ImageView();
-        newCover.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+        newCover.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+            if(LibraryApplication.getBook() == b)
+                LibraryApplication.getAppController().switchScene(SceneType.BOOK_VIEW);
 
-                    @Override
-                    public void handle(MouseEvent event){
-                        if(LibraryApplication.getBook() == b)
-                            LibraryApplication.getAppController().switchScene(SceneType.BOOK_VIEW);
-
-                        LibraryApplication.setBook(b);
-                        System.out.println(LibraryApplication.getBook());
-                    }
-                }
+            LibraryApplication.setBook(b);
+            System.out.println(LibraryApplication.getBook());
+        }
         );
 
         newCover.setFitHeight(300);
@@ -295,10 +293,27 @@ public class BookListController {
         this.rows.add(new HBox(new VBox(label, popularHBox)));
     }
 
-    private void fetchBooksData(){
-        this.booksCount = this.service.getAvailableBookCount();
+    private void fetchAndProcessBooksData(){
+        this.booksCount = this.service.getAvailableBookCount(this.visibleBooks);
 
-        showProcessedBooks();
+        Page<Book> tempBookPage = this.service.getBooksFilteredSorted(
+                pageCounter,
+                this.filterValueMenu.getValue(),
+                this.sortOrderMenu.getValue()
+        );
+        maxPageCounter = tempBookPage.getTotalPages();
+        System.out.println(tempBookPage.getTotalPages());
+        System.out.println(this.pageCounter);
+
+        List<Book> tempBookList = this.bookListProcessor.processList(
+                tempBookPage.toList(),
+                this.searchStrategyMenu.getValue(),
+                this.findTextField.getText(),
+                this.booksCount,
+                this.onlyAvailableCheckbox.isSelected()
+        );
+
+        this.visibleBooks = FXCollections.observableList(tempBookList);
     }
 
     private Book getSelectedBook(){
@@ -317,28 +332,15 @@ public class BookListController {
         LibraryApplication.getAppController().switchScene(SceneType.BOOK_VIEW);
     }
 
-
-    private void showProcessedBooks() {
-        List<Book> tempBookList = bookListProcessor.processList(
-                searchStrategyMenu.getValue(),
-                findTextField.getText(),
-                sortStrategyMenu.getValue(),
-                sortOrderMenu.getValue(),
-                filterStrategyMenu.getValue(),
-                filterValueMenu.getValue(),
-                onlyAvailableCheckbox.isSelected()
-        );
-        this.visibleBooks = FXCollections.observableList(tempBookList);
-        bookTable.setItems(this.visibleBooks);
-        
-        initializeTilesDisplay();
-    }
-
     public void changeView(){
         isTableVisible = !isTableVisible;
+        if (isTableVisible) {
+            bookTable.setItems(this.visibleBooks);
+        }
 
         scrollPane.setVisible(!isTableVisible);
         bookTable.setVisible(isTableVisible);
+        reloadDisplayedBooks();
     }
 
     public void goBackAction(){
@@ -368,6 +370,9 @@ public class BookListController {
 
     private void clearSearchingOptions() {
         // Ni chuja nie wiem jak tu zrobić żeby znowu wyświetlił się prompt text, nienawidzę javafx <3
+        this.pageCounter = 0;
+        this.maxPageCounter = 0;
+
         this.searchStrategyMenu.getSelectionModel().clearSelection();
         this.searchStrategyMenu.setPromptText("Wyszukaj po");
 
@@ -382,6 +387,43 @@ public class BookListController {
         this.filterStrategyMenu.getSelectionModel().clearSelection();
         this.filterValueMenu.getSelectionModel().clearSelection();
 
-        showProcessedBooks();
+        fetchAndProcessBooksData();
+        reloadDisplayedBooks();
+        updateButtonState();
+    }
+
+    public void prevPage(ActionEvent actionEvent) {
+        pageCounter--;
+        fetchAndProcessBooksData();
+        reloadDisplayedBooks();
+        updateButtonState();
+    }
+    public void nextPage(ActionEvent actionEvent) {
+        pageCounter++;
+        fetchAndProcessBooksData();
+        reloadDisplayedBooks();
+        updateButtonState();
+    }
+
+    public void updateButtonState() {
+        if (pageCounter <= 0){
+            prevPageButton.setDisable(true);
+            nextPageButton.setDisable(false);
+        } else if (pageCounter >= maxPageCounter-1){
+            prevPageButton.setDisable(false);
+            nextPageButton.setDisable(true);
+        } else {
+            prevPageButton.setDisable(false);
+            nextPageButton.setDisable(false);
+        }
+    }
+
+    void reloadDisplayedBooks() {
+        if (isTableVisible){
+            initializeTabelDisplay();
+        }
+        else {
+            initializeTilesDisplay();
+        }
     }
 }
