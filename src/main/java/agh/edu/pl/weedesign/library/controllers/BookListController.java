@@ -120,16 +120,12 @@ public class BookListController {
     private Recommender recommender;
     private final int popularBooksCount = 9, recommendedBooksCount = 9;
 
-
-
     @Autowired
     public BookListController(ModelService service, BookListProcessor bookListProcessor, Recommender recommender){
         this.service = service;
         this.bookListProcessor = bookListProcessor;
         this.recommender = recommender;
     }
-
-
 
     @FXML
     public void initialize(){
@@ -141,9 +137,26 @@ public class BookListController {
         scrollPane.setVisible(!isTableVisible);
         bookTable.setVisible(isTableVisible);
 
+        initializeStrategy();
+
         fetchAndProcessBooksData();
         reloadDisplayedBooks();
         updateButtonState();
+    }
+
+    private void initializeStrategy(){
+        ArrayList<Object> defaultStrategy = getDefaultStrategy();
+
+        if(defaultStrategy == null){
+            clearSearchingOptions();
+            return;
+        }
+
+        this.filterValueMenu.setValue((String)defaultStrategy.get(1));
+        this.sortOrderMenu.setValue((SortOrder)defaultStrategy.get(2));
+        this.searchStrategyMenu.setValue((SearchStrategy)defaultStrategy.get(3));
+        this.findTextField.setText((String)defaultStrategy.get(4));
+        this.onlyAvailableCheckbox.setSelected((boolean)defaultStrategy.get(6));
     }
 
     private void initializeTableDisplay(){
@@ -177,6 +190,11 @@ public class BookListController {
     @FXML
     private void search(ActionEvent actionEvent) {
         pageCounter = 0;
+        saveStrategy();
+
+        this.recommender.setShowPopularBooks(false);
+        this.recommender.setShowRecommendations(false);
+
         fetchAndProcessBooksData();
         reloadDisplayedBooks();
         updateButtonState();
@@ -190,15 +208,24 @@ public class BookListController {
 
     @FXML
     public void clear(ActionEvent actionEvent) {
+        LibraryApplication.saveStrategy(null);
+        this.recommender.setShowPopularBooks(true);
+        this.recommender.setShowRecommendations(true);
+
         clearSearchingOptions();
+        setFilteringMenuContent();
     }
 
 
     public void setFilteringMenuContent() {
-        if (this.filterStrategyMenu.getValue() == null) {
+        // if (this.filterStrategyMenu.getValue() == null) {
             this.filterValueMenu.setItems(FXCollections.observableArrayList());
+        //     return;
+        // }
+
+        if(this.filterStrategyMenu.getValue() == null)
             return;
-        }
+
         switch (this.filterStrategyMenu.getValue()){
             case AUTHOR -> this.filterValueMenu.setItems(FXCollections.observableList(
                     this.service.getAuthors().stream().map(Author::getSurname).toList()
@@ -211,8 +238,6 @@ public class BookListController {
     }
 
     private void initializeTilesDisplay(){
-        mainViewBox.getChildren().clear();
-        rows.clear();
         int currRow= 0;
 
 //      adding popular books and recommendations
@@ -382,18 +407,24 @@ public class BookListController {
         this.maxPageCounter = 0;
 
         this.searchStrategyMenu.getSelectionModel().clearSelection();
+        this.searchStrategyMenu.setValue(null);
         this.searchStrategyMenu.setPromptText("Wyszukaj po");
 
         this.findTextField.setText("");
 
         this.sortOrderMenu.getSelectionModel().clearSelection();
+        this.sortOrderMenu.setValue(null);
         this.sortOrderMenu.setPromptText("Sortuj");
 
         this.sortStrategyMenu.getSelectionModel().clearSelection();
+        this.sortStrategyMenu.setValue(null);
         this.sortStrategyMenu.setPromptText("Sortuj po");
 
-        this.filterStrategyMenu.getSelectionModel().clearSelection();
         this.filterValueMenu.getSelectionModel().clearSelection();
+        this.filterValueMenu.setValue(null);
+        this.filterStrategyMenu.getSelectionModel().clearSelection();
+
+        this.onlyAvailableCheckbox.setSelected(false);
 
         fetchAndProcessBooksData();
         reloadDisplayedBooks();
@@ -426,7 +457,30 @@ public class BookListController {
         }
     }
 
+    public void saveStrategy(){
+        LibraryApplication.saveStrategy(
+            new ArrayList<>(){
+                {
+                    add(pageCounter);
+                    add(filterValueMenu.getValue());
+                    add(sortOrderMenu.getValue());
+                    add(searchStrategyMenu.getValue());
+                    add(findTextField.getText());
+                    add(booksCount);
+                    add(onlyAvailableCheckbox.isSelected());
+                }
+            }
+        );
+    }
+
+    public ArrayList<Object> getDefaultStrategy(){
+        return LibraryApplication.getStrategy();
+    }
+
     void reloadDisplayedBooks() {
+        mainViewBox.getChildren().clear();
+        rows.clear();
+
         if (isTableVisible){
             initializeTableDisplay();
         }

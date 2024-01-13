@@ -6,6 +6,7 @@ import agh.edu.pl.weedesign.library.entities.bookCopy.BookCopy;
 import agh.edu.pl.weedesign.library.entities.category.Category;
 import agh.edu.pl.weedesign.library.entities.reader.Reader;
 import agh.edu.pl.weedesign.library.entities.rental.Rental;
+import agh.edu.pl.weedesign.library.helpers.Themes;
 import agh.edu.pl.weedesign.library.sceneObjects.SceneType;
 import agh.edu.pl.weedesign.library.services.ModelService;
 import javafx.event.ActionEvent;
@@ -15,6 +16,7 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.chart.PieChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,6 +53,19 @@ public class StatsController {
     @FXML
     private BarChart freqReaderPlot;
 
+    // Navbar controls 
+    @FXML
+    private Button mainPage; 
+
+    @FXML
+    private Button myRentals; 
+
+    @FXML
+    private Button logOut; 
+
+    @FXML 
+    private ChoiceBox<String> themeChange;
+
 
     final private ModelService modelService;
 
@@ -61,6 +76,10 @@ public class StatsController {
 
     @FXML
     public void initialize(){
+        themeChange.getItems().addAll(Themes.getAllThemes());
+        themeChange.setOnAction(this::changeTheme);
+        themeChange.setValue(LibraryApplication.getTheme());
+
         //get rental data (often used)
         List<Rental> rentals = this.modelService.getRentals();
 
@@ -213,6 +232,28 @@ public class StatsController {
 
     }
 
+    public void goBackAction(){
+        LibraryApplication.getAppController().back();
+    }
 
+    public void goForwardAction(){
+        LibraryApplication.getAppController().forward();
+    }
+
+    public void mainPageButtonHandler(){
+        LibraryApplication.getAppController().switchScene(SceneType.EMPLOYEE_PANEL); 
+    }
+
+    public void myRentalsButtonHandler(){
+        LibraryApplication.getAppController().switchScene(SceneType.RENTALS_VIEW); 
+    }
+
+    public void changeTheme(ActionEvent e){
+        LibraryApplication.changeTheme(themeChange.getValue());
+    }
+
+    public void LogOutAction(){
+        LibraryApplication.getAppController().logOut();
+    }
 
 }

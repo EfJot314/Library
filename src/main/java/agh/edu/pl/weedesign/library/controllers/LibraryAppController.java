@@ -32,6 +32,7 @@ public class LibraryAppController {
     public void initWelcomeLayout() {
         this.primaryStage.setTitle("Biblioteka");
         currentScene = new Scene(factory.createScene(SceneType.WELCOME));
+
         LibraryApplication.getAppController().resize(1000, 800);
         primaryStage.setScene(currentScene);
         primaryStage.show();

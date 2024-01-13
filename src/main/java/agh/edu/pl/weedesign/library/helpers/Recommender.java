@@ -66,4 +66,12 @@ public class Recommender {
     public boolean showPopularBooks(){
         return this.showPopularBooks;
     }
+
+    public void setShowPopularBooks(boolean value){
+        this.showPopularBooks = value;
+    }
+
+    public void setShowRecommendations(boolean value){
+        this.showRecommendations = value;
+    }
 }
