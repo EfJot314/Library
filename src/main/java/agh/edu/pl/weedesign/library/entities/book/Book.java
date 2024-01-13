@@ -104,7 +104,7 @@ public class Book {
         this.authors.add(author);
     }
 
-    public Set<Author> getAuthor(){
+    public Set<Author> getAuthors(){
         return authors;
     }
 

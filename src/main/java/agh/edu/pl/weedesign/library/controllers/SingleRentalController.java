@@ -1,10 +1,12 @@
 package agh.edu.pl.weedesign.library.controllers;
 
 import agh.edu.pl.weedesign.library.LibraryApplication;
+import agh.edu.pl.weedesign.library.entities.author.Author;
 import agh.edu.pl.weedesign.library.entities.rental.Rental;
 import agh.edu.pl.weedesign.library.entities.reservation.Reservation;
 import agh.edu.pl.weedesign.library.entities.review.Review;
 import agh.edu.pl.weedesign.library.entities.review.ReviewRepository;
+import agh.edu.pl.weedesign.library.helpers.Themes;
 import agh.edu.pl.weedesign.library.sceneObjects.SceneType;
 import agh.edu.pl.weedesign.library.services.EmailServiceImpl;
 import agh.edu.pl.weedesign.library.services.ModelService;
@@ -43,6 +45,18 @@ public class SingleRentalController {
     @FXML
     private Button addButton;
 
+    // Navbar controls 
+     @FXML
+     private Button mainPage; 
+ 
+     @FXML
+     private Button myRentals; 
+ 
+     @FXML
+     private Button logOut; 
+ 
+     @FXML 
+     private ChoiceBox<String> themeChange;
 
     private final ReviewService reviewService;
     private Rental rental;
@@ -62,14 +76,20 @@ public class SingleRentalController {
 
     @FXML
     public void initialize(){
-        this.rental = rentalsController.getSelectedRental();
+        themeChange.getItems().addAll(Themes.getAllThemes());
+        themeChange.setOnAction(this::changeTheme);
+        themeChange.setValue(LibraryApplication.getTheme());
 
+        this.rental = rentalsController.getSelectedRental();
         this.setValues();
     }
 
     private void setValues(){
         this.titleText.setText(this.rental.getBookCopy().getBook().getTitle());
-//        this.authorText.setText(this.rental.getBookCopy().getBook().getAuthor().getName() + " " + this.rental.getBookCopy().getBook().getAuthor().getSurname());
+        String authors = "";
+        for(Author author : this.rental.getBookCopy().getBook().getAuthors())
+            authors += author.getName() + " " + author.getSurname() + "   ";
+        this.authorText.setText(authors);
         this.weekPriceText.setText("Cena tygodniowa: " + this.rental.getBookCopy().getWeek_unit_price() + "zł");
         this.priceText.setText("Należność: " + this.rental.getPrice() + "zł");
         if(this.rental.getEmployee() != null)
@@ -79,7 +99,7 @@ public class SingleRentalController {
 
         if(this.rental.getEnd_date() != null)
             this.cancelButton.setVisible(false);
-        if(this.rental.getReview() != null)
+        if(this.rental.getReview() != null || this.rental.getEmployee() == null)
             this.addButton.setVisible(false);
 
     }
@@ -121,6 +141,30 @@ public class SingleRentalController {
     @FXML
     private void backAction(ActionEvent event){
         LibraryApplication.getAppController().switchScene(SceneType.RENTALS_VIEW);
+    }
+
+    public void goBackAction(){
+        LibraryApplication.getAppController().back();
+    }
+
+    public void goForwardAction(){
+        LibraryApplication.getAppController().forward();
+    }
+
+    public void mainPageButtonHandler(){
+        LibraryApplication.getAppController().switchScene(SceneType.EMPLOYEE_PANEL); 
+    }
+
+    public void myRentalsButtonHandler(){
+        LibraryApplication.getAppController().switchScene(SceneType.RENTALS_VIEW); 
+    }
+
+    public void changeTheme(ActionEvent e){
+        LibraryApplication.changeTheme(themeChange.getValue());
+    }
+
+    public void LogOutAction() {
+        LibraryApplication.getAppController().logOut();
     }
 
 }

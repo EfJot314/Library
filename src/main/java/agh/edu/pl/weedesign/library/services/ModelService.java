@@ -1,7 +1,5 @@
 package agh.edu.pl.weedesign.library.services;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import agh.edu.pl.weedesign.library.entities.rental.Rental;
 import agh.edu.pl.weedesign.library.entities.reservation.Reservation;
@@ -42,6 +40,7 @@ public class ModelService {
     private final ReaderRepository readerRepository;
     private final RentalRepository rentalRepository;
     private final ReviewRepository reviewRepository;
+    private final Random rand = new Random();
     private final ReservationRepository reservationRepository;
 
     public ModelService(AuthorRepository authorRepository, BookRepository bookRepository, BookCopyRepository bookCopyRepository, CategoryRepository categoryRepository, EmployeeRepository employeeRepository, ReaderRepository readerRepository, RentalRepository rentalRepository, ReviewRepository reviewRepository, ReservationRepository reservationRepository){
@@ -87,6 +86,20 @@ public class ModelService {
     }
 
     public List<Rental> getRentals() {return rentalRepository.findAll();}
+
+    public List<Rental> getRentalsByBook(Book book) {
+        List<Rental> toReturn = new ArrayList<>();
+        for(BookCopy bc : bookCopyRepository.findBookCopiesByBook(book))
+            toReturn.addAll(rentalRepository.getRentalsByBookCopy(bc));
+        return toReturn;
+    }
+
+    public List<Rental> getRentalsByCategory(Category category){
+        List<Rental> toReturn = new ArrayList<>();
+        for(Book book : bookRepository.findBookByCategory(category))
+            toReturn.addAll(this.getRentalsByBook(book));
+        return toReturn;
+    }
 
     public List<Author> getAuthors() {return authorRepository.findAll();}
 
@@ -134,12 +147,70 @@ public class ModelService {
         }
         return getEmployeeByEmail(email).getPassword();
     }
-//    public List<Book> getMostPopularBooks(int n){
-//        List<Object[]> books = bookRepository.findBooksWithRentalCount();
-//        return (List<Book>) books.stream().map(el -> el[0]).limit(n);
-//    }
-    public List<Book> getAllBooksByAuthorSurnameOrCategoryName(String authorSurname, String categoryName) {
-        return this.bookRepository.getAllByAuthorSurname(authorSurname, categoryName);
+    public List<Book> getMostPopularBooks(int n){
+        List<Book> books = bookRepository.findBooksOrderedByRentalCountDesc();
+        return books.subList(0, Math.min(n, books.size()));
+    }
+    public List<Book> getRentedBooks(Reader r){
+        return this.bookRepository.findBooksRentedByReader(r);
+    }
+
+    public List<Book> getMostPopularNotReadBooksFromMostPopularCategories(Reader reader, int count) {
+        Category  c = this.getMostPopularCategory();
+        System.out.println("Category: "+c.getName());
+//        List<Book> books  = this.bookRepository.findNotReadBooksFromCategoryOrderedByRentalCountDesc(reader, c).stream().limit(count).toList();
+        List<Book> books  = this.bookRepository.findNotReadBooksFromCategoryOrderedByRentalCountDesc(reader, c);
+        System.out.println("MostPopularNotReadBooksFromMostPopularCategories, count: " + count + " actual size: " + books.size());
+        return books;
+    }
+
+    public Category getMostPopularCategory() {
+        List<Category> l = categoryRepository.findCategoriesSortedByPopularity();
+        if (l.isEmpty()){
+            return getRandomCategory();
+        }
+        return l.stream().limit(1).toList().get(0);
+    }
+
+    public List<Book> getRandomNotReadBooksFromReaderNthMostPopularCategory(int n, Reader r, int count) {
+        Category readerCategory = this.getReaderNthMostPopularCategory(n, r);
+        List<Book> books = this.bookRepository.findNotReadBooksFromCategory(r, readerCategory);
+        Collections.shuffle(books);
+        System.out.println("RandomNotReadBooksFromReaderNthMostPopularCategory, n = " + n + "count = " + count + " actual size = " + books.size());
+        return books.subList(0, Math.min(count, books.size()));
+    }
+
+    public Category getReaderNthMostPopularCategory(int n, Reader r) {
+        List<Category> categories = this.categoryRepository.findCategoryWithMostRentals(r);
+        if( categories.size() <= n){
+            return getRandomCategory();
+        }
+        return categories.get(n);
+    }
+
+    public Category getRandomCategory() {
+        List<Category> categories = this.categoryRepository.findAll();
+        Collections.shuffle(categories);
+        return categories.get(0);
+    }
+
+    public List<Book> getRandomNotReadBooksFromCategory(Reader r, Category c, int count) {
+        List<Book> books = this.bookRepository.findNotReadBooksFromCategory(r, c);
+        Collections.shuffle(books);
+        System.out.println("RandomNotReadBooksFromCategory, count = " + count + " acutal size = " + books.size());
+        return books.subList(0, Math.min(count, books.size()));
+    }
+
+    public List<Book> getMostPopularBooksFromCategory(Category category, int i) {
+        return bookRepository.findBooksFromCategoryOrderedByRentalCountDesc(category).stream().limit(i).toList();
+    }
+
+    public List<Book> getMostPopularNotReadBooksFromCategory(Reader reader, Category category, int i) {
+        return bookRepository.findNotReadBooksFromCategoryOrderedByRentalCountDesc(reader, category).stream().limit(i).toList();
+    }
+
+    public Double getAverageRating(Book book) {
+        return reviewRepository.findAverageRating(book);
     }
 
     public Page<Book> getBooksFilteredSorted(int page, String categoryName, SortOrder sortDirection){

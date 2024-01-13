@@ -1,22 +1,21 @@
 package agh.edu.pl.weedesign.library.controllers;
 
 import agh.edu.pl.weedesign.library.LibraryApplication;
+import agh.edu.pl.weedesign.library.entities.author.Author;
 import agh.edu.pl.weedesign.library.entities.rental.Rental;
 import agh.edu.pl.weedesign.library.entities.review.ReviewRepository;
 import agh.edu.pl.weedesign.library.sceneObjects.SceneType;
 import agh.edu.pl.weedesign.library.services.RentalService;
 import agh.edu.pl.weedesign.library.services.ReviewService;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.text.Text;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
-import java.time.LocalDateTime;
-
 @Controller
-public class acceptanceController {
+public class AcceptanceController {
     private final RentalsController rentalsController;
 
     @FXML
@@ -32,7 +31,7 @@ public class acceptanceController {
 
 
     @Autowired
-    public acceptanceController(ReviewRepository reviewRepository, ReviewService reviewService, RentalsController rentalsController, RentalService rentalService){
+    public AcceptanceController(ReviewRepository reviewRepository, ReviewService reviewService, RentalsController rentalsController, RentalService rentalService){
         this.reviewService = reviewService;
         this.rentalService = rentalService;
         this.rentalsController = rentalsController;
@@ -42,14 +41,17 @@ public class acceptanceController {
 
     @FXML
     public void initialize(){
-        this.rental = rentalsController.getSelectedRental();
+        this.rental = (Rental) LibraryApplication.getAppController().getData();
 
         this.setValues();
     }
 
     private void setValues(){
         this.titleText.setText(this.rental.getBookCopy().getBook().getTitle());
-//        this.authorText.setText(this.rental.getBookCopy().getBook().getAuthor().getName() + " " + this.rental.getBookCopy().getBook().getAuthor().getSurname());
+        String authors = "";
+        for(Author author : this.rental.getBookCopy().getBook().getAuthors())
+            authors += author.getName() + " " + author.getSurname() + "   ";
+        this.authorText.setText(authors);
     }
 
     public void acceptRental(ActionEvent e){

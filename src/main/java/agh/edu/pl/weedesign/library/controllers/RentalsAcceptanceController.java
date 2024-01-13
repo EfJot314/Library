@@ -2,8 +2,10 @@ package agh.edu.pl.weedesign.library.controllers;
 
 
 import agh.edu.pl.weedesign.library.LibraryApplication;
+import agh.edu.pl.weedesign.library.entities.author.Author;
 import agh.edu.pl.weedesign.library.entities.rental.Rental;
 import agh.edu.pl.weedesign.library.helpers.BookListProcessor;
+import agh.edu.pl.weedesign.library.helpers.Themes;
 import agh.edu.pl.weedesign.library.modelsMVC.RentalModel;
 import agh.edu.pl.weedesign.library.sceneObjects.SceneType;
 import agh.edu.pl.weedesign.library.services.ModelService;
@@ -12,6 +14,8 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +46,20 @@ public class RentalsAcceptanceController {
     @FXML
     private TableColumn<Rental, String> endDateColumn;
 
+     // Navbar controls 
+    @FXML
+    private Button mainPage; 
+
+    @FXML
+    private Button myRentals; 
+
+    @FXML
+    private Button logOut; 
+
+    @FXML 
+    private ChoiceBox<String> themeChange;
+
+
 
     private List<Rental> rentals;
     private Rental selectedRental;
@@ -63,10 +81,20 @@ public class RentalsAcceptanceController {
     @FXML
     public void initialize(){
         fetchRentalsData();
+
+        themeChange.getItems().addAll(Themes.getAllThemes());
+        themeChange.setOnAction(this::changeTheme);
+        themeChange.setValue(LibraryApplication.getTheme());
+
         LibraryApplication.getAppController().resize(760, 440);
 
         titleColumn.setCellValueFactory(rentalValue -> new SimpleStringProperty(rentalValue.getValue().getBookCopy().getBook().getTitle()));
-//        authorColumn.setCellValueFactory(rentalValue -> new SimpleStringProperty(rentalValue.getValue().getBookCopy().getBook().getAuthor().getName() + " " + rentalValue.getValue().getBookCopy().getBook().getAuthor().getSurname()));
+        authorColumn.setCellValueFactory(rentalValue -> {
+                String authors = "";
+                for(Author author : rentalValue.getValue().getBookCopy().getBook().getAuthors())
+                    authors += author.getName() + " " + author.getSurname() + "   ";
+                return new SimpleStringProperty(authors);
+        });
         priceColumn.setCellValueFactory(rentalValue -> {
             if(rentalValue.getValue().getEnd_date() == null)
                 return new SimpleStringProperty(rentalValue.getValue().countPrice(LocalDateTime.now()) + " zł");
@@ -83,6 +111,7 @@ public class RentalsAcceptanceController {
         rentalsTable.setOnMousePressed(event -> {
             if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
                 if( getSelectedEntity() != null) {
+                    LibraryApplication.getAppController().saveData(getSelectedEntity());
                     LibraryApplication.getAppController().switchScene(SceneType.ACCEPTANCE);
                 }
             }
@@ -101,6 +130,30 @@ public class RentalsAcceptanceController {
 
     private Rental getSelectedEntity(){
         return rentalsTable.getSelectionModel().getSelectedItem();
+    }
+
+    public void goBackAction(){
+        LibraryApplication.getAppController().back();
+    }
+
+    public void goForwardAction(){
+        LibraryApplication.getAppController().forward();
+    }
+
+    public void mainPageButtonHandler(){
+        LibraryApplication.getAppController().switchScene(SceneType.EMPLOYEE_PANEL); 
+    }
+
+    public void myRentalsButtonHandler(){
+        LibraryApplication.getAppController().switchScene(SceneType.RENTALS_VIEW); 
+    }
+
+    public void changeTheme(ActionEvent e){
+        LibraryApplication.changeTheme(themeChange.getValue());
+    }
+
+    public void LogOutAction(){
+        LibraryApplication.getAppController().logOut();
     }
 
 }
