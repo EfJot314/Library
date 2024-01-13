@@ -12,7 +12,10 @@ import org.springframework.stereotype.Controller;
 public class StartController {
 
     public void toBooks(ActionEvent e){
-        LibraryApplication.getAppController().switchScene(SceneType.BOOK_LIST);
+        if (!LibraryApplication.getReader().isShow_recommendations()) {
+            LibraryApplication.getAppController().switchScene(SceneType.LIKED_CATEGORIES);
+        }
+        else LibraryApplication.getAppController().switchScene(SceneType.BOOK_LIST);
     }
 
     public void toRentals(ActionEvent e){

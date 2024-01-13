@@ -40,8 +40,13 @@ public class Reader {
     private String sex;
 
     private boolean show_recommendations;
-    @OneToMany
-    Set<Category> likedCategories;
+    @ManyToMany
+    @JoinTable(
+            name = "reader_categories",
+            joinColumns = @JoinColumn(name = "reader_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id")
+    )
+    List<Category> likedCategories;
 
     @OneToMany(mappedBy = "reader")
     Set<Rental> rentals;
@@ -65,7 +70,7 @@ public class Reader {
         this.sex = sex;
         this.rentals = new HashSet<Rental>();
         this.show_recommendations = false;
-        this.likedCategories = new HashSet<>();
+        this.likedCategories = new ArrayList<>();
 
     }
 
@@ -173,7 +178,7 @@ public class Reader {
         return this.rentals;
     }
 
-    public Set<Category> getLikedCategories() {
+    public List<Category> getLikedCategories() {
         return likedCategories;
     }
 
@@ -182,8 +187,8 @@ public class Reader {
 //        this.likedCategories = likedCategories;
 //    }
 
-    public void addLikedCategory(Category c){
-        this.likedCategories.add(c);
+    public void setLikedCategories(List<Category> c){
+        this.likedCategories = c;
     }
     public boolean isShow_recommendations() {
         return show_recommendations;

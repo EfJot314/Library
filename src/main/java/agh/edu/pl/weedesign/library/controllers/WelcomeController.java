@@ -13,7 +13,9 @@ import javafx.scene.layout.BorderPane;
 @Controller
 public class WelcomeController {
 
+    @FXML
     private Button loginButton;
+    @FXML
     private Button registerButton;
 
     @FXML

@@ -144,7 +144,7 @@ public class AuthController {
         else if (Objects.equals(encryptedUserPassword, encryptedRealPassword) && !employeeLogin) {
             System.out.println("Access granted");
             LibraryApplication.setReader(this.service.getReaderByEmail(login));
-            hopToNextScene(SceneType.BOOK_LIST);
+            hopToNextScene(SceneType.START_VIEW);
         }
 
     }

@@ -18,5 +18,6 @@ public enum SceneType {
     STATS_VIEW,
     RENTALS_ACCEPTANCE,
     SINGLE_RENTAL,
-    ACCEPTANCE
+    ACCEPTANCE,
+    LIKED_CATEGORIES
 }

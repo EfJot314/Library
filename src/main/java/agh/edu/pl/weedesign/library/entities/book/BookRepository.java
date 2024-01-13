@@ -30,7 +30,7 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
     @Query("SELECT b FROM Book b JOIN Author a JOIN Category c WHERE a.surname LIKE :authorSurname OR c.name LIKE :categoryName")
 
     List<Book> getAllByAuthorSurnameOrCategoryName(String authorSurname, String categoryName);
-    @Query("SELECT b FROM Book b JOIN BookCopy bc JOIN Rental rent JOIN Reader r WHERE r = :r GROUP BY b ")
+    @Query("SELECT b FROM Book b JOIN b.bookCopies bc JOIN bc.rentals rent JOIN rent.reader r WHERE r = :r GROUP BY b ")
     List<Book> findBooksRentedByReader(Reader r);
 //    List<Book> findAllByAuthorSurname(String authorSurname, String categoryName);
 

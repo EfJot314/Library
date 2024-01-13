@@ -47,13 +47,13 @@ public class Recommender {
     }
 
     private List<Book> topRatedNotReadBooksFromReaderCategories(Reader reader, int count) {
-        Set<Category> categories = reader == null ? new HashSet<Category>() : reader.getLikedCategories();
+        List<Category> categories = reader == null ? new ArrayList<>() : reader.getLikedCategories();
         List<Book> books = new ArrayList<>();
-//        System.out.println(categories);
-//        for(Category category: categories){
-//            books.addAll(modelService.getMostPopularNotReadBooksFromCategory(reader, category, 2));
-//        }
-//        Collections.shuffle(books);
+        for(Category category: categories){
+            books.addAll(modelService.getMostPopularNotReadBooksFromCategory(reader, category, 4));
+        }
+        Collections.shuffle(books);
+        System.out.println(books.size());
         return books.subList(0, Math.min(count, books.size()));
     }
 

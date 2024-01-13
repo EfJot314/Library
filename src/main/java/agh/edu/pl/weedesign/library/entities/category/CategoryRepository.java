@@ -13,5 +13,5 @@ public interface CategoryRepository extends JpaRepository<Category, Integer> {
     @Query("SELECT c FROM Book b JOIN  b.category c JOIN b.bookCopies bc JOIN bc.rentals r GROUP BY c ORDER BY COUNT(r) DESC")
     List<Category> findCategoriesSortedByPopularity();
     @Query("SELECT c FROM Book b JOIN  b.category c JOIN b.bookCopies bc JOIN bc.rentals rent JOIN rent.reader r WHERE r = :r GROUP BY c ORDER BY COUNT(rent) DESC")
-    List<Category> findCategoryWithMostRentals(Reader r);
+    List<Category> findReaderCategoriesSortedByRentalCount(Reader r);
 }

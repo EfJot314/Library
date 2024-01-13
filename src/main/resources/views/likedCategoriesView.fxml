@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="agh.edu.pl.weedesign.library.controllers.LikedCategoriesController">
+    <center>
+        <VBox xmlns:fx="http://javafx.com/fxml">
+            <ListView fx:id="itemListView" prefHeight="400.0" prefWidth="605.0" />
+        </VBox>
+    </center>
+   <top>
+      <Label prefHeight="59.0" prefWidth="600.0" text="Bardzo nam miło, że dołączyłeś do grona czytelników naszej biblioteki :D Proszę wybierz te kategorie książek, które cię interesują. Pomoże nam to w polecaniu ci nowych książek" wrapText="true" BorderPane.alignment="CENTER" />
+   </top>
+   <bottom>
+      <Button fx:id="saveButton" onAction="#saveLikedCategories" mnemonicParsing="false" text="Zapisz" BorderPane.alignment="CENTER" />
+   </bottom>
+</BorderPane>

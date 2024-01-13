@@ -243,11 +243,10 @@ public class BookListController {
         int currRow= 0;
 
 //      adding popular books and recommendations
-        if(this.recommender.showPopularBooks()){
-            this.showPopularBooks();
-            currRow++;
-        }
-        if(this.recommender.showRecommendations()) {
+        this.showPopularBooks();
+        currRow++;
+
+        if(LibraryApplication.getReader().isShow_recommendations()) {
             this.showRecommendations();
             currRow++;
         }
