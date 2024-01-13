@@ -10,9 +10,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface BookCopyRepository extends JpaRepository<BookCopy, Integer> {
-    @Query("SELECT b, COUNT(bc) FROM Book b JOIN b.bookCopies bc GROUP BY b")
-    List<Object[]> findBooksWithCopyCount();
+    @Query("SELECT b, COUNT(bc) FROM Book b JOIN b.bookCopies bc WHERE b IN :books  GROUP BY b")
+    List<Object[]> findBooksWithCopyCount(@Param("books") List<Book> books);
 
     List<BookCopy> findBookCopiesByBook(Book book);
-
 }

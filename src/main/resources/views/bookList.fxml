@@ -22,6 +22,7 @@
 
 <?import agh.edu.pl.weedesign.library.helpers.FilterStrategy?>
 <?import javafx.collections.FXCollections?>
+<?import javafx.scene.control.Pagination?>
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="438.0" prefWidth="760.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="agh.edu.pl.weedesign.library.controllers.BookListController">
    <top>
       <HBox prefHeight="42.0" prefWidth="974.0" BorderPane.alignment="CENTER">
@@ -82,34 +83,6 @@
                   <Insets left="5.0" />
                </HBox.margin>
             </HBox>
-            <Label contentDisplay="BOTTOM" prefHeight="30.0" prefWidth="436.0" />
-            <VBox  prefHeight="80.0" prefWidth="162.0">
-               <children>
-                  <Label prefHeight="25.0" prefWidth="235.0" text="Filtruj">
-                     <font>
-                        <Font size="16.0" />
-                     </font>
-                  </Label>
-                  <ComboBox fx:id="filterStrategyMenu" prefWidth="150.0" promptText="Filtruj po">
-                     <items>
-                        <FXCollections fx:factory="observableArrayList">
-                           <FilterStrategy fx:value="AUTHOR"/>
-                           <FilterStrategy fx:value="CATEGORY"/>
-                        </FXCollections>
-                     </items>
-                  </ComboBox>
-                  <ComboBox fx:id="filterValueMenu" prefWidth="150.0" promptText="Filtruj" >
-                  </ComboBox>
-               </children>
-            </VBox>
-            <VBox prefHeight="60.0" prefWidth="151.0">
-               <children>
-                  <CheckBox fx:id="onlyAvailableCheckbox" onAction="#search" mnemonicParsing="false" prefHeight="0.0" prefWidth="151.0" text="Tylko dostępne" />
-               </children>
-            </VBox>
-            <Button onAction="#search">Szukaj</Button>
-            <Button onAction="#clear">Wyczyść</Button>
-            <Button onAction="#back">Wróć</Button>
          </children>
          <BorderPane.margin>
             <Insets left="2.0" top="10.0" />
@@ -122,7 +95,7 @@
    <center>
       <Pane BorderPane.alignment="CENTER">
          <children>
-            <TableView fx:id="bookTable" layoutX="11.0" layoutY="87.0" prefHeight="610.0" prefWidth="983.0" style="-fx-background-radius: 0; -fx-border-radius: 0; -fx-border-width: 0; -fx-border-insets: 0; -fx-padding: 0.3;" visible="false">
+            <TableView fx:id="bookTable" layoutX="11.0" layoutY="150" prefHeight="610.0" prefWidth="983.0" style="-fx-background-radius: 0; -fx-border-radius: 0; -fx-border-width: 0; -fx-border-insets: 0; -fx-padding: 0.3;" visible="false">
                <columns>
                   <TableColumn fx:id="titleColumn" editable="false" prefWidth="381.6000061035156" style="-fx-background-radius: 5;" text="Tytuł" />
                   <TableColumn fx:id="authorColumn" editable="false" minWidth="0.0" prefWidth="328.79998779296875" style="-fx-background-radius: 5;" text="Autor" />
@@ -134,12 +107,30 @@
                <children>
                   <VBox prefHeight="100.0" prefWidth="140.0">
                      <children>
-                        <TextField fx:id="findTextField" onAction="#search" promptText="Szukaj">
+                        <Label prefWidth="235.0" text="Tekst do wyszukania">
+                           <font>
+                              <Font size="12.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="findTextField" promptText="Szukaj">
                            <VBox.margin>
                               <Insets bottom="10.0" />
                            </VBox.margin>
                         </TextField>
-                        <ComboBox fx:id="searchStrategyMenu" onAction="#search" prefWidth="150.0" />
+                        <Label prefWidth="235.0" text="Wyszukaj po">
+                           <font>
+                              <Font size="12.0" />
+                           </font>
+                        </Label>
+                        <ComboBox fx:id="searchStrategyMenu" prefWidth="150.0" >
+                           <items>
+                              <FXCollections fx:factory="observableArrayList">
+                                 <SearchStrategy fx:value="NAME"/>
+                                 <SearchStrategy fx:value="SURNAME"/>
+                                 <SearchStrategy fx:value="TITLE"/>
+                              </FXCollections>
+                           </items>
+                        </ComboBox>
                      </children>
                      <HBox.margin>
                         <Insets left="10.0" />
@@ -147,31 +138,98 @@
                   </VBox>
                   <VBox prefHeight="100.0" prefWidth="154.0">
                      <children>
-                        <ComboBox fx:id="sortStrategyMenu" onAction="#search" prefWidth="150.0">
+                        <Label prefWidth="235.0" text="Sortuj po">
+                           <font>
+                              <Font size="12.0" />
+                           </font>
+                        </Label>
+                        <ComboBox fx:id="sortStrategyMenu" prefWidth="150.0">
+                           <items>
+                              <FXCollections fx:factory="observableArrayList">
+                                 <SearchStrategy fx:value="TITLE"/>
+                              </FXCollections>
+                           </items>
                            <VBox.margin>
                               <Insets bottom="10.0" />
                            </VBox.margin>
                         </ComboBox>
-                        <ComboBox fx:id="sortOrderMenu" onAction="#search" prefWidth="150.0" />
+                        <Label prefWidth="235.0" text="Sortuj w kierunku">
+                           <font>
+                              <Font size="12.0" />
+                           </font>
+                        </Label>
+                        <ComboBox fx:id="sortOrderMenu" prefWidth="150.0" >
+                           <items>
+                              <FXCollections fx:factory="observableArrayList">
+                                 <SortOrder fx:value="DESCENDING"/>
+                                 <SortOrder fx:value="ASCENDING"/>
+                              </FXCollections>
+                           </items>
+                        </ComboBox>
                      </children>
                      <HBox.margin>
                         <Insets left="10.0" />
                      </HBox.margin>
                   </VBox>
+                  <VBox  prefHeight="100.0" prefWidth="140.0">
+                     <children>
+                        <Label prefWidth="235.0" text="Filtruj po" >
+                           <font>
+                              <Font size="12.0" />
+                           </font>
+                        </Label>
+                        <ComboBox fx:id="filterStrategyMenu" prefWidth="150.0" onAction="#setFilteringMenuContent">
+                           <items>
+                              <FXCollections fx:factory="observableArrayList">
+                                 <FilterStrategy fx:value="CATEGORY"/>
+                              </FXCollections>
+                           </items>
+                           <VBox.margin>
+                              <Insets bottom="10.0" />
+                           </VBox.margin>
+                        </ComboBox>
+                        <Label prefWidth="235.0" text="Typ do filtrowania">
+                           <font>
+                              <Font size="12.0" />
+                           </font>
+                        </Label>
+                        <ComboBox fx:id="filterValueMenu" prefWidth="150.0">
+                        </ComboBox>
+                     </children>
+                  </VBox>
                   <VBox prefHeight="59.0" prefWidth="151.0">
                      <children>
-<!--                        <CheckBox fx:id="onlyAvailableCheckbox" mnemonicParsing="false" onAction="#search" prefHeight="0.0" prefWidth="151.0" text="Pokaż dostępne " />-->
+                        <Label prefWidth="235.0" text="Opcje">
+                           <font>
+                              <Font size="12.0" />
+                           </font>
+                        </Label>
+                        <CheckBox fx:id="onlyAvailableCheckbox" mnemonicParsing="false" prefHeight="0.0" prefWidth="151.0" text="Pokaż dostępne " />
                         <CheckBox fx:id="changeView" mnemonicParsing="false" onAction="#changeView" prefHeight="0.0" prefWidth="151.0" text="Zmień Widok" />
                      </children>
                   </VBox>
+                  <HBox>
+                     <Button fx:id="prevPageButton" onAction="#prevPage" text="Prev"/>
+                     <Button fx:id="nextPageButton" onAction="#nextPage" text="Next">
+                        <HBox.margin>
+                           <Insets right="10.0" />
+                        </HBox.margin>
+                     </Button>
+                  </HBox>
                   <Button onAction="#search" text="Szukaj">
                      <HBox.margin>
                         <Insets right="10.0" />
                      </HBox.margin>
                   </Button>
+                  <Button onAction="#clear" text="Wyczyść">
+                     <HBox.margin>
+                        <Insets right="10.0" />
+                     </HBox.margin>
+                  </Button>
                   <Button>Wróć</Button>
-               </children></HBox>
-            <ScrollPane fx:id="scrollPane" layoutX="13.0" layoutY="94.0" prefHeight="610.0" prefWidth="980.0">
+               </children>
+            </HBox>
+            <ScrollPane fx:id="scrollPane" layoutX="13.0" layoutY="150.0" prefHeight="610.0" prefWidth="980.0">
                <content>
                   <AnchorPane fx:id="mainAnchor" prefWidth="960.0">
                      <children>

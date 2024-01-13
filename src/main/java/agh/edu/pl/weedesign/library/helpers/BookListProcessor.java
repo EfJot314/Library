@@ -20,88 +20,32 @@ public class BookListProcessor {
         this.service = service;
     }
 
-    public List<Book> processList(SearchStrategy searchBy, String searchName, SearchStrategy sortStrategy, SortOrder order, FilterStrategy filterStrategy, String filterValue, boolean onlyAvailable){
-        List<Book> tempBooks = filter(filterStrategy, filterValue);
+    public List<Book> processList(List<Book> books, SearchStrategy searchBy, String searchName, Map<Book,Long> booksCount, boolean onlyAvailable){
+        List<Book> tempBooks = books;
+        System.out.println(tempBooks);
         if (onlyAvailable){
-            tempBooks = onlyAvailableBooks(tempBooks);
+            tempBooks = onlyAvailableBooks(tempBooks, booksCount);
         }
+        System.out.println(tempBooks);
         if (searchBy != null && searchName != null && !searchName.isEmpty()){
             tempBooks = search(tempBooks,searchBy,searchName);
         }
-        if (sortStrategy != null && order != null){
-            sort(tempBooks, sortStrategy, order);
-        }
+        System.out.println(tempBooks);
+
         return tempBooks;
     }
 
-    // Method does not change input list
+    //
     private List<Book> search(List<Book> books, SearchStrategy searchBy, String searchName){
-        List<Book> tempBooks = new ArrayList<>();
         String searchLowerCase = searchName.toLowerCase();
-        switch (searchBy){
-            case NAME -> {
-                for (Book book : books) {
-                    // Do poprawienia!
-                    if (book.getAuthorString().toLowerCase().contains(searchLowerCase)) {
-                        tempBooks.add(book);
-                    }
-                }
-            }
-            case SURNAME -> {
-                for (Book book : books) {
-                    // Do poprawienia!
-                    if (book.getAuthorString().toLowerCase().contains(searchLowerCase)) {
-                        tempBooks.add(book);
-                    }
-                }
-            }
-            case TITLE -> {
-                for (Book book : books) {
-                    if (book.getTitle().toLowerCase().contains(searchLowerCase)) {
-                        tempBooks.add(book);
-                    }
-                }
-            }
-        }
-        return tempBooks;
-    }
-
-    // THIS METHOD SORTS IN PLACE!!!
-    // Zmiana!
-    private void sort(List<Book> books, SearchStrategy sortStrategy, SortOrder order){
-        Comparator<Book> comparator = switch (sortStrategy) {
-            case NAME -> Comparator.comparing(book -> book.getAuthorString());
-            case SURNAME -> Comparator.comparing(book -> book.getAuthorString());
-            case TITLE -> Comparator.comparing(Book::getTitle);
-        };
-
-        if (comparator != null) {
-            if (order == SortOrder.DESCENDING) {
-                comparator = comparator.reversed();
-            }
-            books.sort(comparator);
-        }
-    }
-
-    private List<Book> filter(FilterStrategy filterStrategy, String filterValue){
-        if (filterStrategy == null){
-            return this.service.getBooks();
-        }
-        return switch (filterStrategy){
-            case CATEGORY -> this.service.getAllBooksByAuthorSurnameOrCategoryName(null, filterValue);
-            case AUTHOR -> this.service.getAllBooksByAuthorSurnameOrCategoryName(filterValue, null);
+        return switch (searchBy){
+            case NAME -> books.stream().filter(b -> b.getAuthorsNames().toLowerCase().contains(searchLowerCase)).toList();
+            case SURNAME -> books.stream().filter(b -> b.getAuthorsSurnames().toLowerCase().contains(searchLowerCase)).toList();
+            case TITLE -> books.stream().filter(b -> b.getTitle().toLowerCase().contains(searchLowerCase)).toList();
         };
     }
 
-
-    private List<Book> onlyAvailableBooks(List<Book> books){
-        List<Book> tempBooks = new ArrayList<>();
-        Map<Book, Long> booksCount = this.service.getAvailableBookCount();
-        for (Book book : books) {
-            if (booksCount.get(book) != null) {
-                tempBooks.add(book);
-            }
-        }
-        return tempBooks;
+    private List<Book> onlyAvailableBooks(List<Book> books, Map<Book,Long> booksCount){
+        return books.stream().filter(b -> booksCount.get(b) != null).toList();
     }
 }
