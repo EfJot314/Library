@@ -74,7 +74,7 @@ public class SingleRentalController {
 
         if(this.rental.getEnd_date() != null)
             this.cancelButton.setVisible(false);
-        if(this.rental.getReview() != null)
+        if(this.rental.getReview() != null || this.rental.getEmployee() == null)
             this.addButton.setVisible(false);
 
     }
