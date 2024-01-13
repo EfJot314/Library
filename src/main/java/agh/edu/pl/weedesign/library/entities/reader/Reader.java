@@ -5,6 +5,7 @@ import javax.persistence.*;
 
 import agh.edu.pl.weedesign.library.entities.category.Category;
 import agh.edu.pl.weedesign.library.entities.rental.Rental;
+import agh.edu.pl.weedesign.library.entities.reservation.Reservation;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -42,6 +43,9 @@ public class Reader {
 
     @OneToMany(mappedBy = "reader")
     Set<Rental> rentals;
+
+    @OneToMany(mappedBy = "reader")
+    Set<Reservation> reservations;
 
     public Reader(){};
 
@@ -164,4 +168,11 @@ public class Reader {
         return this.rentals;
     }
 
+    public Set<Reservation> getReservations() {
+        return reservations;
+    }
+
+    public void setReservations(Set<Reservation> reservations) {
+        this.reservations = reservations;
+    }
 }

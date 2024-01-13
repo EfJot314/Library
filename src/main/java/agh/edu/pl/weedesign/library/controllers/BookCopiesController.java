@@ -5,6 +5,7 @@ import agh.edu.pl.weedesign.library.LibraryApplication;
 import agh.edu.pl.weedesign.library.entities.book.Book;
 import agh.edu.pl.weedesign.library.entities.bookCopy.BookCopy;
 import agh.edu.pl.weedesign.library.entities.rental.Rental;
+import agh.edu.pl.weedesign.library.entities.reservation.Reservation;
 import agh.edu.pl.weedesign.library.helpers.BookListProcessor;
 import agh.edu.pl.weedesign.library.helpers.Themes;
 import agh.edu.pl.weedesign.library.modelsMVC.RentalModel;
@@ -18,12 +19,15 @@ import javafx.scene.control.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class BookCopiesController {
 
+    public Button reserve;
     @FXML
     private TableView<BookCopy> bookTable;
 
@@ -136,4 +140,25 @@ public class BookCopiesController {
         LibraryApplication.getAppController().logOut();
     }
 
+    public void reserveBook(ActionEvent actionEvent) {
+        if (this.service.getReservationByBookAndReader(this.book, LibraryApplication.getReader()) != null){
+            System.out.println("Reservation exist");
+            return;
+        }
+        for (BookCopy cpy: this.bookCopies){
+            if (this.availabilityColumn.getCellObservableValue(cpy).getValue().equals("Dostępna")){
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Książka dostępna");
+                alert.setContentText("Książka jest dostępna do wypożyczenia");
+                alert.show();
+                return;
+            }
+        }
+        Reservation r = new Reservation(LibraryApplication.getReader(), LocalDateTime.now(), this.book);
+        this.service.addNewReservation(r);
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Książka zarezerwowana");
+        alert.setContentText("Książka została zarezerwowana i dostaniesz powiadomienie jeśli będzie dostępna");
+        alert.show();
+    }
 }

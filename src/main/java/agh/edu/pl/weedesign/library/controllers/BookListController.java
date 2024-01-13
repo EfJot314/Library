@@ -3,6 +3,7 @@ package agh.edu.pl.weedesign.library.controllers;
 import java.util.*;
 
 import agh.edu.pl.weedesign.library.helpers.*;
+import agh.edu.pl.weedesign.library.services.EmailServiceImpl;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.text.Font;
@@ -116,8 +117,6 @@ public class BookListController {
     private BookListProcessor bookListProcessor;
     private ArrayList<HBox> rows = new ArrayList<>();
     private Recommender recommender;
-
-
 
 
     @Autowired
