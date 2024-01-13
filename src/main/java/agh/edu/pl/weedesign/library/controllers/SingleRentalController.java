@@ -1,6 +1,7 @@
 package agh.edu.pl.weedesign.library.controllers;
 
 import agh.edu.pl.weedesign.library.LibraryApplication;
+import agh.edu.pl.weedesign.library.entities.author.Author;
 import agh.edu.pl.weedesign.library.entities.rental.Rental;
 import agh.edu.pl.weedesign.library.entities.review.Review;
 import agh.edu.pl.weedesign.library.entities.review.ReviewRepository;
@@ -64,7 +65,10 @@ public class SingleRentalController {
 
     private void setValues(){
         this.titleText.setText(this.rental.getBookCopy().getBook().getTitle());
-//        this.authorText.setText(this.rental.getBookCopy().getBook().getAuthor().getName() + " " + this.rental.getBookCopy().getBook().getAuthor().getSurname());
+        String authors = "";
+        for(Author author : this.rental.getBookCopy().getBook().getAuthors())
+            authors += author.getName() + " " + author.getSurname() + "   ";
+        this.authorText.setText(authors);
         this.weekPriceText.setText("Cena tygodniowa: " + this.rental.getBookCopy().getWeek_unit_price() + "zł");
         this.priceText.setText("Należność: " + this.rental.getPrice() + "zł");
         if(this.rental.getEmployee() != null)
