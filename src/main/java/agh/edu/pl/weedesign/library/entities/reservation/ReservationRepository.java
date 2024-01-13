@@ -13,5 +13,5 @@ public interface ReservationRepository  extends JpaRepository<Reservation, Integ
 
     List<Reservation> getReservationByBook(Book book);
 
-    void deleteReservationById(int id);
+    void deleteAllByBook(Book book);
 }

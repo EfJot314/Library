@@ -18,7 +18,7 @@ public class EmailServiceImpl {
 
     public void sendSimpleMessage(String to, String subject, String text) {
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom("noreply@baeldung.com");
+        message.setFrom("apkabiblioteka@onet.pl");
         message.setTo(to);
         message.setSubject(subject);
         message.setText(text);
@@ -34,10 +34,8 @@ public class EmailServiceImpl {
         mailSender.setPassword("Apkabiblioteka1");
 
         Properties props = mailSender.getJavaMailProperties();
-        props.put("mail.transport.protocol", "smtp");
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true");
-        props.put("mail.debug", "true");
 
 
         return mailSender;
