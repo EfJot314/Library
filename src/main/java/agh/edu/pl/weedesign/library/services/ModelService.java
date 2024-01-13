@@ -2,6 +2,8 @@ package agh.edu.pl.weedesign.library.services;
 import java.util.*;
 
 import agh.edu.pl.weedesign.library.entities.rental.Rental;
+import agh.edu.pl.weedesign.library.entities.reservation.Reservation;
+import agh.edu.pl.weedesign.library.entities.reservation.ReservationRepository;
 import agh.edu.pl.weedesign.library.helpers.SortOrder;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -39,8 +41,9 @@ public class ModelService {
     private final RentalRepository rentalRepository;
     private final ReviewRepository reviewRepository;
     private final Random rand = new Random();
+    private final ReservationRepository reservationRepository;
 
-    public ModelService(AuthorRepository authorRepository, BookRepository bookRepository, BookCopyRepository bookCopyRepository, CategoryRepository categoryRepository, EmployeeRepository employeeRepository, ReaderRepository readerRepository, RentalRepository rentalRepository, ReviewRepository reviewRepository){
+    public ModelService(AuthorRepository authorRepository, BookRepository bookRepository, BookCopyRepository bookCopyRepository, CategoryRepository categoryRepository, EmployeeRepository employeeRepository, ReaderRepository readerRepository, RentalRepository rentalRepository, ReviewRepository reviewRepository, ReservationRepository reservationRepository){
         this.authorRepository = authorRepository;
         this.bookRepository = bookRepository;
         this.bookCopyRepository = bookCopyRepository;
@@ -49,6 +52,7 @@ public class ModelService {
         this.readerRepository = readerRepository;
         this.rentalRepository = rentalRepository;
         this.reviewRepository = reviewRepository;
+        this.reservationRepository = reservationRepository;
     }
 
     public List<Book> getBooks(){
@@ -70,7 +74,13 @@ public class ModelService {
     }
     public void addNewEmployee(Employee e){employeeRepository.save(e);}
     public Employee getEmployeeByEmail(String email){return employeeRepository.findByEmail(email);}
-
+    public List<Reservation> getReservations() {return this.reservationRepository.findAll();}
+    public void addNewReservation(Reservation reservation){
+        reservationRepository.save(reservation);
+    }
+    public Reservation getReservationByBookAndReader(Book book, Reader reader){
+        return this.reservationRepository.findByBookAndReader(book,reader);
+    }
     public List<Review> getReviews(){
         return reviewRepository.findAll();
     }
@@ -102,6 +112,7 @@ public class ModelService {
     public List<Rental> getRentalsByBookCopy(BookCopy bookCopy){return rentalRepository.findRentalsByBookCopy(bookCopy);}
 
     public List<Rental> getRentalsWithoutAcceptance(){return rentalRepository.findRentalsWithoutAcceptance();}
+
 
     public void addNewReader(Reader reader) {
         readerRepository.save(reader);
@@ -212,5 +223,15 @@ public class ModelService {
 
         Pageable pageable = PageRequest.of(page, PAGE_SIZE, sort);
         return this.bookRepository.findBooksByCategoryAndSort(categoryName, pageable);
+    }
+
+    public List<Reservation> getReservationsByBook(Book book){
+        return this.reservationRepository.getReservationByBook(book);
+    }
+
+    public void deleteReservations(List<Reservation> reservations){
+        for (Reservation r: reservations){
+            this.reservationRepository.deleteReservationById(r.getId());
+        }
     }
 }

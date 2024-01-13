@@ -5,6 +5,7 @@ import java.util.*;
 import agh.edu.pl.weedesign.library.helpers.*;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.SimpleDoubleProperty;
+import agh.edu.pl.weedesign.library.services.EmailServiceImpl;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.text.Font;
@@ -118,7 +119,8 @@ public class BookListController {
     private BookListProcessor bookListProcessor;
     private ArrayList<HBox> rows = new ArrayList<>();
     private Recommender recommender;
-    private final int popularBooksCount = 9, recommendedBooksCount = 9;
+    private final int popularBooksCount = 9;
+    private final int recommendedBooksCount = 9;
 
     @Autowired
     public BookListController(ModelService service, BookListProcessor bookListProcessor, Recommender recommender){

@@ -5,6 +5,7 @@ import javax.persistence.*;
 
 import agh.edu.pl.weedesign.library.entities.category.Category;
 import agh.edu.pl.weedesign.library.entities.rental.Rental;
+import agh.edu.pl.weedesign.library.entities.reservation.Reservation;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -44,6 +45,9 @@ public class Reader {
 
     @OneToMany(mappedBy = "reader")
     Set<Rental> rentals;
+
+    @OneToMany(mappedBy = "reader")
+    Set<Reservation> reservations;
 
     public Reader(){};
 
@@ -172,7 +176,8 @@ public class Reader {
     public Set<Category> getLikedCategories() {
         return likedCategories;
     }
-//
+
+
 //    public void setLikedCategories(Set<Category> likedCategories) {
 //        this.likedCategories = likedCategories;
 //    }
@@ -186,5 +191,13 @@ public class Reader {
 
     public void setShow_recommendations(boolean show_recommendations) {
         this.show_recommendations = show_recommendations;
+    }
+
+    public Set<Reservation> getReservations() {
+        return reservations;
+    }
+
+    public void setReservations(Set<Reservation> reservations) {
+        this.reservations = reservations;
     }
 }

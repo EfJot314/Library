@@ -58,6 +58,14 @@
                         <Insets left="5.0" />
                      </HBox.margin>
                   </Button>
+                  <Button fx:id="reserve" mnemonicParsing="false" onAction="#reserveBook" prefHeight="31.0" prefWidth="160.0" style="-fx-background-radius: 2;" text="Zarezerwuj książkę">
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="5.0" />
+                     </HBox.margin>
+                  </Button>
                   <Label contentDisplay="BOTTOM" prefHeight="30.0" prefWidth="370.0" />
                   <ChoiceBox fx:id="themeChange" maxHeight="35.0" minHeight="35.0" prefHeight="35.0" prefWidth="168.0">
                      <HBox.margin>
