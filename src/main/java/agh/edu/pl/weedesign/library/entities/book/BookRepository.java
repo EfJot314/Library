@@ -12,12 +12,12 @@ import java.util.List;
 public interface BookRepository extends JpaRepository<Book, Integer> {
     @Query("SELECT b FROM Book b JOIN b.category c WHERE c = :category")
     List<Book> findBooksFromCategory(Category category);
-    @Query("SELECT b FROM Book b JOIN b.category c JOIN b.bookCopies bc JOIN bc.rentals rent JOIN rent.reader r WHERE c = :category AND r != :reader GROUP BY b")
+    @Query("SELECT b FROM Book b JOIN b.category c JOIN b.bookCopies bc JOIN bc.rentals rent JOIN rent.reader r WHERE c = :category AND r <> :reader GROUP BY b")
     List<Book> findNotReadBooksFromCategory(Reader reader, Category category);
     @Query("SELECT b FROM Book b JOIN b.category c JOIN b.bookCopies bc JOIN bc.rentals r WHERE c = :category GROUP BY b ORDER BY COUNT(r) DESC")
     List<Book> findBooksFromCategoryOrderedByRentalCountDesc(Category category);
 
-    @Query("SELECT b FROM Book b JOIN b.category c JOIN b.bookCopies bc JOIN bc.rentals rent JOIN rent.reader r WHERE c = :category AND r != :reader GROUP BY b ORDER BY COUNT(rent) DESC")
+    @Query("SELECT b FROM Book b JOIN b.category c JOIN b.bookCopies bc JOIN bc.rentals rent JOIN rent.reader r WHERE c = :category AND r <> :reader GROUP BY b ORDER BY COUNT(rent) DESC")
     List<Book> findNotReadBooksFromCategoryOrderedByRentalCountDesc(Reader reader, Category category);
 
     @Query("SELECT b FROM Book b JOIN b.bookCopies bc JOIN bc.rentals r GROUP BY b, bc ORDER BY COUNT(r) DESC")

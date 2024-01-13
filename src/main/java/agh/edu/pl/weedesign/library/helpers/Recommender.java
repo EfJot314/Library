@@ -36,7 +36,7 @@ public class Recommender {
 //        wybierz floor((1/8) * count) losową książkę z najpopularniejszej kategorii czytelnika
         recommendedBooks.addAll(modelService.getRandomNotReadBooksFromReaderNthMostPopularCategory(1, reader, (int)Math.floor(dCount)));
 //        wybierz floor((1/8) * count) losową książkę z drugiej najpopularniejszej kategorii readera
-        recommendedBooks.addAll(modelService.getRandomNotReadBooksFromReaderNthMostPopularCategory(1, reader, (int)Math.floor(dCount)));
+        recommendedBooks.addAll(modelService.getRandomNotReadBooksFromReaderNthMostPopularCategory(2, reader, (int)Math.floor(dCount)));
 //        wybierz losową kategorię i wybierz z niej ceil((1/8) * count)  najpopularniejszą książkę, której reader jeszcze nie przeczytał
         Category randomCategory = modelService.getRandomCategory();
         recommendedBooks.addAll(modelService.getRandomNotReadBooksFromCategory(reader, randomCategory, (int)Math.ceil(dCount)));

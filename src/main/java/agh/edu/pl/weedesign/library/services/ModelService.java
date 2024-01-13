@@ -128,7 +128,11 @@ public class ModelService {
 
     public List<Book> getMostPopularNotReadBooksFromMostPopularCategories(Reader reader, int count) {
         Category  c = this.getMostPopularCategory();
-        return this.bookRepository.findNotReadBooksFromCategoryOrderedByRentalCountDesc(reader, c).stream().limit(count).toList();
+        System.out.println("Category: "+c.getName());
+//        List<Book> books  = this.bookRepository.findNotReadBooksFromCategoryOrderedByRentalCountDesc(reader, c).stream().limit(count).toList();
+        List<Book> books  = this.bookRepository.findNotReadBooksFromCategoryOrderedByRentalCountDesc(reader, c);
+        System.out.println("MostPopularNotReadBooksFromMostPopularCategories, count: " + count + " actual size: " + books.size());
+        return books;
     }
 
     public Category getMostPopularCategory() {
@@ -141,8 +145,9 @@ public class ModelService {
 
     public List<Book> getRandomNotReadBooksFromReaderNthMostPopularCategory(int n, Reader r, int count) {
         Category readerCategory = this.getReaderNthMostPopularCategory(n, r);
-        List<Book> books = this.bookRepository.findBooksFromCategory(readerCategory);
+        List<Book> books = this.bookRepository.findNotReadBooksFromCategory(r, readerCategory);
         Collections.shuffle(books);
+        System.out.println("RandomNotReadBooksFromReaderNthMostPopularCategory, n = " + n + "count = " + count + " actual size = " + books.size());
         return books.subList(0, Math.min(count, books.size()));
     }
 
@@ -163,6 +168,7 @@ public class ModelService {
     public List<Book> getRandomNotReadBooksFromCategory(Reader r, Category c, int count) {
         List<Book> books = this.bookRepository.findNotReadBooksFromCategory(r, c);
         Collections.shuffle(books);
+        System.out.println("RandomNotReadBooksFromCategory, count = " + count + " acutal size = " + books.size());
         return books.subList(0, Math.min(count, books.size()));
     }
 
