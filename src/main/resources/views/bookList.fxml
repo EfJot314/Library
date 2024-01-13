@@ -177,31 +177,8 @@
                      <children>
                         <VBox fx:id="mainViewBox" prefWidth="970.0">
                            <children>
-                              <Label text="Popularne">
-                                 <font>
-                                    <Font name="System Bold" size="21.0" />
-                                 </font>
-                                 <opaqueInsets>
-                                    <Insets />
-                                 </opaqueInsets>
-                                 <padding>
-                                    <Insets left="10.0" top="5.0" />
-                                 </padding>
-                              </Label>
-                              <HBox fx:id="popularBooksHBox" prefHeight="100.0" prefWidth="200.0" />
-                              <Label text="Polecane dla ciebie">
-                                 <font>
-                                    <Font name="System Bold" size="21.0" />
-                                 </font>
-                                 <VBox.margin>
-                                    <Insets />
-                                 </VBox.margin>
-                                 <padding>
-                                    <Insets left="10.0" top="5.0" />
-                                 </padding>
-                              </Label>
-                              <HBox fx:id="recommendedBooksHBox" prefHeight="100.0" prefWidth="200.0" />
-                           </children></VBox>
+                           </children>
+                        </VBox>
                      </children>
                   </AnchorPane>
                </content>

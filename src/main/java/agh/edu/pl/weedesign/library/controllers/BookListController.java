@@ -3,6 +3,8 @@ package agh.edu.pl.weedesign.library.controllers;
 import java.util.*;
 
 import agh.edu.pl.weedesign.library.helpers.*;
+import javafx.beans.property.ReadOnlyObjectWrapper;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.text.Font;
@@ -25,7 +27,6 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -60,7 +61,7 @@ public class BookListController {
     @FXML
     private CheckBox changeView;
 
-    // Tabel view
+    // Table view
     @FXML
     private TableView<Book> bookTable;
 
@@ -71,7 +72,7 @@ public class BookListController {
     private TableColumn<Book, String> authorColumn;
 
     @FXML
-    private TableColumn<Book, String> ratingColumn;
+    private TableColumn<Book, Double> ratingColumn;
 
     @FXML
     private TableColumn<Book, String> availabilityColumn;
@@ -110,7 +111,7 @@ public class BookListController {
     private BookListProcessor bookListProcessor;
     private ArrayList<HBox> rows = new ArrayList<>();
     private Recommender recommender;
-
+    private final int popularBooksCount = 9, recommendedBooksCount = 9;
 
 
 
@@ -134,13 +135,13 @@ public class BookListController {
 
         fetchBooksData();
         initializeTilesDisplay();
-        initializeTabelDisplay();
+        initializeTableDisplay();
     }
 
-    private void initializeTabelDisplay(){
+    private void initializeTableDisplay(){
         titleColumn.setCellValueFactory(bookValue -> new SimpleStringProperty(bookValue.getValue().getTitle()));
         authorColumn.setCellValueFactory(bookValue -> new SimpleStringProperty(bookValue.getValue().getAuthorString()));
-        ratingColumn.setCellValueFactory(bookValue -> new SimpleStringProperty("4.2")); // TODO - implement rating
+        ratingColumn.setCellValueFactory(bookValue -> new ReadOnlyObjectWrapper<>(service.getAverageRating(bookValue.getValue()))); // TODO - implement rating
         
         availabilityColumn.setCellValueFactory(bookValue -> {
             if (booksCount == null)
@@ -220,6 +221,12 @@ public class BookListController {
             this.showRecommendations();
             currRow++;
         }
+        Label label = new Label("Wszystkie książki");
+        label.setFont(new Font("System Bold",21.0));
+        label.setPadding(new Insets(5, 0, 0, 10));
+        this.rows.add(new HBox(new VBox(label, new HBox())));
+        currRow++;
+
         for(int i = 0 ; i <= this.visibleBooks.size()/5; i++)
             rows.add(new HBox());
 
@@ -273,7 +280,7 @@ public class BookListController {
         label.setPadding(new Insets(5, 0, 0, 10));
         HBox recommendationsHBox = new HBox();
 
-        for (Book book : recommender.getMostPopularBooks(2)){
+        for (Book book : recommender.getRecommendedBooks(this.recommendedBooksCount, LibraryApplication.getReader())){
             ImageView newCover = this.createImageCover(book);
             recommendationsHBox.getChildren().add(newCover);
         }
@@ -287,7 +294,7 @@ public class BookListController {
         label.setPadding(new Insets(5, 0, 0, 10));
         HBox popularHBox = new HBox();
 
-        for (Book book : this.recommender.getRecommendedBooks(3)){
+        for (Book book : this.recommender.getMostPopularBooks(this.popularBooksCount)){
             ImageView newCover = this.createImageCover(book);
             popularHBox.getChildren().add(newCover);
         }

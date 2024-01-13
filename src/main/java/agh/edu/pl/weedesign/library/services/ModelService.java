@@ -1,7 +1,5 @@
 package agh.edu.pl.weedesign.library.services;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import agh.edu.pl.weedesign.library.entities.rental.Rental;
 import org.springframework.stereotype.Service;
@@ -33,6 +31,7 @@ public class ModelService {
     private final ReaderRepository readerRepository;
     private final RentalRepository rentalRepository;
     private final ReviewRepository reviewRepository;
+    private final Random rand = new Random();
 
     public ModelService(AuthorRepository authorRepository, BookRepository bookRepository, BookCopyRepository bookCopyRepository, CategoryRepository categoryRepository, EmployeeRepository employeeRepository, ReaderRepository readerRepository, RentalRepository rentalRepository, ReviewRepository reviewRepository){
         this.authorRepository = authorRepository;
@@ -116,11 +115,66 @@ public class ModelService {
         }
         return getEmployeeByEmail(email).getPassword();
     }
-//    public List<Book> getMostPopularBooks(int n){
-//        List<Object[]> books = bookRepository.findBooksWithRentalCount();
-//        return (List<Book>) books.stream().map(el -> el[0]).limit(n);
-//    }
+    public List<Book> getMostPopularBooks(int n){
+        List<Book> books = bookRepository.findBooksOrderedByRentalCountDesc();
+        return books.subList(0, Math.min(n, books.size()));
+    }
     public List<Book> getAllBooksByAuthorSurnameOrCategoryName(String authorSurname, String categoryName) {
-        return this.bookRepository.getAllByAuthorSurnameOrCategoryName_test(authorSurname, categoryName);
+        return this.bookRepository.getAllByAuthorSurnameOrCategoryName(authorSurname, categoryName);
+    }
+    public List<Book> getRentedBooks(Reader r){
+        return this.bookRepository.findBooksRentedByReader(r);
+    }
+
+    public List<Book> getMostPopularNotReadBooksFromMostPopularCategories(Reader reader, int count) {
+        Category  c = this.getMostPopularCategory();
+        return this.bookRepository.findNotReadBooksFromCategoryOrderedByRentalCountDesc(reader, c).stream().limit(count).toList();
+    }
+
+    public Category getMostPopularCategory() {
+        List<Category> l = categoryRepository.findCategoriesSortedByPopularity();
+        if (l.isEmpty()){
+            return getRandomCategory();
+        }
+        return l.stream().limit(1).toList().get(0);
+    }
+
+    public List<Book> getRandomNotReadBooksFromReaderNthMostPopularCategory(int n, Reader r, int count) {
+        Category readerCategory = this.getReaderNthMostPopularCategory(n, r);
+        List<Book> books = this.bookRepository.findBooksFromCategory(readerCategory);
+        Collections.shuffle(books);
+        return books.subList(0, Math.min(count, books.size()));
+    }
+
+    public Category getReaderNthMostPopularCategory(int n, Reader r) {
+        List<Category> categories = this.categoryRepository.findCategoryWithMostRentals(r);
+        if( categories.size() <= n){
+            return getRandomCategory();
+        }
+        return categories.get(n);
+    }
+
+    public Category getRandomCategory() {
+        List<Category> categories = this.categoryRepository.findAll();
+        Collections.shuffle(categories);
+        return categories.get(0);
+    }
+
+    public List<Book> getRandomNotReadBooksFromCategory(Reader r, Category c, int count) {
+        List<Book> books = this.bookRepository.findNotReadBooksFromCategory(r, c);
+        Collections.shuffle(books);
+        return books.subList(0, Math.min(count, books.size()));
+    }
+
+    public List<Book> getMostPopularBooksFromCategory(Category category, int i) {
+        return bookRepository.findBooksFromCategoryOrderedByRentalCountDesc(category).stream().limit(i).toList();
+    }
+
+    public List<Book> getMostPopularNotReadBooksFromCategory(Reader reader, Category category, int i) {
+        return bookRepository.findNotReadBooksFromCategoryOrderedByRentalCountDesc(reader, category).stream().limit(i).toList();
+    }
+
+    public Double getAverageRating(Book book) {
+        return reviewRepository.findAverageRating(book);
     }
 }

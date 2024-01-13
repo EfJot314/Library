@@ -2,6 +2,7 @@ package agh.edu.pl.weedesign.library.controllers;
 
 import java.io.IOException;
 
+import agh.edu.pl.weedesign.library.services.ModelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
@@ -25,9 +26,12 @@ import javafx.scene.image.ImageView;
 @Controller
 public class BookViewController {
     private Book book;
+    private ModelService service;
 
     @Autowired
-    BookViewController(RentalModel rental_model){}
+    public BookViewController(RentalModel rental_model, ModelService service){
+        this.service = service;
+    }
 
     @FXML
     private ImageView image_cover; 
@@ -91,8 +95,8 @@ public class BookViewController {
         } catch (Exception e){
             System.out.println("Cover not found");
         }
-
-        rating_label.setText("Rating: 4.20");
+        Double rating = this.service.getAverageRating(book);
+        rating_label.setText(rating == null ? "Brak ocen" : rating.toString());
     }
 
     public void handleCancelAction(ActionEvent e){

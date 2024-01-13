@@ -37,6 +37,8 @@ public class Reader {
     private LocalDate birth_date;
 
     private String sex;
+
+    private boolean show_recommendations;
     @OneToMany
     Set<Category> likedCategories;
 
@@ -58,6 +60,9 @@ public class Reader {
         this.birth_date = birth_date;
         this.sex = sex;
         this.rentals = new HashSet<Rental>();
+        this.show_recommendations = false;
+        this.likedCategories = new HashSet<>();
+
     }
 
     public void setRentals(Rental rental) {
@@ -164,4 +169,22 @@ public class Reader {
         return this.rentals;
     }
 
+    public Set<Category> getLikedCategories() {
+        return likedCategories;
+    }
+//
+//    public void setLikedCategories(Set<Category> likedCategories) {
+//        this.likedCategories = likedCategories;
+//    }
+
+    public void addLikedCategory(Category c){
+        this.likedCategories.add(c);
+    }
+    public boolean isShow_recommendations() {
+        return show_recommendations;
+    }
+
+    public void setShow_recommendations(boolean show_recommendations) {
+        this.show_recommendations = show_recommendations;
+    }
 }
