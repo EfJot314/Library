@@ -159,6 +159,8 @@ public class ModelService {
     }
 
     public void deleteReservations(List<Reservation> reservations){
-        this.reservationRepository.deleteAll(reservations);
+        for (Reservation r: reservations){
+            this.reservationRepository.deleteReservationById(r.getId());
+        }
     }
 }
