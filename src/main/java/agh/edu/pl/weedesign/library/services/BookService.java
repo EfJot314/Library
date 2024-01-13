@@ -1,8 +1,5 @@
 package agh.edu.pl.weedesign.library.services;
 
-import java.time.LocalDateTime;
-import java.time.temporal.TemporalUnit;
-
 import org.springframework.stereotype.Service;
 
 import agh.edu.pl.weedesign.library.entities.author.Author;
@@ -12,9 +9,7 @@ import agh.edu.pl.weedesign.library.entities.bookCopy.BookCopy;
 import agh.edu.pl.weedesign.library.entities.bookCopy.BookCopyRepository;
 import agh.edu.pl.weedesign.library.entities.category.Category;
 import agh.edu.pl.weedesign.library.entities.category.CategoryRepository;
-import agh.edu.pl.weedesign.library.entities.rental.Rental;
 import agh.edu.pl.weedesign.library.entities.rental.RentalRepository;
-import agh.edu.pl.weedesign.library.helpers.Categories;
 
 @Service
 public class BookService {
