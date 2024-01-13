@@ -156,7 +156,7 @@ public class StatsController {
     }
 
     public void mainPageButtonHandler(){
-        LibraryApplication.getAppController().switchScene(SceneType.BOOK_LIST); 
+        LibraryApplication.getAppController().switchScene(SceneType.EMPLOYEE_PANEL); 
     }
 
     public void myRentalsButtonHandler(){

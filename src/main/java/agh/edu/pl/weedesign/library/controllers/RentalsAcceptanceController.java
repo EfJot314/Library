@@ -4,6 +4,7 @@ package agh.edu.pl.weedesign.library.controllers;
 import agh.edu.pl.weedesign.library.LibraryApplication;
 import agh.edu.pl.weedesign.library.entities.rental.Rental;
 import agh.edu.pl.weedesign.library.helpers.BookListProcessor;
+import agh.edu.pl.weedesign.library.helpers.Themes;
 import agh.edu.pl.weedesign.library.modelsMVC.RentalModel;
 import agh.edu.pl.weedesign.library.sceneObjects.SceneType;
 import agh.edu.pl.weedesign.library.services.ModelService;
@@ -79,6 +80,11 @@ public class RentalsAcceptanceController {
     @FXML
     public void initialize(){
         fetchRentalsData();
+
+        themeChange.getItems().addAll(Themes.getAllThemes());
+        themeChange.setOnAction(this::changeTheme);
+        themeChange.setValue(LibraryApplication.getTheme());
+
         LibraryApplication.getAppController().resize(760, 440);
 
         titleColumn.setCellValueFactory(rentalValue -> new SimpleStringProperty(rentalValue.getValue().getBookCopy().getBook().getTitle()));
@@ -128,7 +134,7 @@ public class RentalsAcceptanceController {
     }
 
     public void mainPageButtonHandler(){
-        LibraryApplication.getAppController().switchScene(SceneType.BOOK_LIST); 
+        LibraryApplication.getAppController().switchScene(SceneType.EMPLOYEE_PANEL); 
     }
 
     public void myRentalsButtonHandler(){

@@ -146,7 +146,7 @@
                         <ComboBox fx:id="sortStrategyMenu" prefWidth="150.0">
                            <items>
                               <FXCollections fx:factory="observableArrayList">
-                                 <!-- <SearchStrategy fx:value="TITLE"/> -->
+                                 <SearchStrategy fx:value="TITLE"/>
                               </FXCollections>
                            </items>
                            <VBox.margin>
@@ -218,6 +218,7 @@
                            <VBox.margin>
                               <Insets top="5.0" />
                            </VBox.margin></CheckBox>
+                        <Pane />
                      </children>
                   </VBox>
                   <Pane prefHeight="110.0" prefWidth="233.0">

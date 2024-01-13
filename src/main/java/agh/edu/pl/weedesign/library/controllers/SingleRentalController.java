@@ -4,6 +4,7 @@ import agh.edu.pl.weedesign.library.LibraryApplication;
 import agh.edu.pl.weedesign.library.entities.rental.Rental;
 import agh.edu.pl.weedesign.library.entities.review.Review;
 import agh.edu.pl.weedesign.library.entities.review.ReviewRepository;
+import agh.edu.pl.weedesign.library.helpers.Themes;
 import agh.edu.pl.weedesign.library.sceneObjects.SceneType;
 import agh.edu.pl.weedesign.library.services.RentalService;
 import agh.edu.pl.weedesign.library.services.ReviewService;
@@ -39,6 +40,18 @@ public class SingleRentalController {
     @FXML
     private Button addButton;
 
+    // Navbar controls 
+     @FXML
+     private Button mainPage; 
+ 
+     @FXML
+     private Button myRentals; 
+ 
+     @FXML
+     private Button logOut; 
+ 
+     @FXML 
+     private ChoiceBox<String> themeChange;
 
     private final ReviewService reviewService;
     private Rental rental;
@@ -57,8 +70,11 @@ public class SingleRentalController {
 
     @FXML
     public void initialize(){
-        this.rental = rentalsController.getSelectedRental();
+        themeChange.getItems().addAll(Themes.getAllThemes());
+        themeChange.setOnAction(this::changeTheme);
+        themeChange.setValue(LibraryApplication.getTheme());
 
+        this.rental = rentalsController.getSelectedRental();
         this.setValues();
     }
 
@@ -100,6 +116,30 @@ public class SingleRentalController {
     @FXML
     private void backAction(ActionEvent event){
         LibraryApplication.getAppController().switchScene(SceneType.RENTALS_VIEW);
+    }
+
+    public void goBackAction(){
+        LibraryApplication.getAppController().back();
+    }
+
+    public void goForwardAction(){
+        LibraryApplication.getAppController().forward();
+    }
+
+    public void mainPageButtonHandler(){
+        LibraryApplication.getAppController().switchScene(SceneType.EMPLOYEE_PANEL); 
+    }
+
+    public void myRentalsButtonHandler(){
+        LibraryApplication.getAppController().switchScene(SceneType.RENTALS_VIEW); 
+    }
+
+    public void changeTheme(ActionEvent e){
+        LibraryApplication.changeTheme(themeChange.getValue());
+    }
+
+    public void LogOutAction() {
+        LibraryApplication.getAppController().logOut();
     }
 
 }
