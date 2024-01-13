@@ -111,6 +111,7 @@ public class RentalsAcceptanceController {
         rentalsTable.setOnMousePressed(event -> {
             if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
                 if( getSelectedEntity() != null) {
+                    LibraryApplication.getAppController().saveData(getSelectedEntity());
                     LibraryApplication.getAppController().switchScene(SceneType.ACCEPTANCE);
                 }
             }

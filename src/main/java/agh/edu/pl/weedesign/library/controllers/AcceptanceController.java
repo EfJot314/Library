@@ -41,7 +41,7 @@ public class AcceptanceController {
 
     @FXML
     public void initialize(){
-        this.rental = rentalsController.getSelectedRental();
+        this.rental = (Rental) LibraryApplication.getAppController().getData();
 
         this.setValues();
     }
