@@ -70,6 +70,20 @@ public class ModelService {
 
     public List<Rental> getRentals() {return rentalRepository.findAll();}
 
+    public List<Rental> getRentalsByBook(Book book) {
+        List<Rental> toReturn = new ArrayList<>();
+        for(BookCopy bc : bookCopyRepository.findBookCopiesByBook(book))
+            toReturn.addAll(rentalRepository.getRentalsByBookCopy(bc));
+        return toReturn;
+    }
+
+    public List<Rental> getRentalsByCategory(Category category){
+        List<Rental> toReturn = new ArrayList<>();
+        for(Book book : bookRepository.findBookByCategory(category))
+            toReturn.addAll(this.getRentalsByBook(book));
+        return toReturn;
+    }
+
     public List<Author> getAuthors() {return authorRepository.findAll();}
 
     public List<Rental> getRentalsByReaderEmail(String email){return rentalRepository.findRentalsByReader(this.getReaderByEmail(email));}

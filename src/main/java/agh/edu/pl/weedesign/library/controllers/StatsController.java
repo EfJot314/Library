@@ -2,6 +2,7 @@ package agh.edu.pl.weedesign.library.controllers;
 
 import agh.edu.pl.weedesign.library.LibraryApplication;
 import agh.edu.pl.weedesign.library.entities.book.Book;
+import agh.edu.pl.weedesign.library.entities.bookCopy.BookCopy;
 import agh.edu.pl.weedesign.library.entities.category.Category;
 import agh.edu.pl.weedesign.library.entities.reader.Reader;
 import agh.edu.pl.weedesign.library.entities.rental.Rental;
@@ -20,7 +21,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import java.time.LocalDate;
-import java.util.List;
+import java.util.*;
+
+
 
 @Controller
 public class StatsController {
@@ -39,6 +42,14 @@ public class StatsController {
     private BarChart rentedBooksPlot;
     @FXML
     private LineChart rentalPlot;
+    @FXML
+    private LineChart incomePlot;
+    @FXML
+    private BarChart freqBookPlot;
+    @FXML
+    private BarChart freqCategoryPlot;
+    @FXML
+    private BarChart freqReaderPlot;
 
 
     final private ModelService modelService;
@@ -123,7 +134,81 @@ public class StatsController {
         this.rentalPlot.legendVisibleProperty().set(false);
         this.rentalPlot.getData().add(rentalSeries);
 
-        //
+        //income plot
+        int[] itab = new int[12];
+        for(Rental rental : rentals){
+            if(rental.getEmployee() != null && rental.getEnd_date() != null){
+                for(int i=0;i<12;i++){
+                    if(rental.getEnd_date().toLocalDate().isAfter(start.plusMonths(i)) && rental.getEnd_date().toLocalDate().isBefore(start.plusMonths(i+1)))
+                        itab[i] += rental.getPrice();
+                }
+            }
+        }
+        flag = true;
+        XYChart.Series<String, Number> incomeSeries = new XYChart.Series<>();
+        for(int i=0;i<12;i++){
+            //if first months are equal to 0, then do not add them to the plot
+            if(flag && itab[i] == 0)
+                continue;
+            flag = false;
+            incomeSeries.getData().add(new XYChart.Data<>(start.plusMonths(i).toString(), itab[i]));
+        }
+        this.incomePlot.legendVisibleProperty().set(false);
+        this.incomePlot.getData().add(incomeSeries);
+
+        //freq book
+        Map<Book, Integer> freqBooks = new HashMap<>();
+        for(Book book : this.modelService.getBooks())
+            freqBooks.put(book, this.modelService.getRentalsByBook(book).size());
+        List<Map.Entry<Book, Integer>> freqBooksList = new ArrayList<>(freqBooks.entrySet());
+        freqBooksList.sort(Map.Entry.comparingByValue());
+        Collections.reverse(freqBooksList);
+        XYChart.Series<String, Number> freqBooksSeries = new XYChart.Series<>();
+        int counter = 0;
+        for(Map.Entry<Book, Integer> entry : freqBooksList){
+            freqBooksSeries.getData().add(new XYChart.Data<>(entry.getKey().getTitle(), entry.getValue()));
+            counter += 1;
+            if(counter == 5)
+                break;
+        }
+        this.freqBookPlot.legendVisibleProperty().set(false);
+        this.freqBookPlot.getData().add(freqBooksSeries);
+
+        //freq category
+        Map<Category, Integer> freqCategory = new HashMap<>();
+        for(Category category : this.modelService.getCategories())
+            freqCategory.put(category, this.modelService.getRentalsByCategory(category).size());
+        List<Map.Entry<Category, Integer>> freqCategoryList = new ArrayList<>(freqCategory.entrySet());
+        freqCategoryList.sort(Map.Entry.comparingByValue());
+        Collections.reverse(freqCategoryList);
+        XYChart.Series<String, Number> freqCategorySeries = new XYChart.Series<>();
+        counter = 0;
+        for(Map.Entry<Category, Integer> entry : freqCategoryList){
+            freqCategorySeries.getData().add(new XYChart.Data<>(entry.getKey().getName(), entry.getValue()));
+            counter += 1;
+            if(counter == 5)
+                break;
+        }
+        this.freqCategoryPlot.legendVisibleProperty().set(false);
+        this.freqCategoryPlot.getData().add(freqCategorySeries);
+
+        //freq readers
+        Map<Reader, Integer> freqReader = new HashMap<>();
+        for(Reader reader : this.modelService.getReaders())
+            freqReader.put(reader, this.modelService.getRentalsByReader(reader).size());
+        List<Map.Entry<Reader, Integer>> freqReaderList = new ArrayList<>(freqReader.entrySet());
+        freqReaderList.sort(Map.Entry.comparingByValue());
+        Collections.reverse(freqReaderList);
+        XYChart.Series<String, Number> freqReaderSeries = new XYChart.Series<>();
+        counter = 0;
+        for(Map.Entry<Reader, Integer> entry : freqReaderList){
+            freqReaderSeries.getData().add(new XYChart.Data<>(entry.getKey().getName() + " " + entry.getKey().getSurname(), entry.getValue()));
+            counter += 1;
+            if(counter == 5)
+                break;
+        }
+        this.freqReaderPlot.legendVisibleProperty().set(false);
+        this.freqReaderPlot.getData().add(freqReaderSeries);
 
 
     }
