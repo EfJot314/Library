@@ -121,14 +121,14 @@ public class SingleRentalController {
 
     private void informAboutReturnedBook(){
         List<Reservation> reservations = this.service.getReservationsByBook(this.rental.getBookCopy().getBook());
-        this.service.deleteReservations(reservations);
+        this.service.deleteAllReservationsByBook(reservations);
         if (reservations == null) return;
         for (Reservation r: reservations){
             EmailServiceImpl emailService = new EmailServiceImpl();
             emailService.sendSimpleMessage(
-                    "pepesob2@gmail.com",
+                    r.getReader().getEmail(),
                     "Dostępna książka",
-                    "Książka: " + r.getBook().getTitle() + " jest już dostępna w bibliotece"
+                    "Książka: \"" + r.getBook().getTitle() + "\" jest już dostępna w bibliotece!"
                     );
         }
     }

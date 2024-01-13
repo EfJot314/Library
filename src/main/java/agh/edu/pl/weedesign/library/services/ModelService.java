@@ -229,9 +229,7 @@ public class ModelService {
         return this.reservationRepository.getReservationByBook(book);
     }
 
-    public void deleteReservations(List<Reservation> reservations){
-        for (Reservation r: reservations){
-            this.reservationRepository.deleteReservationById(r.getId());
-        }
+    public void deleteAllReservationsByBook(List<Reservation> reservations){
+        this.reservationRepository.deleteAll(reservations);
     }
 }
