@@ -12,6 +12,8 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +43,20 @@ public class RentalsAcceptanceController {
 
     @FXML
     private TableColumn<Rental, String> endDateColumn;
+
+     // Navbar controls 
+    @FXML
+    private Button mainPage; 
+
+    @FXML
+    private Button myRentals; 
+
+    @FXML
+    private Button logOut; 
+
+    @FXML 
+    private ChoiceBox<String> themeChange;
+
 
 
     private List<Rental> rentals;
@@ -101,6 +117,30 @@ public class RentalsAcceptanceController {
 
     private Rental getSelectedEntity(){
         return rentalsTable.getSelectionModel().getSelectedItem();
+    }
+
+    public void goBackAction(){
+        LibraryApplication.getAppController().back();
+    }
+
+    public void goForwardAction(){
+        LibraryApplication.getAppController().forward();
+    }
+
+    public void mainPageButtonHandler(){
+        LibraryApplication.getAppController().switchScene(SceneType.BOOK_LIST); 
+    }
+
+    public void myRentalsButtonHandler(){
+        LibraryApplication.getAppController().switchScene(SceneType.RENTALS_VIEW); 
+    }
+
+    public void changeTheme(ActionEvent e){
+        LibraryApplication.changeTheme(themeChange.getValue());
+    }
+
+    public void LogOutAction(){
+        LibraryApplication.getAppController().logOut();
     }
 
 }

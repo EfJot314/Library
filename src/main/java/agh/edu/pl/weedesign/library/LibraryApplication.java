@@ -7,6 +7,8 @@ import agh.edu.pl.weedesign.library.entities.reader.Reader;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
+
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -22,6 +24,7 @@ public class LibraryApplication extends Application {
 	private static Book book;
 	private static Employee employee;
 	private static String theme = "Nord Dark";
+	private static ArrayList<Object> filterStrategy = null;
 
 	public static void main(String[] args) {
 		launch(args);
@@ -93,5 +96,13 @@ public class LibraryApplication extends Application {
 		};
 
 		Application.setUserAgentStylesheet(LibraryApplication.class.getResource(pathToCss).toExternalForm());
+	}
+
+	public static void saveStrategy(ArrayList<Object> strategy){
+		filterStrategy = strategy;
+	}
+
+	public static ArrayList<Object> getStrategy(){
+		return filterStrategy;
 	}
 }

@@ -66,7 +66,7 @@ public class ModelConfigurator {
 
                 // BufferedReader br = new BufferedReader(new FileReader("jk-czw-0940-weedesign/src/main/resources/books/books.csv"));
 
-                CSVReader reader = new CSVReaderBuilder(new BufferedReader(new FileReader("src/main/resources/books/books.csv")))
+                CSVReader reader = new CSVReaderBuilder(new BufferedReader(new FileReader("jk-czw-0940-weedesign/src/main/resources/books/books.csv")))
                     .withCSVParser(parser)
                     .build();
 
