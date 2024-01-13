@@ -129,7 +129,7 @@ public class SingleRentalController {
                     r.getReader().getEmail(),
                     "Dostępna książka",
                     "Książka: \"" + r.getBook().getTitle() + "\" jest już dostępna w bibliotece!"
-                    );
+            );
         }
     }
 
