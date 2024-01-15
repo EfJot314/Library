@@ -35,7 +35,9 @@ public class Category {
         this.name = name;
     }
 
-    @ManyToMany(mappedBy = "likedCategories")
+    @ManyToMany(
+            mappedBy = "likedCategories",
+            fetch = FetchType.EAGER)
     private List<Reader> readers;
 
 }

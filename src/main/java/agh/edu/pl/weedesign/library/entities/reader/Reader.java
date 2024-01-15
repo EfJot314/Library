@@ -40,7 +40,7 @@ public class Reader {
     private String sex;
 
     private boolean show_recommendations;
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "reader_categories",
             joinColumns = @JoinColumn(name = "reader_id"),
